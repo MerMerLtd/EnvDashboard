@@ -470,6 +470,8 @@ body {
   display: none; }
   .factory .video__img--factory {
     display: block; }
+  .vehicle .video__img--vehicle {
+    display: block; }
 
 .video__vbox {
   width: 100%;
