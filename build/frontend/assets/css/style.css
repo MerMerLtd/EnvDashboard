@@ -84,9 +84,24 @@ body {
   color: #fff; }
 
 .heading-primary {
-  font-size: 2.8rem;
+  font-size: 2.4rem;
   font-weight: 300;
   margin-bottom: 1rem; }
+
+.heading-secondary {
+  font-size: 2.4rem;
+  font-weight: 400;
+  line-height: 2; }
+
+.paragraph {
+  font-size: 2rem;
+  line-height: 2; }
+
+.caption {
+  font-size: 1.6rem;
+  color: #666;
+  text-align: right;
+  margin: 1rem 0; }
 
 .u-center-text {
   text-align: center !important; }
@@ -115,13 +130,16 @@ body {
 .u-margin-top-huge {
   margin-top: 10rem !important; }
 
+.u-show-content {
+  display: block; }
+
 .btn, .btn:link, .btn:visited {
   text-decoration: none;
   padding: 1rem 2.5rem;
   display: inline-block;
   transition: all 0.2s;
   position: relative;
-  font-size: 2.8rem;
+  font-size: 2.4rem;
   border: none;
   cursor: pointer; }
 
@@ -149,8 +167,15 @@ body {
     background-color: #fff;
     color: #595959; }
 
+.btn-cems {
+  color: #fff;
+  background-color: #49BDCA;
+  padding: 5px 1rem;
+  border-radius: 5px;
+  transform: translateX(-5px); }
+
 .btn-text:link, .btn-text:visited {
-  font-size: 2.8rem;
+  font-size: 2.4rem;
   color: #49BDCA;
   display: inline-block;
   text-decoration: none;
@@ -175,9 +200,108 @@ body {
   padding: 3rem; }
 
 .dropdown {
+  width: 11rem;
   display: inline-block;
-  background-color: #49BDCA;
-  color: #fff; }
+  position: relative;
+  transition: all 0.2s;
+  margin: 0 5px; }
+  .dropdown--btn {
+    width: 100%;
+    background-color: #49BDCA;
+    color: white;
+    background-color: #49BDCA;
+    font-size: 2.4rem;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 5px 5px 2rem;
+    line-height: 2;
+    z-index: 2;
+    cursor: pointer; }
+    .dropdown--btn > i {
+      transform: translate(6px, 6px); }
+    .dropdown--btn > span {
+      font-size: 1.5rem; }
+    .dropdown--btn:hover,
+    .dropdown--btn :focus {
+      background-color: #38b3c1; }
+    .dropdown--btn.show {
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px; }
+  .dropdown--content {
+    width: 100%;
+    display: none;
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    background-color: #BED1D5;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    z-index: 1; }
+    .dropdown--content > a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block; }
+      .dropdown--content > a:hover {
+        background-color: #f0f3f4; }
+    .show + .dropdown--content {
+      display: block; }
+
+.tab {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-column-gap: 2rem;
+  height: 85%;
+  transition: all 0.2s; }
+  .tab__img-box {
+    min-width: calc(100vw/4);
+    height: 100%;
+    margin-bottom: 2rem; }
+  .tab__img {
+    width: 100%;
+    height: 100%; }
+  .tab__contents {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 1rem;
+    color: #49BDCA; }
+  .tab__links {
+    background-color: rgba(73, 189, 202, 0.8);
+    border-radius: 5px;
+    text-align: center;
+    padding: 1rem 2rem;
+    margin: 0 0 1rem 0; }
+    .population .tab__links--population,
+    .vehicle .tab__links--vehicle,
+    .construction .tab__links--construction,
+    .factory .tab__links--factory {
+      color: #49BDCA;
+      background-color: rgba(255, 255, 255, 0.8); }
+  .tab__content {
+    display: none;
+    opacity: 0;
+    padding: 3rem; }
+    .population .tab__content--population {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      display: block;
+      opacity: 1; }
+    .vehicle .tab__content--vehicle {
+      display: block;
+      opacity: 1; }
+    .construction .tab__content--construction {
+      display: block;
+      opacity: 1; }
+    .factory .tab__content--factory {
+      display: block;
+      opacity: 1; }
 
 .header {
   display: grid;
@@ -261,3 +385,7 @@ body {
   .section > .preventive {
     grid-area: preventive;
     background-color: #cec14d; }
+
+.background-info .heading-primary {
+  margin-top: 1.4rem;
+  margin-bottom: 2rem; }
