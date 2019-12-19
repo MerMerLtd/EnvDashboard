@@ -1,10 +1,12 @@
 const els = {
   tab: document.querySelector(".tab"),
+  video: document.querySelector(".video"),
   dropdownBtns: document.querySelectorAll(".dropdown--btn"),
   backgroundBtn: document.querySelector(".background__btn"),
   backgroundCheckbox: document.querySelector(".background__checkbox"),
   tablinks: document.querySelectorAll(".tab__links"),
-  btnCems: document.querySelector(".btn-cems")
+  btnCems: document.querySelector(".btn-cems"),
+  videoDropdownLinks: document.querySelectorAll('.video .dropdown--content > a'),
 };
 
 const openDropdown = evt => {
@@ -22,6 +24,11 @@ const closeBackgroundSub = _ => {
   els.backgroundCheckbox.checked = false;
 };
 
+const switchVideo = evt => {
+  const className = evt.target.dataset.type;
+  els.video.classList = [`video ${className}`];
+}
+
 els.backgroundBtn.addEventListener("click", closeBackgroundSub, false);
 
 Array.from(els.dropdownBtns).forEach(dropdownBtn =>
@@ -30,6 +37,10 @@ Array.from(els.dropdownBtns).forEach(dropdownBtn =>
 
 Array.from(els.tablinks).forEach(tablink =>
   tablink.addEventListener("click", openTabContent, false)
+);
+
+Array.from(els.videoDropdownLinks).forEach(videoDropdownLink =>
+  videoDropdownLink.addEventListener("click", switchVideo, false)
 );
 
 

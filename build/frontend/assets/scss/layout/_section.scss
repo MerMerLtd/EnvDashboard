@@ -31,10 +31,11 @@
   }
   & > .video {
     grid-area: video;
-    background-color: #2b64c0;
+    // background-color: #2b64c0;
   }
   & > .preventive {
     grid-area: preventive;
+    overflow: hidden;
     // background-color: #cec14d;
   }
 }
