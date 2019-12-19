@@ -12,22 +12,22 @@
   grid-gap: 3rem;
   & .header {
       grid-area: header;
-      background-color: #faa22e;
+      // background-color: #faa22e;
   }
   & .navigation{
       grid-area: navigation;
   }
   & > .iframe__container {
     grid-area: iframe;
-    background-color: #2b84c0;
+    // background-color: #2b84c0;
   }
   & > .pollution-ratio {
     grid-area: pollution;
-    background-color: #ffa08c;
+    // background-color: #ffa08c;
   }
   & > .background-info {
     grid-area: background-info;
-    background-color: #20754e;
+    // background-color: #20754e;
   }
   & > .video {
     grid-area: video;
@@ -35,6 +35,6 @@
   }
   & > .preventive {
     grid-area: preventive;
-    background-color: #cec14d;
+    // background-color: #cec14d;
   }
 }

@@ -200,7 +200,7 @@ body {
   padding: 3rem; }
 
 .dropdown {
-  width: 11rem;
+  min-width: 11rem;
   display: inline-block;
   position: relative;
   transition: all 0.2s;
@@ -257,7 +257,6 @@ body {
   transition: all 0.2s; }
   .tab__img-box {
     min-width: calc(100vw/4);
-    height: 100%;
     margin-bottom: 2rem; }
   .tab__img {
     width: 100%;
@@ -321,7 +320,8 @@ body {
   .header__weather-icon {
     grid-area: weather; }
     .header__weather-icon > i {
-      font-size: 5rem; }
+      font-size: 5rem;
+      color: yellow; }
   .header__temp {
     grid-area: temp;
     line-height: 1.2; }
@@ -338,15 +338,21 @@ body {
       font-size: 1.8rem; }
   .header__aqi {
     grid-area: aqi;
-    line-height: 1.2; }
+    line-height: 1.2;
+    background-color: #7ED321;
+    padding: 1rem;
+    border-radius: 5px; }
     .header__aqi--text {
-      font-size: 2.8rem; }
+      font-size: 3rem; }
     .header__aqi--value {
       font-size: 3.8rem; }
   .header__leading-text {
     grid-area: text;
     text-align: left;
-    line-height: 2; }
+    line-height: 1.5;
+    font-size: 2.4rem; }
+    .header__leading-text--main {
+      font-size: 3rem; }
 
 .navigation {
   display: grid;
@@ -355,8 +361,6 @@ body {
   grid-column-gap: 3rem; }
   .navigation__map {
     background-color: #8f2727; }
-  .navigation__chart-box {
-    background-color: #329b9b; }
 
 .section {
   display: grid;
@@ -366,26 +370,178 @@ body {
   grid-template-rows: 1fr repeat(4, 5fr);
   grid-gap: 3rem; }
   .section .header {
-    grid-area: header;
-    background-color: #faa22e; }
+    grid-area: header; }
   .section .navigation {
     grid-area: navigation; }
   .section > .iframe__container {
-    grid-area: iframe;
-    background-color: #2b84c0; }
+    grid-area: iframe; }
   .section > .pollution-ratio {
-    grid-area: pollution;
-    background-color: #ffa08c; }
+    grid-area: pollution; }
   .section > .background-info {
-    grid-area: background-info;
-    background-color: #20754e; }
+    grid-area: background-info; }
   .section > .video {
     grid-area: video;
     background-color: #2b64c0; }
   .section > .preventive {
-    grid-area: preventive;
-    background-color: #cec14d; }
+    grid-area: preventive; }
 
-.background-info .heading-primary {
-  margin-top: 1.4rem;
-  margin-bottom: 2rem; }
+.background {
+  position: relative; }
+  .background--main, .background--sub {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  .background--main {
+    display: block; }
+  .background--sub {
+    display: none; }
+  .background__btn {
+    opacity: 0; }
+  .background__checkbox {
+    display: none; }
+  .background__checkbox:checked ~ .background--main {
+    display: none; }
+  .background__checkbox:checked ~ .background--sub {
+    display: block; }
+  .background__checkbox:checked + .background__btn {
+    opacity: 1; }
+  .background--main .heading-primary {
+    margin-top: 1.4rem;
+    margin-bottom: 2rem; }
+  .background__btn {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 3rem;
+    width: 3rem;
+    transition: all 0.3s;
+    z-index: 1000; }
+    @media only screen and (max-width: 37.5em) {
+      .background__btn {
+        right: 3.5rem; } }
+  .background__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.2s; }
+    .background__icon, .background__icon::before, .background__icon::after {
+      width: 3rem;
+      height: 2px;
+      background-color: #49BDCA;
+      display: inline-block; }
+    .background__icon::before, .background__icon::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      transition: all 0.2s; }
+    .background__icon::before {
+      top: -0.8rem; }
+    .background__icon::after {
+      top: 0.8rem; }
+  .background__checkbox:checked + .background__btn .background__icon {
+    background-color: transparent; }
+  .background__checkbox:checked + .background__btn .background__icon::before {
+    top: 0;
+    transform: rotate(135deg); }
+  .background__checkbox:checked + .background__btn .background__icon::after {
+    top: 0;
+    transform: rotate(-135deg); }
+  .background__img-box {
+    min-width: calc(100vw/4);
+    margin-bottom: 2rem;
+    margin-top: 3rem; }
+  .background__img {
+    width: 100%; }
+
+.video__title-box {
+  display: flex;
+  justify-content: space-between; }
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto; }
+
+/* Hide the images by default */
+.mySlides {
+  display: none; }
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none; }
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px; }
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0, 0, 0, 0.8); }
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center; }
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0; }
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease; }
+
+.active, .dot:hover {
+  background-color: #717171; }
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s; }
+
+@-webkit-keyframes fade {
+  from {
+    opacity: .4; }
+  to {
+    opacity: 1; } }
+
+@keyframes fade {
+  from {
+    opacity: .4; }
+  to {
+    opacity: 1; } }

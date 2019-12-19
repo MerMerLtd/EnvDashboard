@@ -22,6 +22,7 @@
     grid-area: weather;
     & > i {
       font-size: 5rem;
+      color: yellow;
     }
   }
   &__temp {
@@ -49,9 +50,12 @@
   &__aqi {
     grid-area: aqi;
     line-height: 1.2;
+    background-color: $color-aqi-green;
+    padding: 1rem;
+    border-radius: 5px;
 
     &--text{
-      font-size: 2.8rem;
+      font-size: 3rem;
     }
     &--value{
       font-size: 3.8rem;
@@ -61,6 +65,10 @@
   &__leading-text {
     grid-area: text;
     text-align: left;
-    line-height: 2;
+    line-height: 1.5;
+    font-size: 2.4rem;
+    &--main{
+      font-size: 3rem;
+    }
   }
 }

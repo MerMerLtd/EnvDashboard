@@ -1,0 +1,113 @@
+.background {
+  position: relative;
+
+  &--main,
+  &--sub {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &--main {
+    display: block;
+  }
+
+  &--sub
+  {
+    display: none;
+  }
+
+  &__btn{
+      opacity: 0;
+  }
+
+  &__checkbox {
+    display: none;
+  }
+
+  &__checkbox:checked ~ &--main {
+    display: none;
+  }
+
+  &__checkbox:checked ~ &--sub {
+    display: block;
+  }
+  &__checkbox:checked + &__btn {
+    opacity: 1;
+  }
+
+  &--main .heading-primary {
+    margin-top: 1.4rem;
+    margin-bottom: 2rem;
+  }
+
+  &__btn {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 3rem;
+    width: 3rem;
+    transition: all 0.3s;
+    z-index: 1000;
+
+    @include respond(phone) {
+      right: 3.5rem;
+    }
+  }
+
+  //ICON
+  &__icon {
+    @include absCenter;
+    transition: 0.2s;
+
+    &,
+    &::before,
+    &::after {
+      width: 3rem;
+      height: 2px;
+      background-color: $color-primary;
+      display: inline-block;
+    }
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      transition: all 0.2s;
+    }
+
+    &::before {
+      top: -0.8rem;
+    }
+
+    &::after {
+      top: 0.8rem;
+    }
+  }
+
+  &__checkbox:checked + &__btn &__icon {
+    background-color: transparent;
+  }
+
+  &__checkbox:checked + &__btn &__icon::before {
+    top: 0;
+    transform: rotate(135deg);
+  }
+
+  &__checkbox:checked + &__btn &__icon::after {
+    top: 0;
+    transform: rotate(-135deg);
+  }
+  &__img-box {
+    min-width:calc(100vw/4);
+    margin-bottom: 2rem;
+    margin-top: 3rem;
+  }
+  &__img {
+    width: 100%;
+  }
+}
