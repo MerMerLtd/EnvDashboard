@@ -1,0 +1,14 @@
+.navigation {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr 2fr ;
+  grid-column-gap: 3rem;
+  &__map{
+    background-color: rgb(143, 39, 39);
+  }
+  &__chart-box{
+    background-color: rgb(50, 155, 155);
+
+  }
+ 
+}

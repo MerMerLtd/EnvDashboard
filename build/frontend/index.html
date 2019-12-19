@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <!-- google font -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- material icon -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <title>新北市環保局</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="section">
+        <div class="header">
+          <div class="header__date">
+            <div class="header__date--year">2019</div>
+            <span class="header__date--mm">12/</span>
+            <span class="header__date--dd">19</span>
+          </div>
+          <div class="header__weather-icon"><i class="material-icons">
+			wb_sunny
+			</i></div>
+          <div class="header__temp">
+            <div class="header__temp--avg">22˚C</div>
+            <span class="header__temp--high">18˚C/</span>
+            <span class="header__temp--low">24˚C</span>
+          </div>
+          <div class="header__wind">
+            <div class="header__wind--icon"><i class="material-icons">
+				send
+				</i></div>
+            <div class="header__wind--text">東北季風</div>
+          </div>
+          <div class="header__aqi green">
+            <div class="header__aqi--text">AQI</div>
+            <div class="header__aqi--value">50</div>
+          </div>
+          <div class="header__leading-text">
+            <div class="header__leading-text--main">
+              體感溫度 <span class="header__leading-text--temp">28</span>˚C，
+              降雨機率 <span class="header__leading-text--chance">90</span>%
+            </div>
+            <div class="header__leading-text--sub">
+              今日空氣品質良好，是個適合出遊的好日子。
+            </div>
+          </div>
+        </div>
+        <nav class="navigation">
+          <div class="navigation__map">sdmf</div>
+          <div class="navigation__chart-box">
+            <h1 class="heading-primary">
+			  過去24小時 - 環保署板橋站
+			  <div class="dropdown">
+				<div class="btn btn-dropdown">PM2.5</div>
+				<div id="dropdown-content" class="dropdown-content">
+				  <a href="#">Link 1</a>
+				  <a href="#">Link 2</a>
+				  <a href="#">Link 3</a>
+				</div>
+			  </div>
+              隨時間變
+            </h1>
+            <div class="navigation__chart">ndflk</div>
+          </div>
+        </nav>
+        <div class="iframe__container">
+          <h1 class="heading-primary">空氣網</h1>
+          <iframe
+            src="https://wot.epa.gov.tw/"
+            name="mainframe"
+            id="mainframe"
+            width="100%"
+            height="90%"
+            marginwidth="0"
+            marginheight="0"
+            scrolling="No"
+            frameborder="0"
+            class="iframe"
+          ></iframe>
+        </div>
+        <div class="pollution-ratio">
+          <h1 class="heading-primary">
+            <div class="dropdown">107</div>
+            年度
+            <div class="dropdown">PM2.5</div>
+            污染來源比例
+          </h1>
+          <div class="pollution-ratio--chart-1"></div>
+          <div class="pollution-ratio--chart-2"></div>
+        </div>
+        <div class="background-info">
+          <h1 class="heading-primary">環境背景掌握</h1>
+          <div class="background--menu">
+            <div class="background--menu-item">人口</div>
+            <div class="background--menu-item">車輛</div>
+            <div class="background--menu-item">工地</div>
+            <div class="background--menu-item selected">工廠</div>
+          </div>
+        </div>
+        <div class="video">
+          <div class="video--title-box">
+            <h1 class="heading-primary">
+              <div class="dropdown">工地</div>
+              即時影像資訊
+            </h1>
+            <h2 class="heading-section">地點: XXXXXXX</h2>
+          </div>
+        </div>
+        <div class="preventive"></div>
+      </div>
+    </div>
+  </body>
+  <script src="./assets/js/script.js"></script>
+</html>

@@ -1,0 +1,503 @@
+.site-header .logo img {
+  width: 180px;
+}
+
+/* Background Color */
+
+.primary-background-color,
+ul.nav-filter li a.active,
+ul.nav-filter li a:hover,
+.site-menu ul .extra-cart-item .cart-contents .mini-cart-counter,
+.woocommerce .widget_shopping_cart_content .buttons a,
+.widget_shopping_cart_content .buttons a,
+.woocommerce .widget_shopping_cart_content .buttons a:hover,
+.widget_shopping_cart_content .buttons a:hover,
+.woocommerce .widget_shopping_cart_content .buttons a:focus,
+.widget_shopping_cart_content .buttons a:focus,
+.woocommerce .widget_shopping_cart_content .buttons a:active,
+.widget_shopping_cart_content .buttons a:active,
+.woocommerce .widget_shopping_cart_content .buttons a:active:hover,
+.widget_shopping_cart_content .buttons a:active:hover,
+.woocommerce .widget_shopping_cart_content .buttons a:active:focus,
+.widget_shopping_cart_content .buttons a:active:focus,
+.woocommerce .widget_shopping_cart_content .buttons a:hover,
+.widget_shopping_cart_content .buttons a:hover,
+.woocommerce .widget_shopping_cart_content .buttons a:focus,
+.widget_shopping_cart_content .buttons a:focus,
+.woocommerce .widget_shopping_cart_content .buttons a:active,
+.widget_shopping_cart_content .buttons a:active,
+.woocommerce .widget_shopping_cart_content .buttons a:active:hover,
+.widget_shopping_cart_content .buttons a:active:hover,
+.woocommerce .widget_shopping_cart_content .buttons a:active:focus,
+.widget_shopping_cart_content .buttons a:active:focus,
+.numeric-navigation .page-numbers:hover,
+.numeric-navigation .page-numbers.current,
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:active:hover,
+.btn-primary:active:focus,
+.owl-nav div:hover,
+.owl-dots .owl-dot.active span,
+.owl-dots .owl-dot:hover span,
+.slick-dots li:hover,
+.slick-dots li.slick-active,
+.page-template-template-home-boxed,
+.blog-masonry .blog-wrapper:hover .entry-summary,
+.blog-list .blog-wrapper:hover .entry-summary,
+.backtotop.style-2,
+.portfolio-grid-wide .hover-border:before,
+.portfolio-metro .hover-border:before,
+.portfolio-masonry .hover-border:before,
+.portfolio-grid-wide .hover-border:after,
+.portfolio-metro .hover-border:after,
+.portfolio-masonry .hover-border:after,
+.portfolio-grid-wide .hover-border div:before,
+.portfolio-metro .hover-border div:before,
+.portfolio-masonry .hover-border div:before,
+.portfolio-grid-wide .hover-border div:after,
+.portfolio-metro .hover-border div:after,
+.portfolio-masonry .hover-border div:after,
+.portfolio-carousel .portfolio-carousel-wrapper .pages li.active:before,
+.comment-respond .form-submit .submit,
+.comment-respond .form-submit .submit:hover,
+.comment-respond .form-submit .submit:focus,
+.comment-respond .form-submit .submit:active,
+.comment-respond .form-submit .submit:active:hover,
+.comment-respond .form-submit .submit:active:focus,
+.comment-respond .form-submit .submit:hover,
+.comment-respond .form-submit .submit:focus,
+.comment-respond .form-submit .submit:active,
+.comment-respond .form-submit .submit:active:hover,
+.comment-respond .form-submit .submit:active:focus,
+.woocommerce a.button,
+.woocommerce button.button,
+.woocommerce input.button,
+.woocommerce #respond input#submit,
+.woocommerce a.button:hover,
+.woocommerce button.button:hover,
+.woocommerce input.button:hover,
+.woocommerce #respond input#submit:hover,
+.woocommerce a.button:focus,
+.woocommerce button.button:focus,
+.woocommerce input.button:focus,
+.woocommerce #respond input#submit:focus,
+.woocommerce a.button:active,
+.woocommerce button.button:active,
+.woocommerce input.button:active,
+.woocommerce #respond input#submit:active,
+.woocommerce a.button:active:hover,
+.woocommerce button.button:active:hover,
+.woocommerce input.button:active:hover,
+.woocommerce #respond input#submit:active:hover,
+.woocommerce a.button:active:focus,
+.woocommerce button.button:active:focus,
+.woocommerce input.button:active:focus,
+.woocommerce #respond input#submit:active:focus,
+.woocommerce a.button:hover,
+.woocommerce button.button:hover,
+.woocommerce input.button:hover,
+.woocommerce #respond input#submit:hover,
+.woocommerce a.button:focus,
+.woocommerce button.button:focus,
+.woocommerce input.button:focus,
+.woocommerce #respond input#submit:focus,
+.woocommerce a.button:active,
+.woocommerce button.button:active,
+.woocommerce input.button:active,
+.woocommerce #respond input#submit:active,
+.woocommerce a.button:active:hover,
+.woocommerce button.button:active:hover,
+.woocommerce input.button:active:hover,
+.woocommerce #respond input#submit:active:hover,
+.woocommerce a.button:active:focus,
+.woocommerce button.button:active:focus,
+.woocommerce input.button:active:focus,
+.woocommerce #respond input#submit:active:focus,
+.woocommerce a.button.alt,
+.woocommerce button.button.alt,
+.woocommerce input.button.alt,
+.woocommerce #respond input#submit.alt,
+.woocommerce a.button.alt:hover,
+.woocommerce button.button.alt:hover,
+.woocommerce input.button.alt:hover,
+.woocommerce #respond input#submit.alt:hover,
+.woocommerce a.button.alt:focus,
+.woocommerce button.button.alt:focus,
+.woocommerce input.button.alt:focus,
+.woocommerce #respond input#submit.alt:focus,
+.woocommerce a.button.alt:active,
+.woocommerce button.button.alt:active,
+.woocommerce input.button.alt:active,
+.woocommerce #respond input#submit.alt:active,
+.woocommerce a.button.alt:active:hover,
+.woocommerce button.button.alt:active:hover,
+.woocommerce input.button.alt:active:hover,
+.woocommerce #respond input#submit.alt:active:hover,
+.woocommerce a.button.alt:active:focus,
+.woocommerce button.button.alt:active:focus,
+.woocommerce input.button.alt:active:focus,
+.woocommerce #respond input#submit.alt:active:focus,
+.woocommerce a.button.alt:hover,
+.woocommerce button.button.alt:hover,
+.woocommerce input.button.alt:hover,
+.woocommerce #respond input#submit.alt:hover,
+.woocommerce a.button.alt:focus,
+.woocommerce button.button.alt:focus,
+.woocommerce input.button.alt:focus,
+.woocommerce #respond input#submit.alt:focus,
+.woocommerce a.button.alt:active,
+.woocommerce button.button.alt:active,
+.woocommerce input.button.alt:active,
+.woocommerce #respond input#submit.alt:active,
+.woocommerce a.button.alt:active:hover,
+.woocommerce button.button.alt:active:hover,
+.woocommerce input.button.alt:active:hover,
+.woocommerce #respond input#submit.alt:active:hover,
+.woocommerce a.button.alt:active:focus,
+.woocommerce button.button.alt:active:focus,
+.woocommerce input.button.alt:active:focus,
+.woocommerce #respond input#submit.alt:active:focus,
+.woocommerce div.product div.summary .single_add_to_cart_button,
+.woocommerce-cart .woocommerce table.cart .btn-shop,
+.woocommerce-cart .woocommerce table.checkout .btn-shop,
+.woocommerce-cart .woocommerce table.cart .btn-shop:hover,
+.woocommerce-cart .woocommerce table.checkout .btn-shop:hover,
+.woocommerce-cart .woocommerce table.cart .btn-shop:focus,
+.woocommerce-cart .woocommerce table.checkout .btn-shop:focus,
+.woocommerce-cart .woocommerce table.cart .btn-shop:active,
+.woocommerce-cart .woocommerce table.checkout .btn-shop:active,
+.woocommerce-cart .woocommerce table.cart .btn-shop:active:hover,
+.woocommerce-cart .woocommerce table.checkout .btn-shop:active:hover,
+.woocommerce-cart .woocommerce table.cart .btn-shop:active:focus,
+.woocommerce-cart .woocommerce table.checkout .btn-shop:active:focus,
+.woocommerce-cart .woocommerce table.cart .btn-shop:hover,
+.woocommerce-cart .woocommerce table.checkout .btn-shop:hover,
+.woocommerce-cart .woocommerce table.cart .btn-shop:focus,
+.woocommerce-cart .woocommerce table.checkout .btn-shop:focus,
+.woocommerce-cart .woocommerce table.cart .btn-shop:active,
+.woocommerce-cart .woocommerce table.checkout .btn-shop:active,
+.woocommerce-cart .woocommerce table.cart .btn-shop:active:hover,
+.woocommerce-cart .woocommerce table.checkout .btn-shop:active:hover,
+.woocommerce-cart .woocommerce table.cart .btn-shop:active:focus,
+.woocommerce-cart .woocommerce table.checkout .btn-shop:active:focus,
+.ba-member .hover-border:before,
+.ba-member .hover-border:after,
+.ba-member .hover-border div:before,
+.ba-member .hover-border div:after,
+.ba-member .member-content .name:after,
+.ba-hero-slider .slider-grid-content .item-content.active .item-inner,
+.ba-hero-slider .slider-grid-content .item-inner:hover,
+.ba-vs-slider3 .slider-content .link:after,
+.vc_progress_bar.vc_progress-bar-color-custom .vc_single_bar .vc_bar,
+.wpcf7-form .wpcf7-submit,
+.wpcf7-form .wpcf7-submit:hover,
+.wpcf7-form .wpcf7-submit:focus,
+.wpcf7-form .wpcf7-submit:active,
+.wpcf7-form .wpcf7-submit:active:hover,
+.wpcf7-form .wpcf7-submit:active:focus,
+.wpcf7-form .wpcf7-submit:hover,
+.wpcf7-form .wpcf7-submit:focus,
+.wpcf7-form .wpcf7-submit:active,
+.wpcf7-form .wpcf7-submit:active:hover,
+.wpcf7-form .wpcf7-submit:active:focus,
+.mc4wp-form input[type="submit"],
+.baroque-dark.page-template-template-home-boxed,
+.baroque-dark.blog-list .blog-wrapper:hover .entry-summary,
+.baroque-dark.blog-masonry .blog-wrapper:hover .entry-summary {
+  background-color: #e16022;
+}
+
+/* Border Color */
+
+ul.nav-filter li a.active,
+ul.nav-filter li a:hover,
+.owl-nav div:hover,
+.ba-portfolios-grid-gap .ports-footer .text:hover,
+.ba-hero-slider .slider-grid-content .item-content.active .item-inner,
+.ba-hero-slider .slider-grid-content .item-inner:hover,
+.ba-portfolio-quote,
+.post-author .post-author-box {
+  border-color: #e16022;
+}
+
+/* Color */
+.primary-color,
+.baroque-off-canvas-panel.menu-sidebar .sidebar-language li.actived a,
+.baroque-off-canvas-panel.menu-sidebar .baroque-social-links-widget a:hover,
+.site-menu .extra-language-item li:hover a,
+.woocommerce .widget_shopping_cart_content ul.cart_list .mini_cart_item a:hover,
+.widget_shopping_cart_content ul.cart_list .mini_cart_item a:hover,
+.page-template-template-homepage.header-light
+  .site-menu
+  .extra-language-item
+  a:hover,
+.page-template-template-home-boxed.header-light
+  .site-menu
+  .extra-language-item
+  a:hover,
+.menu-area ul.menu > li:hover > a,
+.menu-area .menu .is-mega-menu .dropdown-submenu .menu-item-mega > a:hover,
+.paging-navigation .nav-links a:hover,
+.paging-navigation.style-2 .nav-previous-ajax a,
+.page-template-template-coming-soon-page .coming-soon-socials a:hover,
+.entry-meta a,
+.entry-footer .tag-list a:hover,
+.sticky .blog-wrapper .entry-title:before,
+.blog-wrapper:hover .read-more,
+.baroque-taxs-list li a:hover,
+.baroque-taxs-list li a.selected,
+.blog-text .baroque-taxs-list li a:hover,
+.blog-text .baroque-taxs-list li a.selected,
+.blog-text .entry-title a:hover,
+.error404 .error-404 .page-content a,
+.portfolio-grid .portfolio-inner:hover .read-more,
+.widget_categories li a:hover,
+.widget_recent_comments li a:hover,
+.widget_rss li a:hover,
+.widget_pages li a:hover,
+.widget_archive li a:hover,
+.widget_nav_menu li a:hover,
+.widget_recent_entries li a:hover,
+.widget_meta li a:hover,
+.widget-recent-comments li a:hover,
+.widget_tag_cloud a:hover,
+.popular-posts-widget .mini-widget-title h4:hover a,
+.widget-about a:hover,
+.baroque-social-links-widget a:hover,
+.woocommerce
+  ul.products
+  li.product.product-category:hover
+  .woocommerce-loop-category__title,
+.woocommerce ul.products li.product.product-category:hover .count,
+.woocommerce
+  ul.products
+  li.product
+  .un-product-thumbnail
+  .footer-button
+  > a:hover,
+.woocommerce div.product span.price,
+.woocommerce div.product p.price,
+.woocommerce div.product .woocommerce-tabs ul.tabs li.active a,
+.woocommerce .shop-toolbar .product-found span,
+.woocommerce .un-categories-filter ul li a:hover,
+.woocommerce .un-categories-filter ul li a.selected,
+.woocommerce-account
+  .woocommerce
+  .woocommerce-Addresses
+  .woocommerce-Address
+  .woocommerce-Address-edit
+  .edit:hover,
+.shop-sidebar .widget_product_categories ul li.current-cat a,
+.shop-sidebar .widget_product_categories ul li.chosen a,
+.shop-sidebar .widget_product_categories ul li.current-cat .count,
+.shop-sidebar .widget_product_categories ul li.chosen .count,
+.ba-service:hover .read-more,
+.ba-image-box .service-summary .subtitle,
+.ba-member .member-content .socials a:hover,
+.ba-newletter .mc4wp-form:after,
+.ba-portfolios-grid-gap .ports-footer .text:hover,
+.ba-vs-slider3 .button-link:hover,
+.ba-vs-slider3 .ba-button-white:hover,
+.ba-hs-slider .slider-content .link:hover,
+.wpb-js-composer
+  div
+  .vc_tta.vc_tta-accordion
+  .vc_tta-panel.vc_active
+  .vc_tta-panel-title
+  > a,
+.wpb-js-composer
+  div
+  .vc_tta.vc_tta-accordion
+  .vc_tta-panel:hover
+  .vc_tta-panel-title
+  > a,
+.wpb-js-composer
+  div
+  .vc_tta.vc_tta-accordion
+  .vc_tta-panel.vc_active
+  .vc_tta-controls-icon.vc_tta-controls-icon-chevron:after,
+.wpb-js-composer
+  div
+  .vc_tta.vc_tta-accordion
+  .vc_tta-panel:hover
+  .vc_tta-controls-icon.vc_tta-controls-icon-chevron:after,
+.wpb-js-composer
+  div
+  .vc_tta-tabs-position-top.vc_tta-color-white.vc_tta-style-classic
+  .vc_tta-tab.vc_active
+  > a,
+.wpb-js-composer
+  div
+  .vc_tta-tabs-position-top.vc_tta-color-white.vc_tta-style-classic
+  .vc_tta-tab:hover
+  > a,
+.baroque-dark
+  .baroque-off-canvas-panel.menu-sidebar
+  .sidebar-language
+  li.actived
+  a,
+.baroque-dark
+  .baroque-off-canvas-panel.menu-sidebar
+  .baroque-social-links-widget
+  a:hover,
+.baroque-dark
+  .menu-area
+  .menu
+  .is-mega-menu
+  .dropdown-submenu
+  .menu-item-mega
+  > a:hover,
+.baroque-dark.blog-text .baroque-taxs-list li a:hover,
+.baroque-dark.blog-text .baroque-taxs-list li a.selected,
+.baroque-dark .portfolio-navigation a:hover,
+.baroque-dark .blog-wrapper:hover .read-more,
+.baroque-dark .widget_categories li a:hover,
+.baroque-dark .widget_recent_comments li a:hover,
+.baroque-dark .widget_rss li a:hover,
+.baroque-dark .widget_pages li a:hover,
+.baroque-dark .widget_archive li a:hover,
+.baroque-dark .widget_nav_menu li a:hover,
+.baroque-dark .widget_recent_entries li a:hover,
+.baroque-dark .widget_meta li a:hover,
+.baroque-dark .widget-recent-commentsli a:hover,
+.baroque-dark .widget_tag_cloud a:hover,
+.baroque-dark .baroque-social-links-widget a:hover,
+.baroque-dark .popular-posts-widget .mini-widget-title h4:hover a,
+.baroque-dark .paging-navigation .nav-links a:hover,
+.baroque-dark .ba-service:hover .read-more,
+.baroque-dark .ba-vs-slider3 .button-link:hover,
+.baroque-dark .ba-member .member-content .socials a:hover,
+.baroque-dark .ba-hs-slider .swiper-button-white:hover,
+.baroque-dark .ba-hs-slider .slider-content .link:hover,
+.baroque-dark.woocommerce
+  .shop-toolbar
+  .woocommerce-ordering
+  li
+  > ul
+  li
+  a.active,
+.baroque-dark
+  .woocommerce
+  .shop-toolbar
+  .woocommerce-ordering
+  li
+  > ul
+  li
+  a.active,
+.baroque-dark.woocommerce
+  .shop-toolbar
+  .woocommerce-ordering
+  li
+  > ul
+  li
+  a:hover,
+.baroque-dark
+  .woocommerce
+  .shop-toolbar
+  .woocommerce-ordering
+  li
+  > ul
+  li
+  a:hover,
+.baroque-dark.woocommerce div.product .product_meta > span a:hover,
+.baroque-dark .woocommerce div.product .product_meta > span a:hover,
+.baroque-dark .shop-sidebar .widget ul li:hover > a,
+.baroque-dark .shop-sidebar .widget ul li:hover .count,
+.baroque-dark .primary-color {
+  color: #e16022;
+}
+
+/* Other */
+.portfolio-carousel .portfolio-carousel-wrapper .scrollbar .handle {
+  background: #e16022;
+}
+
+body {
+  font-family: "Roboto";
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+h1 {
+  font-family: "Roboto";
+  font-weight: 400;
+  letter-spacing: 0px;
+}
+
+h2 {
+  font-family: "Roboto";
+  font-weight: 400;
+  letter-spacing: 0px;
+}
+
+h3 {
+  font-family: "Roboto";
+  font-weight: 400;
+  letter-spacing: 0px;
+}
+
+h4 {
+  font-family: "Roboto";
+  font-weight: 400;
+  letter-spacing: 0px;
+}
+
+h5 {
+  font-family: "Roboto";
+  font-weight: 400;
+  letter-spacing: 0px;
+}
+
+h6 {
+  font-family: "Roboto";
+  font-weight: 400;
+  letter-spacing: 0px;
+}
+
+.main-nav a,
+.mf-header-item-button a,
+.primary-mobile-nav ul.menu > li > a {
+  font-family: "Roboto";
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.main-nav li li a,
+.primary-mobile-nav ul.menu ul li a {
+  font-family: "Roboto";
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.site-footer {
+  font-family: "Roboto";
+  font-size: 14px;
+  font-weight: 400;
+}
+
+h1 {
+  font-family: Roboto, Arial, sans-serif;
+}
+
+h2 {
+  font-family: Roboto, Arial, sans-serif;
+}
+
+h3 {
+  font-family: Roboto, Arial, sans-serif;
+}
+
+h4 {
+  font-family: Roboto, Arial, sans-serif;
+}
+
+h5 {
+  font-family: Roboto, Arial, sans-serif;
+}
+
+h6 {
+  font-family: Roboto, Arial, sans-serif;
+}
