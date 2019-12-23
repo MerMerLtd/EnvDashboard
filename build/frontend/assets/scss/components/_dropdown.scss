@@ -15,7 +15,7 @@
     // border-top-left-radius: 5px;
     // border-top-right-radius: 5px;
     border-radius: 5px;
-    padding: 5px 5px 5px 2rem ;
+    padding: 5px 1rem 0;
     line-height: 2;
     z-index: 2;
 
@@ -23,7 +23,7 @@
     & > i {
       transform: translate(6px, 6px);
     }
-    & > span{
+    & > span > span{
       font-size: 1.5rem;
     }
     &:hover,
@@ -53,7 +53,7 @@
     
     & > a {
       color: black;
-      padding: 12px 16px;
+      padding: 12px 1rem;
       text-decoration: none;
       display: block;
       &:hover{
