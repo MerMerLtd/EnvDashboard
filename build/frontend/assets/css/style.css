@@ -302,6 +302,10 @@ body {
       display: block;
       opacity: 1; }
 
+svg {
+  width: calc((100vw - 9rem)/3);
+  height: 100%; }
+
 .header {
   display: grid;
   justify-content: center;
@@ -359,8 +363,6 @@ body {
   justify-content: center;
   grid-template-columns: 1fr 2fr;
   grid-column-gap: 3rem; }
-  .navigation__map {
-    background-color: #8f2727; }
 
 .section {
   display: grid;
