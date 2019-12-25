@@ -60,7 +60,7 @@
 			</div>
 			<nav class="navigation">
 				<div class="navigation__map">
-					<svg viewBox="0 0 800 800"></svg>
+					<svg viewBox="0 0 800 800" class="svg svg--nav"></svg>
 				</div>
 				<div class="navigation__chart-box">
 					<h1 class="heading-primary">
@@ -83,6 +83,7 @@
 					<div class="navigation__chart">
 						<div class="background__img-box">
 							<img src="./assets/img/chart_01.png" alt="population" class="background__img" />
+							<svg class="svg svg--lineChart"></svg>
 						</div>
 					</div>
 				</div>
@@ -126,8 +127,12 @@
 				<div class="background__img-box">
 					<img src="./assets/img/chart_02.png" alt="population" class="background__img" />
 				</div>
-				<div class="pollution-ratio--chart-1"></div>
-				<div class="pollution-ratio--chart-2"></div>
+				<div class="pollution-ratio--barChart">
+					<svg class="svg svg--barChart" width="100%" height="100%"></svg>
+				</div>
+				<div class="pollution-ratio--pieChart">
+					<svg class="svg svg--pieChart"></svg>
+				</div>
 			</div>
 			<div class="background">
 				<input type="checkbox" class="background__checkbox" id="background-toggle" />
@@ -207,6 +212,7 @@
 					</h1>
 					<div class="background__img-box">
 						<img src="./assets/img/chart_03.png" alt="population" class="background__img" />
+						<svg class="svg svg--multiLinesChart"></svg>
 					</div>
 				</div>
 			</div>

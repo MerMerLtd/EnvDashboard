@@ -302,9 +302,21 @@ body {
       display: block;
       opacity: 1; }
 
-svg {
-  width: calc((100vw - 9rem)/3);
-  height: 100%; }
+.svg--barChart {
+  background-color: pink; }
+  .svg--barChart rect {
+    fill: #49BDCA; }
+  .svg--barChart text {
+    font-size: 7px; }
+
+.svg--pieChart {
+  background-color: salmon; }
+
+.svg--lineChart {
+  background-color: palevioletred; }
+
+.svg--multiLinesChart {
+  background-color: indianred; }
 
 .header {
   display: grid;
