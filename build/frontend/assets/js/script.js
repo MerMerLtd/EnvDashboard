@@ -93,7 +93,7 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
   for (i = features.length - 1; i >= 0; i--) {
     features[i].properties.number = i;
   }
-  console.log(features);
+  // console.log(features);
   let color = d3
     .scaleLinear()
     .domain([0, 10000])
@@ -126,73 +126,158 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
   // d3.select("svg").style("background-color", "pink");
 });
 
+//!!! d3 timeformat https://www.oxxostudio.tw/articles/201412/svg-d3-11-time.html
+//
 //===============================================
 //============  lineChart svg  ============
-const lineChartsvg = d3.select(".svg--lineChart");
+d3.csv("./assets/csv/pm25.csv").then(data => {
+  // console.log(data);
+  const svg = d3.select(".svg--lineChart");
+  const width = 410;
+  const height = 190;
+  const margin = { top: 20, right: 10, bottom: 30, left: 40 };
+  const innerWidth = width - margin.left - margin.right;
+  // const innerHeight = height - margin.top - margin.bottom;
+  const xValue = d => +d.hour;
+  const yValue = d => +d.value;
+  const circleRadius = 3.5;
+  svg.attr("width", width);
+  svg.attr("height", height);
+  // const xScale = d3
+  // .scaleTime()
+  // .domain([Date.now(), Date.now() + 21 * 60 * 60 * 1000])
+  // .range([margin.left, width - margin.right])
+  // .nice();
+  const g = svg.append("g");
+  // .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
+  const xScale = d3
+    .scalePoint()
+    .domain(data.map(xValue))
+    .range([margin.left, width - margin.right]);
+  // .range([0, innerWidth]);
+
+  const xAxis = d3.axisBottom(xScale);
+  const xAxisG = g
+    .append("g")
+    .call(xAxis)
+    .attr("transform", `translate(0, ${height - margin.bottom})`);
+  xAxisG.selectAll(".domain, .tick line").remove();
+
+  const yScale = d3
+    .scaleLinear()
+    // .domain(d3.extent(data, yValue))
+    .domain([0, d3.max(data, yValue)])
+    .range([height - margin.bottom, margin.top])
+    .nice();
+
+  const yAxis = d3.axisLeft(yScale).tickSize(-innerWidth);
+  // .ticks(5);
+  const yAxisG = g
+    .append("g")
+    .call(yAxis)
+    .attr("transform", `translate(${margin.left},0)`);
+  yAxisG.select(".domain").remove();
+  yAxisG
+    .append("text")
+    .attr("y", -25)
+    .attr("x", -(height - margin.bottom) / 2)
+    .attr("fill", "white")
+    .attr("transform", "rotate(-90)")
+    .attr("text-anchor", "middle")
+    .text(`PM2.5 (µg/m3)`);
+
+  const lineGenerator = d3
+    .line()
+    .x(d => xScale(d.hour))
+    .y(d => {
+      // console.log(d)
+      return yScale(+d.value);
+    });
+
+  g.append("path")
+    // .datum(data)
+    // .attr("d", lineGenerator());
+    .attr("d", lineGenerator(data));
+
+  g.selectAll("circle")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", d => xScale(d.hour))
+    .attr("cy", d => yScale(d.value))
+    .attr("r", circleRadius);
+});
 
 //===============================================
 //===============  barChart svg  ================
-const barChartsvg = d3.select(".svg--barChart");
-// els = { ...els, barChartsvg: document.querySelector(".svg--barChart") };
-// const width = els.barChartsvg.style.width;
-// const height = els.barChartsvg.style.height;
-// const width = barChartsvg.attr("width");
-// const height = barChartsvg.attr("height");
-const width = 130;
-const height = 110;
-
-console.log(width, height);
-const render = data => {
-  const xValue = d => d.year;
-  const yValue = d => d.emissions;
-  const margin = { top: 20, left: 35, right: 10, bottom: 20 };
-  const innerWidth = width - margin.left - margin.right;
-  const innerHeight = height - margin.top - margin.bottom;
-  const xScale = d3
-    .scaleBand()
-    .domain(data.map(xValue))
-    .range([0, innerWidth])
-    .padding(0.2);
-  // console.log(xScale.domain())
-  // console.log(xScale.range())
-  console.log(xScale.bandwidth());
-  const yScale = d3
-    .scaleLinear()
-    .domain([0, d3.max(data, yValue)])
-    .range([innerHeight, 0]); //https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/
-  // console.log(yScale.domain())
-  // console.log(yScale.range())
-  const xAxis = d3.axisBottom(xScale);
-  const yAxis = d3.axisLeft(yScale).ticks(3);
-  const g = barChartsvg
-    .append("g")
-    .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
-
-  // short for g.append("g").call(xAxis);
-  xAxis(g.append("g").attr("transform", `translate(0, ${innerHeight})`));
-  yAxis(g.append("g"));
-
-  g.selectAll("rect")
-    .data(data)
-    .enter()
-    .append("rect")
-    .attr("x", d => {
-      console.log("x", xScale(xValue(d)));
-      return xScale(xValue(d));
-    })
-    .attr("y", d => yScale(yValue(d)))
-    .attr("width", xScale.bandwidth())
-    .attr("height", d => {
-      console.log("height", yScale(yValue(d)));
-      return innerHeight - yScale(yValue(d));
-    });
-};
 d3.csv("./assets/csv/barchart.csv").then(data => {
-  console.log(data);
+  const width = 130;
+  const height = 110;
+  const svg = d3.select(".svg--barChart");
+  const render = data => {
+    const xValue = d => d.year;
+    const yValue = d => +d.emissions;
+    const margin = { top: 20, left: 35, right: 10, bottom: 20 };
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+    const xScale = d3
+      .scaleBand()
+      .domain(data.map(xValue))
+      .range([0, innerWidth])
+      .padding(0.35);
+
+    const yScale = d3
+      .scaleLinear()
+      .domain([0, d3.max(data, yValue)])
+      .range([innerHeight, 0])
+      .nice(); //https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/
+
+    const xAxis = d3.axisBottom(xScale); //.tickSize(-innerHeight); //.tickFormat(xAxisTickFormat);
+    const yAxis = d3
+      .axisLeft(yScale)
+      .tickSize(-innerWidth)
+      .ticks(5);
+
+    const g = svg
+      .append("g")
+      .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
+
+    const xAxisG = g
+      .append("g")
+      .call(xAxis)
+      .attr("transform", `translate(0, ${innerHeight})`);
+    xAxisG.selectAll(".domain, .tick line").remove();
+
+    // xAxisG
+    //   .append("text")
+    //   .attr("class", "axis-label--x")
+    //   .attr("y", 30)
+    //   .attr("x", innerWidth / 2)
+    //   .attr("fill", "white")
+    //   .text(`近年度${"某污染物"}總排放量`);
+
+    const yAxisG = g.append("g").call(yAxis);
+    yAxisG.select(".domain").remove();
+    yAxisG
+      .append("text")
+      .attr("y", -25)
+      .attr("x", -innerHeight / 2)
+      .attr("fill", "white")
+      .attr("transform", "rotate(-90)")
+      .attr("text-anchor", "middle")
+      .text(`µg/m3`);
+
+    g.selectAll("rect")
+      .data(data)
+      .enter()
+      .append("rect")
+      .attr("x", d => xScale(xValue(d)))
+      .attr("y", d => yScale(yValue(d)))
+      .attr("width", xScale.bandwidth())
+      .attr("height", d => innerHeight - yScale(yValue(d)));
+  };
   render(data);
 });
-
-barChartsvg.attr("width", width);
 
 //===============================================
 //===============  pieChart svg  ================
@@ -200,7 +285,109 @@ const pieChartsvg = d3.select(".svg--pieChart");
 
 //===============================================
 //============  multiLinesChart svg  ============
-const multiLinesChartsvg = d3.select(".svg--multiLinesChart");
+d3.csv("./assets/csv/pm25.csv").then(rawData => {
+  // console.log(rawData);
+  const data = [
+    {
+      location: `${rawData[0].location}`,
+      pollute: "PM2.5",
+      value: rawData.map(d => ({
+        hour: +d.hour,
+        value: +d.value
+      })),
+      isRef: false
+    },
+    {
+      location: `${rawData[0].location}`,
+      pollute: "PM2.5",
+      value: rawData.map(d => ({
+        hour: +d.hour,
+        value: 8
+      })),
+      isRef: true
+    }
+  ];
+  // console.log(data);
+  const svg = d3.select(".svg--multiLinesChart");
+  const width = 553;
+  const height = 190;
+  const margin = { top: 20, right: 10, bottom: 30, left: 40 };
+  const innerWidth = width - margin.left - margin.right;
+  // const innerHeight = height - margin.top - margin.bottom;
+  const xValue = d => +d.hour;
+  const yValue = d => +d.value;
+  const circleRadius = 3.5;
+  svg.attr("width", width);
+  svg.attr("height", height);
+
+  const g = svg.append("g");
+  // .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
+  const xScale = d3
+    .scalePoint()
+    .domain(data[0].value.map(xValue))
+    .range([margin.left, width - margin.right]);
+  const xAxis = d3.axisBottom(xScale);
+  const xAxisG = g
+    .append("g")
+    .call(xAxis)
+    .attr("transform", `translate(0, ${height - margin.bottom})`);
+  xAxisG.selectAll(".domain, .tick line").remove();
+
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, d3.max(data, d => d3.max(d.value.map(d => d.value)))])
+    .range([height - margin.bottom, margin.top])
+    .nice();
+  const yAxis = d3.axisLeft(yScale).tickSize(-innerWidth);
+  // .ticks(5);
+  const yAxisG = g
+    .append("g")
+    .call(yAxis)
+    .attr("transform", `translate(${margin.left},0)`);
+  yAxisG.select(".domain").remove();
+  yAxisG
+    .append("text")
+    .attr("y", -25)
+    .attr("x", -(height - margin.bottom) / 2)
+    .attr("fill", "white")
+    .attr("transform", "rotate(-90)")
+    .attr("text-anchor", "middle")
+    .text(`PM2.5 (µg/m3)`);
+
+  const lineGenerator = d3
+    .line()
+    .x(d => xScale(d.hour))
+    .y(d => {
+      // console.log(d)
+      return yScale(d.value);
+    });
+
+  const path = g
+    .selectAll("path")
+    .data(data)
+    .join("path")
+    .attr("class", d => (d.isRef ? "ref" : "values"))
+    .attr("d", d => lineGenerator(d.value));
+
+  g.selectAll("circle")
+    .data(data[0].value)
+    .enter()
+    .append("circle")
+    .attr("cx", d => xScale(d.hour))
+    .attr("cy", d => yScale(d.value))
+    .attr("r", circleRadius);
+
+  // console.log(data.filter(d => d.isRef))
+  const refTagY = data.filter(d => d.isRef)[0].value[0].value;
+  g.append("text")
+    .text("對健康會有疑慮的濃度")
+    .attr("text-anchor", "end")
+    .attr(
+      "transform",
+      `translate(${width - margin.right}, ${yScale(refTagY) - 10})`
+    )
+    .attr("fill", "#fff");
+});
 
 //===================
 var slideIndex = 1;

@@ -312,11 +312,29 @@ body {
 .svg--pieChart {
   background-color: salmon; }
 
-.svg--lineChart {
-  background-color: palevioletred; }
+.svg--lineChart .tick line, .svg--multiLinesChart .tick line {
+  stroke: #f0f3f4;
+  opacity: 0.5; }
 
-.svg--multiLinesChart {
-  background-color: indianred; }
+.svg--lineChart .axis-label--x, .svg--multiLinesChart .axis-label--x {
+  font-size: 2rem;
+  fill: #fff; }
+
+.svg--lineChart path, .svg--multiLinesChart path {
+  stroke: #00FFF9;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-linecap: round; }
+
+.svg--lineChart circle, .svg--multiLinesChart circle {
+  fill: #00FFF9; }
+
+.svg--multiLinesChart .ref {
+  stroke: #fff; }
+
+.svg--lineChart {
+  margin-top: 5rem; }
 
 .header {
   display: grid;

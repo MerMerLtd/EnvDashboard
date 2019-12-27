@@ -1,26 +1,52 @@
 .svg {
-    // width: 100%;
-    // height: 100%;
+  // width: 100%;
+  // height: 100%;
   &--nav {
     // width: calc((100vw - 9rem) / 3);
   }
   &--barChart {
     background-color: pink;
-    & rect{
-        // fill: linear-gradient(to bottom, $color-primary-light-1,  $color-primary-dark-1);
-        fill:  $color-primary;
+    & rect {
+      // fill: linear-gradient(to bottom, $color-primary-light-1,  $color-primary-dark-1);
+      fill: $color-primary;
     }
-    & text{
-        font-size: 7px;
+    & text {
+      font-size: 7px;
     }
   }
   &--pieChart {
     background-color: salmon;
   }
-  &--lineChart {
-    background-color: palevioletred;
+  &--lineChart,
+  &--multiLinesChart {
+    // background-color: palevioletred;
+    & .tick line {
+      stroke: $color-grey-light-1;
+      opacity: 0.5;
+    }
+    & .axis-label--x {
+      font-size: 2rem;
+      fill: $color-white;
+    }
+    & path {
+      stroke: $color-primary-light;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+    & circle {
+      fill: $color-primary-light;
+    }
   }
-  &--multiLinesChart{
-    background-color: indianred;
+  &--multiLinesChart {
+    // background-color: indianred;
+    & .ref{
+      stroke: #fff;
+    }
+  }
+  &--lineChart{
+    margin-top: 5rem;
+    // background-color: palevioletred;
   }
 }
