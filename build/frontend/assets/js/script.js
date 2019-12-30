@@ -201,7 +201,6 @@ const renderLineChart = _ => {
     //   .getComputedStyle(document.querySelector(".background--main"))
     //   .height.replace("px", "");
     const height = navHeight;
-    console.log(width, height)
     const margin = {
       top: 20,
       right: 10,
@@ -320,8 +319,8 @@ const renderBarChart = _ => {
       .attr("height", height)
       .attr("class", "svg svg--barChart");
     const render = data => {
-      const xValue = d => d.year;
-      const yValue = d => +d.emissions;
+      const xValue = d => d.name;
+      const yValue = d => +d.value;
       const margin = {
         top: 20,
         left: 35,
@@ -659,8 +658,8 @@ const renderMultiLinesChart = _ => {
     // console.log(rawData);
     const data = [
       {
-        location: `${rawData[0].location}`,
-        pollute: "PM2.5",
+        // location: `${rawData[0].location}`,
+        // pollute: "PM2.5",
         value: rawData.map(d => ({
           hour: +d.hour,
           value: +d.value
@@ -668,8 +667,8 @@ const renderMultiLinesChart = _ => {
         isRef: false
       },
       {
-        location: `${rawData[0].location}`,
-        pollute: "PM2.5",
+        // location: `${rawData[0].location}`,
+        // pollute: "PM2.5",
         value: rawData.map(d => ({
           hour: +d.hour,
           value: 8
