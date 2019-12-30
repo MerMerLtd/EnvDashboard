@@ -36,3 +36,10 @@ cd /path/to/your/new/project/
 npm install
 npm start
 ```
+
+### API
+```
+cd /path/to/your/new/project/
+npm install
+npm start
+```
