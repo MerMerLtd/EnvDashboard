@@ -60,7 +60,8 @@
 			</div>
 			<nav class="navigation">
 				<div class="navigation__map">
-					<svg viewBox="0 0 800 800" class="svg svg--nav"></svg>
+					<svg class="svg svg--nav" viewBox="0 0 800 580"></svg>
+					<!-- <svg class="svg svg--nav"></svg> -->
 				</div>
 				<div class="navigation__chart-box">
 					<h1 class="heading-primary">
@@ -81,10 +82,10 @@
 						隨時間變
 					</h1>
 					<div class="navigation__chart">
-						<div class="background__img-box">
-							<!-- <img src="./assets/img/chart_01.png" alt="population" class="background__img" /> -->
-							<svg class="svg svg--multiLinesChart"></svg>
-						</div>
+						<!-- <div class="background__img-box">
+							<img src="./assets/img/chart_01.png" alt="population" class="background__img" />
+						</div> -->
+						<svg class="svg svg--multiLinesChart"></svg>
 					</div>
 				</div>
 			</nav>
@@ -97,41 +98,54 @@
 				<h1 class="heading-primary">
 					<span class="dropdown">
 						<div class="dropdown--btn">
-							<span>107</span>
+							<span class="pie-chart--year">107</span>
 							<i class="material-icons">
 								arrow_drop_down
 							</i>
 						</div>
 						<div class="dropdown--content">
-							<a href="#">Link 1</a>
-							<a href="#">Link 2</a>
-							<a href="#">Link 3</a>
+							<a data-chart="pie">108</a>
+							<a data-chart="pie">107</a>
+							<a data-chart="pie">106</a>
+							<a data-chart="pie">105</a>
+							<a data-chart="pie">104</a>
+							<a data-chart="pie">103</a>
+							<a data-chart="pie">102</a>
+							<a data-chart="pie">101</a>
+							<a data-chart="pie">100</a>
 						</div>
 					</span>
 					年度
 					<span class="dropdown">
 						<div class="dropdown--btn">
-							<span>PM<span>2.5</span></span>
+							<span class="pie-chart--pollute">PM2.5</span>
 							<i class="material-icons">
 								arrow_drop_down
 							</i>
 						</div>
 						<div class="dropdown--content">
-							<a href="#">Link 1</a>
-							<a href="#">Link 2</a>
-							<a href="#">Link 3</a>
+							<a data-chart="pie">PM2.5</a>
+							<a data-chart="pie">SOx</a>
+							<a data-chart="pie">NOx</a>
+							<a data-chart="pie">NMHC</a>
 						</div>
 					</span>
 					污染來源比例
 				</h1>
-				<div class="background__img-box">
+				<!-- <div class="background__img-box">
 					<img src="./assets/img/chart_02.png" alt="population" class="background__img" />
-				</div>
-				<div class="pollution-ratio--barChart">
-					<svg class="svg svg--barChart" width="100%" height="100%"></svg>
-				</div>
-				<div class="pollution-ratio--pieChart">
-					<svg class="svg svg--pieChart"></svg>
+				</div> -->
+				<div class="pollution-ratio__chart">
+					<div id="donut">
+						<svg></svg>
+					</div>
+					<div class="pollution-ratio__chart--barChart">
+						<svg class="svg svg--barChart"></svg>
+					</div>
+
+					<!-- <div class="pollution-ratio__chart--pieChart">
+						<svg class="svg svg--pieChart"></svg>
+					</div> -->
 				</div>
 			</div>
 			<div class="background">
@@ -210,8 +224,10 @@
 						</span>
 						污染物排放監測濃度
 					</h1>
-					<div class="background__img-box">
-						<!-- <img src="./assets/img/chart_03.png" alt="population" class="background__img" /> -->
+					<!-- <div class="background__img-box">
+						<img src="./assets/img/chart_03.png" alt="population" class="background__img" />
+					</div> -->
+					<div class="background--sub__lineChart">
 						<svg class="svg svg--lineChart"></svg>
 					</div>
 				</div>
@@ -256,19 +272,19 @@
 					<!-- Full-width images with number and caption text -->
 					<div class="mySlides fade">
 						<div class="numbertext">1 / 3</div>
-						<img src="./assets/img/slide_01.png" style="width:100%" />
+						<img src="./assets/img/slide_01.png" />
 						<div class="text">Caption Text</div>
 					</div>
 
 					<div class="mySlides fade">
 						<div class="numbertext">2 / 3</div>
-						<img src="./assets/img/slide_02.png" style="width:100%" />
+						<img src="./assets/img/slide_02.png" />
 						<div class="text">Caption Two</div>
 					</div>
 
 					<div class="mySlides fade">
 						<div class="numbertext">3 / 3</div>
-						<img src="./assets/img/slide_03.png" style="width:100%" />
+						<img src="./assets/img/slide_03.png" />
 						<div class="text">Caption Three</div>
 					</div>
 					<!-- Next and previous buttons -->

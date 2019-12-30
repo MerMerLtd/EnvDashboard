@@ -10,6 +10,12 @@
   /* Hide the images by default */
   .mySlides {
     display: none;
+    width: 100%;
+    height: 100%;
+    & > img{
+      width: 100%;
+    height: 100%;
+    }
   }
   
   /* Next & previous buttons */
@@ -99,6 +105,9 @@
 
 
   .preventive{
+    height:100%;
+    display: flex;
+    flex-direction: column;
       & > .heading-primary{
           margin: 1rem 0 2rem;
       }

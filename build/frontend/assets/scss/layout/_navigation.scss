@@ -8,6 +8,11 @@
   }
   &__chart-box{
     // background-color: rgb(50, 155, 155);
+    height: 100%;
+    width: 100%;
+  }
+  &__chart{
+    height: calc(100% - 5rem);
   }
  
 }

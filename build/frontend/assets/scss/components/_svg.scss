@@ -5,7 +5,7 @@
     // width: calc((100vw - 9rem) / 3);
   }
   &--barChart {
-    background-color: pink;
+    // background-color: pink;
     & rect {
       // fill: linear-gradient(to bottom, $color-primary-light-1,  $color-primary-dark-1);
       fill: $color-primary;
@@ -15,7 +15,7 @@
     }
   }
   &--pieChart {
-    background-color: salmon;
+    // background-color: salmon;
   }
   &--lineChart,
   &--multiLinesChart {

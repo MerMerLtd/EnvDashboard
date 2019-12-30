@@ -196,8 +196,8 @@ body {
 .container {
   height: 100vh;
   width: 100vw;
-  background-image: linear-gradient(to bottom, #BED1D5, #50848E);
-  padding: 3rem; }
+  background-image: linear-gradient(to bottom, #BED1D5, #50848e);
+  padding: 0 3rem; }
 
 .dropdown {
   min-width: 11rem;
@@ -228,6 +228,8 @@ body {
       border-top-left-radius: 5px;
       border-top-right-radius: 5px; }
   .dropdown--content {
+    max-height: 20vh;
+    overflow: scroll;
     width: 100%;
     display: none;
     position: absolute;
@@ -253,11 +255,10 @@ body {
   display: grid;
   grid-template-columns: 1fr 3fr;
   grid-column-gap: 2rem;
-  height: 85%;
+  height: 100%;
   transition: all 0.2s; }
   .tab__img-box {
-    min-width: calc(100vw/4);
-    margin-bottom: 2rem; }
+    min-width: calc(100vw/4); }
   .tab__img {
     width: 100%;
     height: 100%; }
@@ -283,7 +284,7 @@ body {
   .tab__content {
     display: none;
     opacity: 0;
-    padding: 3rem; }
+    padding: 2rem 3rem; }
     .population .tab__content--population {
       position: absolute;
       top: 50%;
@@ -302,15 +303,11 @@ body {
       display: block;
       opacity: 1; }
 
-.svg--barChart {
-  background-color: pink; }
-  .svg--barChart rect {
-    fill: #49BDCA; }
-  .svg--barChart text {
-    font-size: 7px; }
+.svg--barChart rect {
+  fill: #49BDCA; }
 
-.svg--pieChart {
-  background-color: salmon; }
+.svg--barChart text {
+  font-size: 7px; }
 
 .svg--lineChart .tick line, .svg--multiLinesChart .tick line {
   stroke: #f0f3f4;
@@ -393,14 +390,20 @@ body {
   justify-content: center;
   grid-template-columns: 1fr 2fr;
   grid-column-gap: 3rem; }
+  .navigation__chart-box {
+    height: 100%;
+    width: 100%; }
+  .navigation__chart {
+    height: calc(100% - 5rem); }
 
 .section {
   display: grid;
   height: 100%;
   grid-template-areas: " header header" " navigation navigation " " iframe iframe  " " pollution background-info" " video preventive";
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 1fr repeat(4, 5fr);
-  grid-gap: 3rem; }
+  grid-template-rows: 1fr 3fr 5fr 5fr 5fr;
+  grid-column-gap: 3rem;
+  grid-row-gap: 1rem; }
   .section .header {
     grid-area: header; }
   .section .navigation {
@@ -423,12 +426,17 @@ body {
     width: 100%;
     height: 100%;
     position: absolute;
+    display: flex;
+    flex-direction: column;
     top: 0;
     left: 0; }
-  .background--main {
-    display: block; }
   .background--sub {
-    display: none; }
+    display: none;
+    height: 100%;
+    width: 100%; }
+    .background--sub__lineChart {
+      height: 100%;
+      width: 100%; }
   .background__btn {
     opacity: 0; }
   .background__checkbox {
@@ -436,7 +444,7 @@ body {
   .background__checkbox:checked ~ .background--main {
     display: none; }
   .background__checkbox:checked ~ .background--sub {
-    display: block; }
+    display: flex; }
   .background__checkbox:checked + .background__btn {
     opacity: 1; }
   .background--main .heading-primary {
@@ -484,35 +492,35 @@ body {
     transform: rotate(-135deg); }
   .background__img-box {
     min-width: calc(100vw/4);
-    margin-bottom: 2rem;
-    margin-top: 3rem; }
+    margin-top: 1rem; }
   .background__img {
     width: 100%; }
 
-.video__title-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center; }
-
-.video__img-box {
-  min-width: calc(100vw/4); }
-
-.video__img {
-  width: 100%;
-  display: none; }
-  .factory .video__img--factory {
-    display: block; }
-  .vehicle .video__img--vehicle {
-    display: block; }
-
-.video__vbox {
-  width: 100%;
-  height: 100%; }
-
-.video__cover {
-  width: 100%;
+.video {
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.8); }
+  display: flex;
+  flex-direction: column; }
+  .video__title-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
+  .video__img-box {
+    min-width: calc(100vw/4); }
+  .video__img {
+    width: 100%;
+    display: none; }
+    .factory .video__img--factory {
+      display: block; }
+    .vehicle .video__img--vehicle {
+      display: block; }
+  .video__vbox {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 2rem; }
+  .video__cover {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); }
 
 /* Slideshow container */
 .slideshow-container {
@@ -524,7 +532,12 @@ body {
 
 /* Hide the images by default */
 .mySlides {
-  display: none; }
+  display: none;
+  width: 100%;
+  height: 100%; }
+  .mySlides > img {
+    width: 100%;
+    height: 100%; }
 
 /* Next & previous buttons */
 .prev, .next {
@@ -605,5 +618,21 @@ body {
   to {
     opacity: 1; } }
 
-.preventive > .heading-primary {
-  margin: 1rem 0 2rem; }
+.preventive {
+  height: 100%;
+  display: flex;
+  flex-direction: column; }
+  .preventive > .heading-primary {
+    margin: 1rem 0 2rem; }
+
+.pollution-ratio {
+  height: 100%;
+  display: flex;
+  flex-direction: column; }
+  .pollution-ratio__chart {
+    height: 100%;
+    position: relative; }
+    .pollution-ratio__chart--barChart {
+      position: absolute;
+      bottom: 0;
+      right: 0; }

@@ -4,6 +4,7 @@
   position: relative;
   transition: all 0.2s;
   margin: 0 5px;
+  
   &--btn {
     width: 100%;
     
@@ -36,6 +37,8 @@
     }
   }
   &--content {
+    max-height: 20vh;
+  overflow: scroll;
     width: 100%;
     display: none;
     position: absolute;

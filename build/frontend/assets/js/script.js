@@ -1,5 +1,44 @@
+const to = promise => {
+  return promise
+    .then(data => {
+      return [null, data];
+    })
+    .catch(err => [err, null]);
+};
+const makeRequest = opts => {
+  const xhr = new XMLHttpRequest();
+  return new Promise((resolve, reject) => {
+    xhr.onreadystatechange = () => {
+      // only run if the request is complete
+      if (xhr.readyState !== 4) return;
+      if (xhr.status >= 200 && xhr.status < 300) {
+        // If successful
+        opts.responseType === "arraybuffer"
+          ? resolve(new Uint8Array(xhr.response))
+          : resolve(JSON.parse(xhr.responseText));
+      } else {
+        // If false
+        reject(xhr.response);
+      }
+    };
+    // Setup HTTP request
+    xhr.open(opts.method || "GET", opts.url, true);
+    if (opts.headers) {
+      Object.keys(opts.headers).forEach(key =>
+        xhr.setRequestHeader(key, opts.headers[key])
+      );
+    }
+    // Send the request
+    if (opts.contentType === "application/json") {
+      xhr.setRequestHeader("content-type", "application/json");
+      xhr.send(JSON.stringify(opts.payload));
+    } else {
+      xhr.send(opts.payload);
+    }
+  });
+};
 let els = {
-  conatainer: document.querySelector(".container"),
+  container: document.querySelector(".container"),
   tab: document.querySelector(".tab"),
   video: document.querySelector(".video"),
   dropdownBtns: document.querySelectorAll(".dropdown--btn"),
@@ -20,16 +59,20 @@ const handleDropdown = evt => {
   });
   if (evt.target.matches(".dropdown--content > a")) {
     console.log(evt.target.innerHTML);
-    console.log(
-      evt.target.parentElement.parentElement.children[0].firstElementChild
-        .innerHTML
-    );
+    if (evt.target.dataset.chart === "pie") {
+      renderPieChart();
+      // renderBarChart();
+    }
+    // console.log(
+    //   evt.target.parentElement.parentElement.children[0].firstElementChild
+    //     .innerHTML
+    // );
     evt.target.parentElement.parentElement.children[0].firstElementChild.innerHTML =
       evt.target.innerHTML;
   }
 };
 
-els.conatainer.addEventListener("click", handleDropdown, false);
+els.container.addEventListener("click", handleDropdown, false);
 
 const openTabContent = evt => {
   const className = evt.target.dataset.type;
@@ -58,33 +101,17 @@ Array.from(els.videoDropdownLinks).forEach(videoDropdownLink =>
 
 //===============================================
 //==============  新北市行政區 svg  ===============
-
+const navWidth = +window
+  .getComputedStyle(document.querySelector(".navigation__chart"))
+  .width.replace("px", "");
+const navHeight = +window
+  .getComputedStyle(document.querySelector(".navigation__chart"))
+  .height.replace("px", "");
 // 1. use shp2json COUNTY_MOI_1060525.shp -o county.json --encoding big5 to convert from .shp to .json with big5 encoding
 // 2. d3.json read the json file
 // 3. create d3 group with data.features
 // 4. var projection = d3.geoMercator() to setup geo projection type
 // 5. var path = d3.geoPath().projection(projection) to create path base on projection
-
-// d3.json("./assets/topojson/town.json").then(topodata => {
-//   let features = topodata.features;
-//   for(i=features.length - 1; i >= 0; i-- ) {
-//     features[i].properties.number = i;
-//   }
-//   let color = d3.scaleLinear().domain([0,10000]).range(["#090","#f00"]);
-//   let projection = d3
-//     .geoMercator()
-//     .scale(60000)
-// .center([121.72, 25]);
-//   let path = d3.geoPath().projection(projection);
-//   d3.select("svg")
-//     .selectAll("path")
-//     .data(features)
-//     .enter()
-//     .append("path")
-//     .attr("d", path);
-
-//   d3.select("svg").style("background-color", "pink");
-// });
 
 d3.json("./assets/topojson/town_1999.json").then(topodata => {
   let features = topodata.features.filter(
@@ -101,7 +128,7 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
 
   let projection = d3
     .geoMercator()
-    .scale(60000)
+    .scale(40000)
     .center([121.72, 25.1]);
   let path = d3.geoPath().projection(projection);
   d3.select(".svg--nav")
@@ -133,9 +160,20 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
 d3.csv("./assets/csv/pm25.csv").then(data => {
   // console.log(data);
   const svg = d3.select(".svg--lineChart");
-  const width = 410;
-  const height = 190;
-  const margin = { top: 20, right: 10, bottom: 30, left: 40 };
+  const width = +window
+    .getComputedStyle(document.querySelector(".background--main"))
+    .width.replace("px", "");
+  // const height = +window
+  //   .getComputedStyle(document.querySelector(".background--main"))
+  //   .height.replace("px", "");
+  const height = navHeight;
+
+  const margin = {
+    top: 20,
+    right: 10,
+    bottom: 30,
+    left: 40
+  };
   const innerWidth = width - margin.left - margin.right;
   // const innerHeight = height - margin.top - margin.bottom;
   const xValue = d => +d.hour;
@@ -211,13 +249,27 @@ d3.csv("./assets/csv/pm25.csv").then(data => {
 //===============================================
 //===============  barChart svg  ================
 d3.csv("./assets/csv/barchart.csv").then(data => {
-  const width = 130;
-  const height = 110;
-  const svg = d3.select(".svg--barChart");
+  const width =
+    +window
+      .getComputedStyle(document.querySelector(".pollution-ratio"))
+      .width.replace("px", "") / 3.5;
+  const height =
+    +window
+      .getComputedStyle(document.querySelector(".pollution-ratio"))
+      .height.replace("px", "") / 4;
+  const svg = d3
+    .select(".svg--barChart")
+    .attr("width", width)
+    .attr("height", height);
   const render = data => {
     const xValue = d => d.year;
     const yValue = d => +d.emissions;
-    const margin = { top: 20, left: 35, right: 10, bottom: 20 };
+    const margin = {
+      top: 20,
+      left: 35,
+      right: 10,
+      bottom: 20
+    };
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
     const xScale = d3
@@ -281,7 +333,247 @@ d3.csv("./assets/csv/barchart.csv").then(data => {
 
 //===============================================
 //===============  pieChart svg  ================
-const pieChartsvg = d3.select(".svg--pieChart");
+const renderPieChart = _ => {
+  d3.csv("./assets/csv/pollute_ratio.csv").then(rawData => {
+    const year = document.querySelector(".pie-chart--year").innerText;
+    const pollute = document.querySelector(".pie-chart--pollute").innerText;
+    // console.log(year, pollute);
+    // const opts = {
+    //   contentType: "application/json",
+    //   method: "GET",
+    //   url: `/?year=${year}&pollute=${pollute}`,
+    // };
+    // let err, data;
+    // [err, data] = await to(makeRequest(opts));
+    // if (err) {
+    //   console.log(err);
+    //   // throw new Error(err)
+    // }
+    // if (data) {
+    //   console.log(data);
+    //   return;
+    // }
+    const dataset = {
+      "PM2.5": rawData
+        .filter(d => d.pollute === "PM2.5")
+        .map(d => ({
+          name: d.source,
+          value: +d.ratio.replace("%", "")
+        })),
+      SOx: rawData
+        .filter(d => d.pollute === "SOx")
+        .map(d => ({
+          name: d.source,
+          value: +d.ratio.replace("%", "")
+        })),
+      NOx: rawData
+        .filter(d => d.pollute === "NOx")
+        .map(d => ({
+          name: d.source,
+          value: +d.ratio.replace("%", "")
+        })),
+      NMHC: rawData
+        .filter(d => d.pollute === "NMHC")
+        .map(d => ({
+          name: d.source,
+          value: +d.ratio.replace("%", "")
+        }))
+    };
+    // console.log(dataset);
+    // console.log(pollute);
+    const data = dataset[`${pollute}`];
+    // const color = d3
+    //   .scaleLinear()
+    //   .domain([0, data.length])
+    //   .range(["#49BDCA", "#fff"]);
+    const color = d3
+      .scaleOrdinal()
+      .range([
+        "#00FFF9",
+        "#49BDCA",
+        "#50848E",
+        "#179bbf",
+        "#00627d",
+        "#fff",
+        "#BED1D5"
+      ]);
+    const width = +window
+      .getComputedStyle(document.querySelector(".preventive"))
+      .width.replace("px", "");
+    const height = +window
+      .getComputedStyle(document.querySelector(".preventive"))
+      .height.replace("px", "");
+    // svg.attr("width", width);
+    // svg.attr("height", height);
+    const outerRadius = Math.min(width, height) / 4;
+    const innerRadius = Math.min(width, height) / 5.5;
+    // var donutWidth = 35; //This is the size of the hole in the middle
+    // const svg = d3.select(".svg--pieChart");
+
+    d3.select("#donut > svg").remove();
+    const svg = d3
+      .select("#donut")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height * 0.8)
+      .append("g")
+      .attr(
+        "transform",
+        "translate(" + width / 2 + "," + (height * 0.8) / 2 + ")"
+      );
+    // const arc = function(d) {
+    //   return d3
+    //     .arc()
+    //     .outerRadius(outerRadius)
+    //     .innerRadius(innerRadius)(d);
+    // };
+    const arc = d3
+      .arc()
+      .innerRadius(innerRadius)
+      .outerRadius(outerRadius);
+    const pie = d3
+      .pie()
+      .sort(null)
+      .value(function(d) {
+        return d.value;
+      });
+    console.log(data);
+    const g = svg
+      .selectAll(".arc")
+      .data(pie(data))
+      .enter()
+      .append("g")
+      .attr("class", "arc");
+    g.transition()
+      .delay(function(d, i) {
+        return i * 500;
+      })
+      .duration(500)
+      .attrTween("d", angleTween);
+
+    const path = g
+      .append("path")
+      .attr("d", d => arc(d))
+      .style("fill", function(d, i) {
+        return color(i);
+      });
+
+    const text = g
+      .append("text") //add a label to each slice
+      .attr("transform", function(d) {
+        //set the label's origin to the center of the arc
+        d.innerRadius = 0;
+        d.outerRadius = outerRadius;
+        return (
+          "translate(" +
+          d3
+            .arc()
+            .outerRadius(outerRadius * 3)
+            .centroid(d)[0] +
+          "," +
+          d3
+            .arc()
+            .outerRadius(outerRadius * 3)
+            .centroid(d)[1] +
+          ")"
+        );
+      })
+      .attr("text-anchor", "middle")
+      .text(function(d, i) {
+        return data[i].name + data[i].value + "%";
+      })
+      .attr("fill", "white");
+
+    // text
+    //   .transition()
+    //   .delay(function(d, i) {
+    //     return i * 500 + 500;
+    //   })
+    //   .duration(500)
+    //   // .ease("cubic-in-out")
+    //   .attrTween("fill", fillTween);
+
+    const line = g
+      .append("line")
+      .attr("stroke", "#fff")
+      .attr("stroke-width", "2px")
+      .attr("x1", function(d) {
+        return d3
+          .arc()
+          .outerRadius(outerRadius * 3)
+          .centroid(d)[0];
+      })
+      .attr("y1", function(d) {
+        return d3
+          .arc()
+          .outerRadius(outerRadius * 2.8)
+          .centroid(d)[1];
+      })
+      .attr("x2", function(d) {
+        return d3
+          .arc()
+          .outerRadius(outerRadius * 1.5)
+          .centroid(d)[0];
+      })
+      .attr("y2", function(d) {
+        return d3
+          .arc()
+          .outerRadius(outerRadius * 2)
+          .centroid(d)[1];
+      });
+    // line
+    //   .transition()
+    //   .delay(function(d, i) {
+    //     return i * 500 + 500;
+    //   })
+    //   .duration(500)
+    //   .attrTween("x2", xTween)
+    //   .attrTween("y2", yTween)
+    //   .attr("class", "line");
+
+    // 弧形角度的動畫
+    var angleTween = function(d) {
+      var i = d3.interpolate(d.startAngle, d.endAngle);
+      return function(t) {
+        d.endAngle = i(t);
+        d3.arc()
+          .innerRadius(innerRadius)
+          .outerRadius(outerRadius);
+        return arc;
+      };
+    };
+
+    // 文字顏色的動畫
+    var fillTween = function(d) {
+      var i = d3.interpolate("#FFF", "#C70");
+      return function(t) {
+        return i(t);
+      };
+    };
+
+    // 線條的動畫 (x座標)
+    var xTween = function(d) {
+      var i = d3.interpolate(
+        arc.outerRadius(outerRadius * 1.3).centroid(d)[0],
+        arc.outerRadius(outerRadius * 2.2).centroid(d)[0]
+      );
+      return function(t) {
+        return i(t);
+      };
+    };
+
+    // 線條的動畫 (y座標)
+    var yTween = function(d) {
+      var i = d3.interpolate(
+        arc.outerRadius(outerRadius * 1.3).centroid(d)[1],
+        arc.outerRadius(outerRadius * 2.2).centroid(d)[1]
+      );
+      return function(t) {
+        return i(t);
+      };
+    };
+  });
+};
 
 //===============================================
 //============  multiLinesChart svg  ============
@@ -309,16 +601,23 @@ d3.csv("./assets/csv/pm25.csv").then(rawData => {
   ];
   // console.log(data);
   const svg = d3.select(".svg--multiLinesChart");
-  const width = 553;
-  const height = 190;
-  const margin = { top: 20, right: 10, bottom: 30, left: 40 };
+  const width = navWidth;
+  const height = navHeight;
+  svg.attr("width", width);
+  svg.attr("height", height); //?
+  console.log(width, height);
+  // const height = 200;
+  const margin = {
+    top: 20,
+    right: 10,
+    bottom: 20,
+    left: 35
+  };
   const innerWidth = width - margin.left - margin.right;
   // const innerHeight = height - margin.top - margin.bottom;
   const xValue = d => +d.hour;
   const yValue = d => +d.value;
   const circleRadius = 3.5;
-  svg.attr("width", width);
-  svg.attr("height", height);
 
   const g = svg.append("g");
   // .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
@@ -421,3 +720,7 @@ function showSlides(n) {
   }
   slides[slideIndex - 1].style.display = "block";
 }
+
+window.onload = () => {
+  renderPieChart("NMHC");
+};

@@ -2,12 +2,12 @@
   display: grid;
   grid-template-columns: 1fr 3fr;
   grid-column-gap: 2rem;
-  height: 85%;
+  height: 100%;
   transition: all 0.2s;
   &__img-box {
     min-width:calc(100vw/4);
     // height: 100%;
-    margin-bottom: 2rem;
+    // margin-bottom: 2rem;
   }
   &__img {
     width: 100%;
@@ -38,7 +38,7 @@
   &__content {
     display: none;
     opacity: 0;
-    padding: 3rem;
+    padding: 2rem 3rem;
 
     .population &--population {
         @include absCenter;

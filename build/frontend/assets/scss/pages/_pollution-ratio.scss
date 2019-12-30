@@ -1,0 +1,22 @@
+.pollution-ratio{
+    height:100%;
+    display: flex;
+    flex-direction: column;
+  
+
+
+    &__chart{
+        // height: calc(100% - 5rem);
+        // width: 100%;
+        // background-color: #fff;
+        height:100%;
+        position: relative;
+        &--barChart{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+        &--pieChart{
+        }
+    }
+}
