@@ -46,7 +46,10 @@ let els = {
   backgroundCheckbox: document.querySelector(".background__checkbox"),
   tablinks: document.querySelectorAll(".tab__links"),
   btnCems: document.querySelector(".btn-cems"),
-  videoDropdownLinks: document.querySelectorAll(".video .dropdown--content > a")
+  videoDropdownLinks: document.querySelectorAll(
+    ".video .dropdown--content > a"
+  ),
+  navChartTitle: document.querySelector(".navigation__chart-title")
 };
 
 const handleDropdown = evt => {
@@ -58,15 +61,14 @@ const handleDropdown = evt => {
     dropdownBtn.classList.remove("show");
   });
   if (evt.target.matches(".dropdown--content > a")) {
-    console.log(evt.target.innerHTML);
     if (evt.target.dataset.chart === "pie") {
       renderPieChart();
-      // renderBarChart();
+      renderBarChart();
+    } else if (evt.target.dataset.chart === "mulitlines") {
+      renderMultiLinesChart();
+    } else if (evt.target.dataset.chart === "line") {
+      renderLineChart();
     }
-    // console.log(
-    //   evt.target.parentElement.parentElement.children[0].firstElementChild
-    //     .innerHTML
-    // );
     evt.target.parentElement.parentElement.children[0].firstElementChild.innerHTML =
       evt.target.innerHTML;
   }
@@ -140,9 +142,19 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
     .attr("fill", d => color(d.properties.number * 300))
     .attr("stroke", "#fff")
     .attr("stroke-width", "2px")
-    .on("mouseover", function(d) {
+    .on("click", function(d) {
       d3.select(this).attr("fill", "#00FFF9");
+      const location = prop => {
+        switch (prop) {
+          case `板橋區`:
+            return `環保署板橋站`;
+          default:
+            return prop;
+        }
+      };
       console.log(d.properties.number, d.properties.TOWN);
+      els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
+      renderMultiLinesChart();
     })
     .on("mouseout", function(d) {
       d3.select(this).attr("fill", color(d.properties.number * 300));
@@ -157,202 +169,249 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
 //
 //===============================================
 //============  lineChart svg  ============
-d3.csv("./assets/csv/pm25.csv").then(data => {
-  // console.log(data);
-  const svg = d3.select(".svg--lineChart");
-  const width = +window
-    .getComputedStyle(document.querySelector(".background--main"))
-    .width.replace("px", "");
-  // const height = +window
-  //   .getComputedStyle(document.querySelector(".background--main"))
-  //   .height.replace("px", "");
-  const height = navHeight;
-
-  const margin = {
-    top: 20,
-    right: 10,
-    bottom: 30,
-    left: 40
-  };
-  const innerWidth = width - margin.left - margin.right;
-  // const innerHeight = height - margin.top - margin.bottom;
-  const xValue = d => +d.hour;
-  const yValue = d => +d.value;
-  const circleRadius = 3.5;
-  svg.attr("width", width);
-  svg.attr("height", height);
-  // const xScale = d3
-  // .scaleTime()
-  // .domain([Date.now(), Date.now() + 21 * 60 * 60 * 1000])
-  // .range([margin.left, width - margin.right])
-  // .nice();
-  const g = svg.append("g");
-  // .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
-  const xScale = d3
-    .scalePoint()
-    .domain(data.map(xValue))
-    .range([margin.left, width - margin.right]);
-  // .range([0, innerWidth]);
-
-  const xAxis = d3.axisBottom(xScale);
-  const xAxisG = g
-    .append("g")
-    .call(xAxis)
-    .attr("transform", `translate(0, ${height - margin.bottom})`);
-  xAxisG.selectAll(".domain, .tick line").remove();
-
-  const yScale = d3
-    .scaleLinear()
-    // .domain(d3.extent(data, yValue))
-    .domain([0, d3.max(data, yValue)])
-    .range([height - margin.bottom, margin.top])
-    .nice();
-
-  const yAxis = d3.axisLeft(yScale).tickSize(-innerWidth);
-  // .ticks(5);
-  const yAxisG = g
-    .append("g")
-    .call(yAxis)
-    .attr("transform", `translate(${margin.left},0)`);
-  yAxisG.select(".domain").remove();
-  yAxisG
-    .append("text")
-    .attr("y", -25)
-    .attr("x", -(height - margin.bottom) / 2)
-    .attr("fill", "white")
-    .attr("transform", "rotate(-90)")
-    .attr("text-anchor", "middle")
-    .text(`PM2.5 (µg/m3)`);
-
-  const lineGenerator = d3
-    .line()
-    .x(d => xScale(d.hour))
-    .y(d => {
-      // console.log(d)
-      return yScale(+d.value);
-    });
-
-  g.append("path")
-    // .datum(data)
-    // .attr("d", lineGenerator());
-    .attr("d", lineGenerator(data));
-
-  g.selectAll("circle")
-    .data(data)
-    .enter()
-    .append("circle")
-    .attr("cx", d => xScale(d.hour))
-    .attr("cy", d => yScale(d.value))
-    .attr("r", circleRadius);
-});
-
-//===============================================
-//===============  barChart svg  ================
-d3.csv("./assets/csv/barchart.csv").then(data => {
-  const width =
-    +window
-      .getComputedStyle(document.querySelector(".pollution-ratio"))
-      .width.replace("px", "") / 3.5;
-  const height =
-    +window
-      .getComputedStyle(document.querySelector(".pollution-ratio"))
-      .height.replace("px", "") / 4;
-  const svg = d3
-    .select(".svg--barChart")
-    .attr("width", width)
-    .attr("height", height);
-  const render = data => {
-    const xValue = d => d.year;
-    const yValue = d => +d.emissions;
+const renderLineChart = _ => {
+  // const location = document.querySelector(".line-chart--location").innerText;
+  // console.log(year, pollute);
+  // const opts = {
+  //   contentType: "application/json",
+  //   method: "GET",
+  //   url: `factory-cems/?pollute=${pollute}&location=${location}`,
+  // };
+  // let err, data;
+  // [err, data] = await to(makeRequest(opts));
+  // if (err) {
+  //   console.log(err);
+  //   // throw new Error(err)
+  // }
+  // if (data) {
+  //   console.log(data);
+  //   return;
+  // }
+  d3.csv("./assets/csv/pm25.csv").then(data => {
+    // console.log(data);
+    d3.select(".background--sub__lineChart > svg").remove();
+    const svg = d3
+      .select(".background--sub__lineChart")
+      .append("svg")
+      .attr("class", "svg svg--lineChart");
+    const width = +window
+      .getComputedStyle(document.querySelector(".preventive"))
+      .width.replace("px", "");
+    // const height = +window
+    //   .getComputedStyle(document.querySelector(".background--main"))
+    //   .height.replace("px", "");
+    const height = navHeight;
+    console.log(width, height)
     const margin = {
       top: 20,
-      left: 35,
       right: 10,
-      bottom: 20
+      bottom: 30,
+      left: 40
     };
     const innerWidth = width - margin.left - margin.right;
-    const innerHeight = height - margin.top - margin.bottom;
+    // const innerHeight = height - margin.top - margin.bottom;
+    const xValue = d => +d.hour;
+    const yValue = d => +d.value;
+    const circleRadius = 3.5;
+    svg.attr("width", width);
+    svg.attr("height", height);
+    // const xScale = d3
+    // .scaleTime()
+    // .domain([Date.now(), Date.now() + 21 * 60 * 60 * 1000])
+    // .range([margin.left, width - margin.right])
+    // .nice();
+    const g = svg.append("g");
+    // .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
     const xScale = d3
-      .scaleBand()
+      .scalePoint()
       .domain(data.map(xValue))
-      .range([0, innerWidth])
-      .padding(0.35);
+      .range([margin.left, width - margin.right]);
+    // .range([0, innerWidth]);
 
-    const yScale = d3
-      .scaleLinear()
-      .domain([0, d3.max(data, yValue)])
-      .range([innerHeight, 0])
-      .nice(); //https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/
-
-    const xAxis = d3.axisBottom(xScale); //.tickSize(-innerHeight); //.tickFormat(xAxisTickFormat);
-    const yAxis = d3
-      .axisLeft(yScale)
-      .tickSize(-innerWidth)
-      .ticks(5);
-
-    const g = svg
-      .append("g")
-      .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
-
+    const xAxis = d3.axisBottom(xScale);
     const xAxisG = g
       .append("g")
       .call(xAxis)
-      .attr("transform", `translate(0, ${innerHeight})`);
+      .attr("transform", `translate(0, ${height - margin.bottom})`);
     xAxisG.selectAll(".domain, .tick line").remove();
 
-    // xAxisG
-    //   .append("text")
-    //   .attr("class", "axis-label--x")
-    //   .attr("y", 30)
-    //   .attr("x", innerWidth / 2)
-    //   .attr("fill", "white")
-    //   .text(`近年度${"某污染物"}總排放量`);
+    const yScale = d3
+      .scaleLinear()
+      // .domain(d3.extent(data, yValue))
+      .domain([0, d3.max(data, yValue)])
+      .range([height - margin.bottom, margin.top])
+      .nice();
 
-    const yAxisG = g.append("g").call(yAxis);
+    const yAxis = d3.axisLeft(yScale).tickSize(-innerWidth);
+    // .ticks(5);
+    const yAxisG = g
+      .append("g")
+      .call(yAxis)
+      .attr("transform", `translate(${margin.left},0)`);
     yAxisG.select(".domain").remove();
     yAxisG
       .append("text")
       .attr("y", -25)
-      .attr("x", -innerHeight / 2)
+      .attr("x", -(height - margin.bottom) / 2)
       .attr("fill", "white")
       .attr("transform", "rotate(-90)")
       .attr("text-anchor", "middle")
-      .text(`µg/m3`);
+      .text(`PM2.5 (µg/m3)`);
 
-    g.selectAll("rect")
+    const lineGenerator = d3
+      .line()
+      .x(d => xScale(d.hour))
+      .y(d => {
+        // console.log(d)
+        return yScale(+d.value);
+      });
+
+    g.append("path")
+      // .datum(data)
+      // .attr("d", lineGenerator());
+      .attr("d", lineGenerator(data));
+
+    g.selectAll("circle")
       .data(data)
       .enter()
-      .append("rect")
-      .attr("x", d => xScale(xValue(d)))
-      .attr("y", d => yScale(yValue(d)))
-      .attr("width", xScale.bandwidth())
-      .attr("height", d => innerHeight - yScale(yValue(d)));
-  };
-  render(data);
-});
+      .append("circle")
+      .attr("cx", d => xScale(d.hour))
+      .attr("cy", d => yScale(d.value))
+      .attr("r", circleRadius);
+  });
+};
+
+//===============================================
+//===============  barChart svg  ================
+const renderBarChart = _ => {
+  // const pollute = document.querySelector(".pie-chart--pollute").innerText;
+  // console.log(year, pollute);
+  // const opts = {
+  //   contentType: "application/json",
+  //   method: "GET",
+  //   url: `total-emision/?pollute=${pollute}`,
+  // };
+  // let err, data;
+  // [err, data] = await to(makeRequest(opts));
+  // if (err) {
+  //   console.log(err);
+  //   // throw new Error(err)
+  // }
+  // if (data) {
+  //   console.log(data);
+  //   return;
+  // }
+  console.log("run mulit chart");
+  d3.csv("./assets/csv/barchart.csv").then(data => {
+    const width =
+      +window
+        .getComputedStyle(document.querySelector(".pollution-ratio"))
+        .width.replace("px", "") / 3.5;
+    const height =
+      +window
+        .getComputedStyle(document.querySelector(".pollution-ratio"))
+        .height.replace("px", "") / 4;
+
+    d3.select(".pollution-ratio__chart--barChart > svg").remove();
+    const svg = d3
+      .select(".pollution-ratio__chart--barChart")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("class", "svg svg--barChart");
+    const render = data => {
+      const xValue = d => d.year;
+      const yValue = d => +d.emissions;
+      const margin = {
+        top: 20,
+        left: 35,
+        right: 10,
+        bottom: 20
+      };
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+      const xScale = d3
+        .scaleBand()
+        .domain(data.map(xValue))
+        .range([0, innerWidth])
+        .padding(0.35);
+
+      const yScale = d3
+        .scaleLinear()
+        .domain([0, d3.max(data, yValue)])
+        .range([innerHeight, 0])
+        .nice(); //https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/
+
+      const xAxis = d3.axisBottom(xScale); //.tickSize(-innerHeight); //.tickFormat(xAxisTickFormat);
+      const yAxis = d3
+        .axisLeft(yScale)
+        .tickSize(-innerWidth)
+        .ticks(5);
+
+      const g = svg
+        .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
+
+      const xAxisG = g
+        .append("g")
+        .call(xAxis)
+        .attr("transform", `translate(0, ${innerHeight})`);
+      xAxisG.selectAll(".domain, .tick line").remove();
+
+      // xAxisG
+      //   .append("text")
+      //   .attr("class", "axis-label--x")
+      //   .attr("y", 30)
+      //   .attr("x", innerWidth / 2)
+      //   .attr("fill", "white")
+      //   .text(`近年度${"某污染物"}總排放量`);
+
+      const yAxisG = g.append("g").call(yAxis);
+      yAxisG.select(".domain").remove();
+      yAxisG
+        .append("text")
+        .attr("y", -25)
+        .attr("x", -innerHeight / 2)
+        .attr("fill", "white")
+        .attr("transform", "rotate(-90)")
+        .attr("text-anchor", "middle")
+        .text(`µg/m3`);
+
+      g.selectAll("rect")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("x", d => xScale(xValue(d)))
+        .attr("y", d => yScale(yValue(d)))
+        .attr("width", xScale.bandwidth())
+        .attr("height", d => innerHeight - yScale(yValue(d)));
+    };
+    render(data);
+  });
+};
 
 //===============================================
 //===============  pieChart svg  ================
 const renderPieChart = _ => {
+  const year = document.querySelector(".pie-chart--year").innerText;
+  const pollute = document.querySelector(".pie-chart--pollute").innerText;
+  // console.log(year, pollute);
+  // const opts = {
+  //   contentType: "application/json",
+  //   method: "GET",
+  //   url: `/?year=${year}&pollute=${pollute}`,
+  // };
+  // let err, data;
+  // [err, data] = await to(makeRequest(opts));
+  // if (err) {
+  //   console.log(err);
+  //   // throw new Error(err)
+  // }
+  // if (data) {
+  //   console.log(data);
+  //   return;
+  // }
   d3.csv("./assets/csv/pollute_ratio.csv").then(rawData => {
-    const year = document.querySelector(".pie-chart--year").innerText;
-    const pollute = document.querySelector(".pie-chart--pollute").innerText;
-    // console.log(year, pollute);
-    // const opts = {
-    //   contentType: "application/json",
-    //   method: "GET",
-    //   url: `/?year=${year}&pollute=${pollute}`,
-    // };
-    // let err, data;
-    // [err, data] = await to(makeRequest(opts));
-    // if (err) {
-    //   console.log(err);
-    //   // throw new Error(err)
-    // }
-    // if (data) {
-    //   console.log(data);
-    //   return;
-    // }
     const dataset = {
       "PM2.5": rawData
         .filter(d => d.pollute === "PM2.5")
@@ -577,116 +636,140 @@ const renderPieChart = _ => {
 
 //===============================================
 //============  multiLinesChart svg  ============
-d3.csv("./assets/csv/pm25.csv").then(rawData => {
-  // console.log(rawData);
-  const data = [
-    {
-      location: `${rawData[0].location}`,
-      pollute: "PM2.5",
-      value: rawData.map(d => ({
-        hour: +d.hour,
-        value: +d.value
-      })),
-      isRef: false
-    },
-    {
-      location: `${rawData[0].location}`,
-      pollute: "PM2.5",
-      value: rawData.map(d => ({
-        hour: +d.hour,
-        value: 8
-      })),
-      isRef: true
-    }
-  ];
-  // console.log(data);
-  const svg = d3.select(".svg--multiLinesChart");
-  const width = navWidth;
-  const height = navHeight;
-  svg.attr("width", width);
-  svg.attr("height", height); //?
-  console.log(width, height);
-  // const height = 200;
-  const margin = {
-    top: 20,
-    right: 10,
-    bottom: 20,
-    left: 35
-  };
-  const innerWidth = width - margin.left - margin.right;
-  // const innerHeight = height - margin.top - margin.bottom;
-  const xValue = d => +d.hour;
-  const yValue = d => +d.value;
-  const circleRadius = 3.5;
+const renderMultiLinesChart = _ => {
+  // const location = els.navChartTitle.innerText;
+  // const pollute = document.querySelector(".mulit-chart--pollute").innerText;
+  // console.log(year, pollute);
+  // const opts = {
+  //   contentType: "application/json",
+  //   method: "GET",
+  //   url: `district-cems/?pollute=${pollute}&location=${location}`,
+  // };
+  // let err, data;
+  // [err, data] = await to(makeRequest(opts));
+  // if (err) {
+  //   console.log(err);
+  //   // throw new Error(err)
+  // }
+  // if (data) {
+  //   console.log(data);
+  //   return;
+  // }
+  d3.csv("./assets/csv/pm25.csv").then(rawData => {
+    // console.log(rawData);
+    const data = [
+      {
+        location: `${rawData[0].location}`,
+        pollute: "PM2.5",
+        value: rawData.map(d => ({
+          hour: +d.hour,
+          value: +d.value
+        })),
+        isRef: false
+      },
+      {
+        location: `${rawData[0].location}`,
+        pollute: "PM2.5",
+        value: rawData.map(d => ({
+          hour: +d.hour,
+          value: 8
+        })),
+        isRef: true
+      }
+    ];
+    // console.log(data);
+    d3.select(".navigation__chart > svg").remove();
+    const svg = d3
+    .select(".navigation__chart")
+    .append("svg")
+    .attr("class", "svg svg--multiLinesChart");
+    const width = navWidth;
+    const height = navHeight;
+    svg.attr("width", width);
+    svg.attr("height", height); //?
+    console.log(width, height);
+    // const height = 200;
+    const margin = {
+      top: 20,
+      right: 10,
+      bottom: 20,
+      left: 35
+    };
+    const innerWidth = width - margin.left - margin.right;
+    // const innerHeight = height - margin.top - margin.bottom;
+    const xValue = d => +d.hour;
+    const yValue = d => +d.value;
+    const circleRadius = 3.5;
 
-  const g = svg.append("g");
-  // .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
-  const xScale = d3
-    .scalePoint()
-    .domain(data[0].value.map(xValue))
-    .range([margin.left, width - margin.right]);
-  const xAxis = d3.axisBottom(xScale);
-  const xAxisG = g
-    .append("g")
-    .call(xAxis)
-    .attr("transform", `translate(0, ${height - margin.bottom})`);
-  xAxisG.selectAll(".domain, .tick line").remove();
+    const g = svg.append("g");
+    // .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
+    const xScale = d3
+      .scalePoint()
+      .domain(data[0].value.map(xValue))
+      .range([margin.left, width - margin.right]);
+    const xAxis = d3.axisBottom(xScale);
+    const xAxisG = g
+      .append("g")
+      .call(xAxis)
+      .attr("transform", `translate(0, ${height - margin.bottom})`);
+    xAxisG.selectAll(".domain, .tick line").remove();
 
-  const yScale = d3
-    .scaleLinear()
-    .domain([0, d3.max(data, d => d3.max(d.value.map(d => d.value)))])
-    .range([height - margin.bottom, margin.top])
-    .nice();
-  const yAxis = d3.axisLeft(yScale).tickSize(-innerWidth);
-  // .ticks(5);
-  const yAxisG = g
-    .append("g")
-    .call(yAxis)
-    .attr("transform", `translate(${margin.left},0)`);
-  yAxisG.select(".domain").remove();
-  yAxisG
-    .append("text")
-    .attr("y", -25)
-    .attr("x", -(height - margin.bottom) / 2)
-    .attr("fill", "white")
-    .attr("transform", "rotate(-90)")
-    .attr("text-anchor", "middle")
-    .text(`PM2.5 (µg/m3)`);
+    const yScale = d3
+      .scaleLinear()
+      .domain([0, d3.max(data, d => d3.max(d.value.map(d => d.value)))])
+      .range([height - margin.bottom, margin.top])
+      .nice();
+    const yAxis = d3.axisLeft(yScale).tickSize(-innerWidth);
+    // .ticks(5);
+    const yAxisG = g
+      .append("g")
+      .call(yAxis)
+      .attr("transform", `translate(${margin.left},0)`);
+    yAxisG.select(".domain").remove();
+    yAxisG
+      .append("text")
+      .attr("y", -25)
+      .attr("x", -(height - margin.bottom) / 2)
+      .attr("fill", "white")
+      .attr("transform", "rotate(-90)")
+      .attr("text-anchor", "middle")
+      .text(`PM2.5 (µg/m3)`);
 
-  const lineGenerator = d3
-    .line()
-    .x(d => xScale(d.hour))
-    .y(d => {
-      // console.log(d)
-      return yScale(d.value);
-    });
+    const lineGenerator = d3
+      .line()
+      .x(d => xScale(d.hour))
+      .y(d => {
+        // console.log(d)
+        return yScale(d.value);
+      });
 
-  const path = g
-    .selectAll("path")
-    .data(data)
-    .join("path")
-    .attr("class", d => (d.isRef ? "ref" : "values"))
-    .attr("d", d => lineGenerator(d.value));
+    const path = g
+      .selectAll("path")
+      .data(data)
+      .join("path")
+      .attr("class", d => (d.isRef ? "ref" : "values"))
+      .attr("d", d => lineGenerator(d.value));
 
-  g.selectAll("circle")
-    .data(data[0].value)
-    .enter()
-    .append("circle")
-    .attr("cx", d => xScale(d.hour))
-    .attr("cy", d => yScale(d.value))
-    .attr("r", circleRadius);
+    g.selectAll("circle")
+      .data(data[0].value)
+      .enter()
+      .append("circle")
+      .attr("cx", d => xScale(d.hour))
+      .attr("cy", d => yScale(d.value))
+      .attr("r", circleRadius);
 
-  // console.log(data.filter(d => d.isRef))
-  const refTagY = data.filter(d => d.isRef)[0].value[0].value;
-  g.append("text")
-    .text("對健康會有疑慮的濃度")
-    .attr("text-anchor", "end")
-    .attr(
-      "transform",
-      `translate(${width - margin.right}, ${yScale(refTagY) - 10})`
-    )
-    .attr("fill", "#fff");
-});
+    // console.log(data.filter(d => d.isRef))
+    const refTagY = data.filter(d => d.isRef)[0].value[0].value;
+    g.append("text")
+      .text("對健康會有疑慮的濃度")
+      .attr("text-anchor", "end")
+      .attr(
+        "transform",
+        `translate(${width - margin.right}, ${yScale(refTagY) - 10})`
+      )
+      .attr("fill", "#fff");
+  });
+};
 
 //===================
 var slideIndex = 1;
@@ -722,5 +805,8 @@ function showSlides(n) {
 }
 
 window.onload = () => {
-  renderPieChart("NMHC");
+  renderPieChart();
+  renderBarChart();
+  renderMultiLinesChart();
+  renderLineChart();
 };

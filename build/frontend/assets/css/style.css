@@ -390,9 +390,17 @@ body {
   justify-content: center;
   grid-template-columns: 1fr 2fr;
   grid-column-gap: 3rem; }
+  .navigation__map {
+    width: 100%; }
+    .navigation__map h1 {
+      width: 100%;
+      padding-top: 2rem;
+      text-align: center; }
   .navigation__chart-box {
     height: 100%;
     width: 100%; }
+  .navigation__chart-title {
+    color: #49BDCA; }
   .navigation__chart {
     height: calc(100% - 5rem); }
 
@@ -403,7 +411,7 @@ body {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 1fr 3fr 5fr 5fr 5fr;
   grid-column-gap: 3rem;
-  grid-row-gap: 1rem; }
+  grid-row-gap: 3rem; }
   .section .header {
     grid-area: header; }
   .section .navigation {
