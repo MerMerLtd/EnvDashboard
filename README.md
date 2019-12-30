@@ -37,9 +37,23 @@ npm install
 npm start
 ```
 
-### API
+## API
+
+### Mulit-lines Chart
+```shell
+url:  `/district-cems/?pollute=${pollute}&location=${location}`,
 ```
-cd /path/to/your/new/project/
-npm install
-npm start
+
+### Line Chart
+```shell
+url:  `/factory-cems/?location=${location}`,
+```
+
+### Pie Chart
+```shell
+url:  `/analysis-of-pollution-source/?year=${year}&pollute=${pollute}`,
+```
+### Bar Chart
+```shell
+url:  `/total-emision/?pollute=${pollute}`,
 ```
