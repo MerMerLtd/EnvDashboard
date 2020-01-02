@@ -130,7 +130,7 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
 
   let projection = d3
     .geoMercator()
-    .scale(40000)
+    .scale(45000)
     .center([121.72, 25.1]);
   let path = d3.geoPath().projection(projection);
   d3.select(".svg--nav")
@@ -142,6 +142,7 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
     .attr("fill", d => color(d.properties.number * 300))
     .attr("stroke", "#fff")
     .attr("stroke-width", "2px")
+    .attr("height", navHeight)
     .on("click", function(d) {
       d3.select(this).attr("fill", "#00FFF9");
       const location = prop => {
