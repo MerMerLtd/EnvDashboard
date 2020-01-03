@@ -130,7 +130,7 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
 
   let projection = d3
     .geoMercator()
-    .scale(45000)
+    .scale(60000)
     .center([121.72, 25.1]);
   let path = d3.geoPath().projection(projection);
   d3.select(".svg--nav")
