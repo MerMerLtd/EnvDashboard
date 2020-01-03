@@ -85,7 +85,7 @@
     "start": "bin/main.js",
     "devserver": "live-server",
     "watch:sass": "node-sass ./build/frontend/assets/scss/main.scss ./build/frontend/assets/css/style.css -w",
-    "compile:sass": "node-sass ./build/frontend/assets/scss/main.scss ./build/frontend/assets/css/style.css",
+    "compile:sass": "node-sass ./build/frontend/assets/scss/main.scss ./build/frontend/assets/css/style.com.css",
     "start:dev": "npm-run-all --parallel devserver watch:sass"
   },
   "version": "0.1.11"
