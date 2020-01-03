@@ -10,7 +10,7 @@ body {
 }
 
 .heading-primary {
-  font-size: 1.6rem;
+  font-size: $default-font-size;
   font-weight: 300;
   margin-bottom: 1rem;
 }
@@ -20,12 +20,12 @@ body {
   line-height: 2;
 }
 .paragraph{
-  font-size: $default-font-size;
+  font-size: 2rem;
   line-height: 2;
 }
 
 .caption{
-  font-size: 1rem;
+  font-size: 1.6rem;
   color: $color-grey-dark;
   text-align: right;
   margin: 1rem 0;
