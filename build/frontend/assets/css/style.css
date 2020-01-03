@@ -461,7 +461,7 @@ body {
   .background__btn {
     cursor: pointer;
     position: absolute;
-    top: 0;
+    top: 14px;
     right: 0;
     height: 3rem;
     width: 3rem;
@@ -479,7 +479,7 @@ body {
     .background__icon, .background__icon::before, .background__icon::after {
       width: 3rem;
       height: 2px;
-      background-color: #49BDCA;
+      background-color: #fff;
       display: inline-block; }
     .background__icon::before, .background__icon::after {
       content: "";
