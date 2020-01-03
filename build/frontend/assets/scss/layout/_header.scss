@@ -1,13 +1,13 @@
 .header {
-  // display: grid;
-  // justify-content: center;
-  // grid-template-columns: repeat(10, 1fr);
-  // grid-template-areas: "date weather temp wind aqi text text text text text";
-  // grid-column-gap: 1rem;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-areas: "date weather temp wind aqi text text text text text";
+  grid-column-gap: 1rem;
   text-align: center;
   align-items: center;
-  display: flex;
-  justify-content: space-around;
+  // display: flex;
+  // justify-content: space-around;
 
   &__date {
     grid-area: date;

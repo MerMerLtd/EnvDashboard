@@ -811,4 +811,4 @@ window.onload = () => {
   renderLineChart();
 };
 
-document.querySelector(".show").innerText = `Height:${window.innerHeight}, Width:${window.innerWidth}, ${Math.random()*10}`
+// document.querySelector(".show").innerText = `Height:${window.innerHeight}, Width:${window.innerWidth}, ${Math.random()*10}`
