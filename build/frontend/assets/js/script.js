@@ -810,3 +810,5 @@ window.onload = () => {
   renderMultiLinesChart();
   renderLineChart();
 };
+
+document.querySelector(".show").innerText = `Height:${window.innerHeight}, Width:${window.innerWidth}`
