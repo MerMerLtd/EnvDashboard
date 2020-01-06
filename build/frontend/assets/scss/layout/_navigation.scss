@@ -1,27 +1,33 @@
 .navigation {
-  display: grid;
-  justify-content: center;
-  grid-template-columns: 1fr 2fr ;
-  grid-column-gap: 3rem;
-  &__map{
+  // display: grid;
+  // justify-content: center;
+  // grid-template-columns: 1fr 2fr ;
+  // grid-column-gap: 3rem;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  height: calc(100vh / 4 - 10rem);
+  &__map {
     // background-color: rgb(143, 39, 39);
     width: 100%;
-    & h1{
+    height: 100%;
+    & h1 {
       width: 100%;
       padding-top: 2rem;
       text-align: center;
     }
+    flex: 1;
   }
-  &__chart-box{
+  &__chart-box {
     // background-color: rgb(50, 155, 155);
     height: 100%;
     width: 100%;
+    flex: 2;
   }
-  &__chart-title{
-   color: $color-primary;
+  &__chart-title {
+    color: $color-primary;
   }
-  &__chart{
-    height: calc(100% - 5rem);
+  &__chart {
+    height: calc(100% - 10rem);
   }
- 
 }

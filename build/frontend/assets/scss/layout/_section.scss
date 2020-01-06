@@ -1,43 +1,51 @@
-.section {
-  display: grid;
+// .section {
+//   display: grid;
+//   height: 100%;
+//   grid-template-areas:
+//     " header header"
+//     " navigation navigation "
+//     " iframe iframe  "
+//     " pollution background-info"
+//     " video preventive";
+//   grid-template-columns: repeat(2, 1fr);
+//   grid-template-rows: 1fr 3fr 5fr 5fr 5fr ;
+//   // grid-gap: 3rem;
+//   grid-column-gap: 3rem;
+//   grid-row-gap: 3rem;
+//   & .header {
+//       grid-area: header;
+//       // background-color: #faa22e;
+//   }
+//   & .navigation{
+//       grid-area: navigation;
+//   }
+//   & > .iframe__container {
+//     grid-area: iframe;
+//     // background-color: #2b84c0;
+//   }
+//   & > .pollution-ratio {
+//     grid-area: pollution;
+//     // background-color: #ffa08c;
+//   }
+//   & > .background-info {
+//     grid-area: background-info;
+//     // background-color: #20754e;
+//   }
+//   & > .video {
+//     grid-area: video;
+//     // background-color: #2b64c0;
+//   }
+//   & > .preventive {
+//     grid-area: preventive;
+//     overflow: hidden;
+//     // background-color: #cec14d;
+//   }
+// }
+.section{
   height: 100%;
-  grid-template-areas:
-    " header header"
-    " navigation navigation "
-    " iframe iframe  "
-    " pollution background-info"
-    " video preventive";
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 1fr 3fr 5fr 5fr 5fr ;
-  // grid-gap: 3rem;
-  grid-column-gap: 3rem;
-  grid-row-gap: 3rem;
-  & .header {
-      grid-area: header;
-      // background-color: #faa22e;
-  }
-  & .navigation{
-      grid-area: navigation;
-  }
-  & > .iframe__container {
-    grid-area: iframe;
-    // background-color: #2b84c0;
-  }
-  & > .pollution-ratio {
-    grid-area: pollution;
-    // background-color: #ffa08c;
-  }
-  & > .background-info {
-    grid-area: background-info;
-    // background-color: #20754e;
-  }
-  & > .video {
-    grid-area: video;
-    // background-color: #2b64c0;
-  }
-  & > .preventive {
-    grid-area: preventive;
-    overflow: hidden;
-    // background-color: #cec14d;
+  display: flex;
+  flex-direction: column;
+  & > .iframe__container{
+    flex: 1;
   }
 }
