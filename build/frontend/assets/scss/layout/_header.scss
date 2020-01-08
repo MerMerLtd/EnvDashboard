@@ -8,9 +8,10 @@
   align-items: center;
   display: flex;
   // justify-content: space-between;
-  & > *:last-child{
+  & > *:last-child {
     flex: 1;
-  }& > *:not(:last-child){
+  }
+  & > *:not(:last-child) {
     margin-right: 3rem;
   }
 
@@ -25,10 +26,12 @@
       font-size: 3rem;
     }
   }
-  &__weather-icon {
+  &__weather--icon {
     grid-area: weather;
     & > i {
       font-size: 5rem;
+    }
+    &.sunny {
       color: yellow;
     }
   }
@@ -49,25 +52,47 @@
       line-height: 1.2;
       font-size: 4.5rem;
     }
-    &--text{
+    &--text {
       font-size: 1.8rem;
     }
-
   }
   &__aqi {
     grid-area: aqi;
     line-height: 1.2;
-    background-color: $color-aqi-green;
     padding: 1rem;
     border-radius: 5px;
     min-width: 10rem;
     text-align: center;
 
-    &--text{
+    &--text {
       font-size: 3rem;
     }
-    &--value{
+    &--value {
       font-size: 3.8rem;
+    }
+    &.green {
+      //0 to 50 Good
+      background-color: $color-aqi-green;
+    }
+    &.yello {
+      // 51-100 Moderate
+      background-color: $color-aqi-yello;
+    }
+    &.orange {
+      // 101-150 Unhealthy for Sensitive Groups
+      background-color: $color-aqi-orange;
+    }
+    &.red {
+      // 151-200 Unhealthy
+      background-color: $color-aqi-red;
+    }
+    &.purple {
+      // 201-300 Very Unhealthy
+      background-color: $color-aqi-purple;
+    }
+    &.maroon {
+      // 300-500 Hazardous
+      background-color: $color-aqi-maroon;
     }
   }
 
@@ -76,7 +101,7 @@
     text-align: left;
     line-height: 1.5;
     font-size: 2.4rem;
-    &--main{
+    &--main {
       font-size: 3rem;
     }
   }

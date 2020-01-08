@@ -49,7 +49,19 @@ let els = {
   videoDropdownLinks: document.querySelectorAll(
     ".video .dropdown--content > a"
   ),
-  navChartTitle: document.querySelector(".navigation__chart-title")
+  navChartTitle: document.querySelector(".navigation__chart-title"),
+  year: document.querySelector(".header__date--year"),
+  month: document.querySelector(".header__date--mm"),
+  date: document.querySelector(".header__date--dd"),
+  weatherIcon: document.querySelector(".header__weather--icon"),
+  tempAvg: document.querySelector(".header__temp--avg"),
+  tempHigh: document.querySelector(".header__temp--high"),
+  tempLow: document.querySelector(".header__temp--low"),
+  windDirectionIcon: document.querySelector(".header__wind--icon"),
+  windDescription: document.querySelector(".header__wind--text"),
+  apparentTemp: document.querySelector(".header__leading-text--temp"),
+  humidity: document.querySelector(".header__leading-text--chance"),
+  weatherConclution: document.querySelector(".header__leading-text--sub"),
 };
 
 const handleDropdown = evt => {
