@@ -65,21 +65,21 @@ let els = {
 };
 
 const handleHeaderInfo = _ => {
-  const opts = {
-      contentType: "application/json",
-      method: "GET",
-      url: `factory-cems/?pollute=${pollute}&location=${location}`,
-    };
-    let err, data;
-    [err, data] = await to(makeRequest(opts));
-    if (err) {
-      console.log(err);
-      // throw new Error(err)
-    }
-    if (data) {
-      console.log(data);
-      return;
-    }
+  // const opts = {
+  //     contentType: "application/json",
+  //     method: "GET",
+  //     url: `factory-cems/?pollute=${pollute}&location=${location}`,
+  //   };
+  //   let err, data;
+  //   [err, data] = await to(makeRequest(opts));
+  //   if (err) {
+  //     console.log(err);
+  //     // throw new Error(err)
+  //   }
+  //   if (data) {
+  //     console.log(data);
+  //     return;
+  //   }
 
 }
 
@@ -836,6 +836,7 @@ function showSlides(n) {
 }
 
 window.onload = () => {
+  console.log("load")
   renderPieChart();
   renderBarChart();
   renderMultiLinesChart();
