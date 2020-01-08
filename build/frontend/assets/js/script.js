@@ -64,6 +64,25 @@ let els = {
   weatherConclution: document.querySelector(".header__leading-text--sub"),
 };
 
+const handleHeaderInfo = _ => {
+  const opts = {
+      contentType: "application/json",
+      method: "GET",
+      url: `factory-cems/?pollute=${pollute}&location=${location}`,
+    };
+    let err, data;
+    [err, data] = await to(makeRequest(opts));
+    if (err) {
+      console.log(err);
+      // throw new Error(err)
+    }
+    if (data) {
+      console.log(data);
+      return;
+    }
+
+}
+
 const handleDropdown = evt => {
   if (evt.target.matches(".dropdown--btn")) {
     evt.target.classList.toggle("show");
