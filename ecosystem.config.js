@@ -23,8 +23,8 @@ module.exports = {
       host : '54.238.248.160',
       key:`${process.env.HOME}/.ssh/ENV.pem`,
       ref  : 'origin/master',
-      repo : 'git@github.com:MerMerLtd/EnvDashboard.git',
-      path : '/etc/EnvDashboard',
+      repo : 'git@github.com:MerMerLtd/Dashboard.git',
+      path : '/etc/Dashboard',
       'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production'
     }
   }
