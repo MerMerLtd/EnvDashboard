@@ -1,13 +1,13 @@
 .background {
-  &__container{
+  &__container {
     display: flex;
     flex-direction: row;
     & > * {
       flex: 1;
     }
+    height: 40rem; //36rem;
   }
   position: relative;
-
 
   &--main,
   &--sub {
@@ -20,21 +20,19 @@
     left: 0;
   }
 
-
-  &--sub
-  {
+  &--sub {
     display: none;
     height: 100%;
     width: 100%;
 
-    &__lineChart{
+    &__lineChart {
       height: 100%;
       width: 100%;
     }
   }
 
-  &__btn{
-      opacity: 0;
+  &__btn {
+    opacity: 0;
   }
 
   &__checkbox {
@@ -117,7 +115,7 @@
     transform: rotate(-135deg);
   }
   &__img-box {
-    min-width:calc(100vw/4);
+    min-width: calc(100vw / 4);
     // margin-bottom: 2rem;
     margin-top: 1rem;
   }

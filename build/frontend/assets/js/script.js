@@ -157,7 +157,7 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
   let color = d3
     .scaleLinear()
     .domain([0, 10000])
-    .range(["#069eaf", "#efefef"]);
+    .range(["#9b9b9b", "#9b9b9b"]);
 
   let projection = d3
     .geoMercator()
@@ -175,7 +175,7 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
     .attr("stroke-width", "2px")
     .attr("height", navHeight)
     .on("click", function(d) {
-      d3.select(this).attr("fill", "#00FFF9");
+      d3.select(this).attr("fill", "#6dcccb");
       const location = prop => {
         switch (prop) {
           case `板橋區`:

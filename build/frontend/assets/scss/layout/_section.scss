@@ -45,7 +45,10 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  & > .iframe__container{
-    flex: 1;
-  }
+ & > *:not(:last-child){
+  margin-bottom: 3rem;
+ }
+  // & > .iframe__container{
+  //   flex: 1;
+  // }
 }
