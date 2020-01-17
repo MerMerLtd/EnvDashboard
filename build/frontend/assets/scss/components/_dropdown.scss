@@ -4,41 +4,43 @@
   position: relative;
   transition: all 0.2s;
   margin: 0 5px;
-  
+
   &--btn {
     width: 100%;
-    
+
     background-color: $color-primary;
     color: white;
     background-color: $color-primary;
-    font-size: 2.4rem;
+    font-size: 1.8rem;
     border: none;
     // border-top-left-radius: 5px;
     // border-top-right-radius: 5px;
-    border-radius: 5px;
-    padding: 5px 1rem 0;
+    height: 36px;
+    border-radius: 24px;
+    background-color: #6dcccb;
     line-height: 2;
     z-index: 2;
+    padding: 0 3rem;
 
     cursor: pointer;
     & > i {
       transform: translate(6px, 6px);
     }
-    & > span > span{
+    & > span > span {
       font-size: 1.5rem;
     }
     &:hover,
     :focus {
       background-color: darken($color-primary, 5%);
     }
-    &.show{
+    &.show {
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
     }
   }
   &--content {
     max-height: 20vh;
-  overflow: scroll;
+    overflow: scroll;
     width: 100%;
     display: none;
     position: absolute;
@@ -53,19 +55,18 @@
     // border-top-right-radius: 5px;
     // transform: translateY(-3px);
     z-index: 1;
-    
+
     & > a {
       color: black;
       padding: 12px 1rem;
       text-decoration: none;
       display: block;
-      &:hover{
+      &:hover {
         background-color: $color-grey-light-1;
       }
     }
-    .show + &{
+    .show + & {
       display: block;
     }
   }
 }
-

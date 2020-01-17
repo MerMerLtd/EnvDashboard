@@ -284,7 +284,7 @@ const renderLineChart = _ => {
       .append("text")
       .attr("y", -25)
       .attr("x", -(height - margin.bottom) / 2)
-      .attr("fill", "white")
+      .attr("fill", "#9b9b9b")
       .attr("transform", "rotate(-90)")
       .attr("text-anchor", "middle")
       .text(`PM2.5 (µg/m3)`);
@@ -394,7 +394,7 @@ const renderBarChart = _ => {
       //   .attr("class", "axis-label--x")
       //   .attr("y", 30)
       //   .attr("x", innerWidth / 2)
-      //   .attr("fill", "white")
+      //   .attr("fill", "#9b9b9b")
       //   .text(`近年度${"某污染物"}總排放量`);
 
       const yAxisG = g.append("g").call(yAxis);
@@ -403,7 +403,7 @@ const renderBarChart = _ => {
         .append("text")
         .attr("y", -25)
         .attr("x", -innerHeight / 2)
-        .attr("fill", "white")
+        .attr("fill", "#9b9b9b")
         .attr("transform", "rotate(-90)")
         .attr("text-anchor", "middle")
         .text(`µg/m3`);
@@ -572,7 +572,7 @@ const renderPieChart = _ => {
       .text(function(d, i) {
         return data[i].name + data[i].value + "%";
       })
-      .attr("fill", "white");
+      .attr("fill", "#9b9b9b");
 
     // text
     //   .transition()
@@ -761,7 +761,7 @@ const renderMultiLinesChart = _ => {
       .append("text")
       .attr("y", -25)
       .attr("x", -(height - margin.bottom) / 2)
-      .attr("fill", "white")
+      .attr("fill", "#9b9b9b")
       .attr("transform", "rotate(-90)")
       .attr("text-anchor", "middle")
       .text(`PM2.5 (µg/m3)`);

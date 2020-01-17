@@ -30,7 +30,15 @@
     flex: 2;
   }
   &__chart-title {
-    color: $color-primary;
+    font-size: 36px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 1px;
+    color: #6dcccb;
+    padding-bottom: 1.2rem;
+    border-bottom: solid 1px #15d5c0;
   }
   &__chart {
     height: calc(100% - 10rem);
