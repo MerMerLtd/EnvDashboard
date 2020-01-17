@@ -157,7 +157,7 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
   let color = d3
     .scaleLinear()
     .domain([0, 10000])
-    .range(["#9b9b9b", "#9b9b9b"]);
+    .range(["#ddd", "#ddd"]);
 
   let projection = d3
     .geoMercator()
@@ -172,7 +172,7 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
     .attr("d", path)
     .attr("fill", d => color(d.properties.number * 300))
     .attr("stroke", "#fff")
-    .attr("stroke-width", "2px")
+    .attr("stroke-width", "5px")
     .attr("height", navHeight)
     .on("click", function(d) {
       d3.select(this).attr("fill", "#6dcccb");
@@ -475,7 +475,7 @@ const renderPieChart = _ => {
     // const color = d3
     //   .scaleLinear()
     //   .domain([0, data.length])
-    //   .range(["#49BDCA", "#fff"]);
+    //   .range(["#49BDCA", "#9b9b9b"]);
     const color = d3
       .scaleOrdinal()
       .range([
@@ -484,7 +484,7 @@ const renderPieChart = _ => {
         "#50848E",
         "#179bbf",
         "#00627d",
-        "#fff",
+        "#9b9b9b",
         "#BED1D5"
       ]);
     const width = +window
@@ -585,7 +585,7 @@ const renderPieChart = _ => {
 
     const line = g
       .append("line")
-      .attr("stroke", "#fff")
+      .attr("stroke", "#9b9b9b")
       .attr("stroke-width", "2px")
       .attr("x1", function(d) {
         return d3
@@ -635,7 +635,7 @@ const renderPieChart = _ => {
 
     // 文字顏色的動畫
     var fillTween = function(d) {
-      var i = d3.interpolate("#FFF", "#C70");
+      var i = d3.interpolate("#9b9b9b", "#C70");
       return function(t) {
         return i(t);
       };
@@ -798,7 +798,7 @@ const renderMultiLinesChart = _ => {
         "transform",
         `translate(${width - margin.right}, ${yScale(refTagY) - 10})`
       )
-      .attr("fill", "#fff");
+      .attr("fill", "#9b9b9b");
   });
 };
 

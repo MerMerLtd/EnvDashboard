@@ -5,6 +5,8 @@
   height: 100%;
   transition: all 0.2s;
   display: flex;
+  margin-left: 2rem;
+
   & > *:not(:last-child){
     margin-right: 2rem;
     min-width: 10rem;
@@ -44,7 +46,7 @@
   &__content {
     display: none;
     opacity: 0;
-    padding: 2rem 3rem;
+    padding: 0 3rem;
     flex: 3;
 
     .population &--population {
