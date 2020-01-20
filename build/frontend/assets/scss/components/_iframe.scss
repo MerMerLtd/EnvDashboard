@@ -45,10 +45,18 @@
     width: 100%;
     height: 100%;
     position: relative;
+    cursor: pointer;
+    &.disable{
+      cursor: not-allowed;
+    }
   }
   &__img {
     width: 100%;
     height: 100%;
+    &.disable {
+      -webkit-filter:opacity(.5) grayscale(2); /* Safari 6.0 - 9.0 */
+      filter:opacity(.5) grayscale(2);
+    }
   }
   &__cover {
     position: absolute;

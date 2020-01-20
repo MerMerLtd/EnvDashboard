@@ -50,7 +50,7 @@ let els = {
     ".video .dropdown--content > a"
   ),
   navChartTitle: document.querySelector(".navigation__chart-title"),
-  header: document.querySelector(".header"),
+  header: document.querySelector(".header")
 };
 
 const handleHeaderInfo = _ => {
@@ -69,8 +69,7 @@ const handleHeaderInfo = _ => {
   //     console.log(data);
   //     return;
   //   }
-
-}
+};
 
 const handleDropdown = evt => {
   if (evt.target.matches(".dropdown--btn")) {
@@ -150,10 +149,14 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
 
   let projection = d3
     .geoMercator()
-    .scale(60000)
-    .center([121.72, 25.158]);
+    .scale(31500)
+    .center([122.14, 24.905]);
   let path = d3.geoPath().projection(projection);
-  d3.select(".svg--nav")
+  let svg = d3
+    .select(".svg--nav")
+    .attr("height", 400)
+    .attr("width", 400);
+  svg
     .selectAll("path")
     .data(features)
     .enter()
@@ -162,7 +165,6 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
     .attr("fill", d => color(d.properties.number * 300))
     .attr("stroke", "#fff")
     .attr("stroke-width", "5px")
-    .attr("height", navHeight)
     .on("click", function(d) {
       d3.select(this).attr("fill", "#6dcccb");
       const location = prop => {
@@ -698,10 +700,10 @@ const renderMultiLinesChart = _ => {
     // console.log(data);
     d3.select(".navigation__chart > svg").remove();
     const svg = d3
-    .select(".navigation__chart")
-    .append("svg")
-    .attr("class", "svg svg--multiLinesChart");
-    const width = 690;
+      .select(".navigation__chart")
+      .append("svg")
+      .attr("class", "svg svg--multiLinesChart");
+    const width = 630;
     const height = 220;
     svg.attr("width", width);
     svg.attr("height", height); //?
@@ -729,7 +731,8 @@ const renderMultiLinesChart = _ => {
     const xAxisG = g
       .append("g")
       .call(xAxis)
-      .attr("transform", `translate(0, ${height - margin.bottom})`).attr("fill", "#9b9b9b");
+      .attr("transform", `translate(0, ${height - margin.bottom})`)
+      .attr("fill", "#9b9b9b");
     xAxisG.selectAll(".domain, .tick line").remove();
 
     const yScale = d3
@@ -751,7 +754,7 @@ const renderMultiLinesChart = _ => {
       .attr("fill", "#9b9b9b")
       .attr("transform", "rotate(-90)")
       .attr("text-anchor", "middle")
-      .attr("font-size","21px")
+      .attr("font-size", "21px")
       .text(`PM2.5 (µg/m3)`);
 
     const lineGenerator = d3
@@ -825,7 +828,7 @@ function showSlides(n) {
 }
 
 window.onload = () => {
-  console.log("load")
+  console.log("load");
   renderPieChart();
   renderBarChart();
   renderMultiLinesChart();

@@ -76,39 +76,42 @@ const handleIframe = evt => {
   //   evt.target.parentNode.dataset.url
   // );
   const url = evt.target.parentNode.dataset.url;
-  const number = evt.target.parentNode.dataset.number;
-  const markup = `<iframe src="${url}" frameborder="0" width="100%" height="100%" data-number=${number}></iframe>`;
-  Array.from(document.querySelectorAll(".iframe__cover")).forEach(cover =>
-    evt.target === cover
-      ? (cover.style.display = "none")
-      : (cover.style.display = "block")
-  );
-  els.containerToggle.checked = true;
-  els.iframeMain.innerHTML = "";
-  els.iframeMain.insertAdjacentHTML("afterbegin", markup);
-  renderLoader(els.iframeMain);
-  setTimeout(_ => removeLoader(els.iframeMain), 5000);
+  !url.includes("#") ? window.open(evt.target.parentNode.dataset.url) : null;
+  // const number = evt.target.parentNode.dataset.number;
+  // const markup = `<iframe src="${url}" frameborder="0" width="100%" height="100%" data-number=${number}></iframe>`;
+  // Array.from(document.querySelectorAll(".iframe__cover")).forEach(cover =>
+  //   evt.target === cover
+  //     ? (cover.style.display = "none")
+  //     : (cover.style.display = "block")
+  // );
+  // els.containerToggle.checked = true;
+  // els.iframeMain.innerHTML = "";
+  // els.iframeMain.insertAdjacentHTML("afterbegin", markup);
+  // renderLoader(els.iframeMain);
+  // setTimeout(_ => removeLoader(els.iframeMain), 5000);
 };
-
-els.iframeMenu.addEventListener("click", handleIframe, false);
 
 // window.onload = () => {};
 const urls = [
   `https://air10.epa.gov.tw/`,
   `https://apmis.epa.gov.tw/air1/login`,
-  `210.63.206.171/default/index`,
-  `http://atis.ntpc.gov.tw/`,
+  `#210.63.206.171/default/index`, //
+  `#http://atis.ntpc.gov.tw/`, //
   `http://pollution.epd.ntpc.gov.tw/ntpcepd_new/manager/`,
   `https://epacar.epa.gov.tw/login.aspx`,
-  `https://www.mrpv.org.tw/index.aspx`,
+  `#https://www.mrpv.org.tw/index.aspx`, //
   `https://air.epa.gov.tw/AirEpa_Emergency/login.aspx`
 ];
 const appendIframe = urls => {
   urls.forEach((url, idx) => {
     const markup = `
-    <div class="iframe__img-box" data-url="${url}" data-number="${idx + 1}">
+    <div class="iframe__img-box  ${
+      url.includes("#") ? "disable" : ""
+    }" data-url="${url}" data-number="${idx + 1}">
       <img src="./assets/img/iframe__cover--${idx +
-        1}.png" alt="iframe__cover--${idx + 1}" class="iframe__img">
+        1}.png" alt="iframe__cover--${idx + 1}" class="iframe__img ${
+      url.includes("#") ? "disable" : ""
+    }">
       <div class="iframe__cover"></div>
     </div>`;
     // const markup =
@@ -125,3 +128,5 @@ const appendIframe = urls => {
 };
 
 appendIframe(urls);
+
+els.iframeMenu.addEventListener("click", handleIframe, false);
