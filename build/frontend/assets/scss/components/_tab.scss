@@ -40,7 +40,7 @@
     .construction &--construction,
     .factory &--factory {
         color: $color-primary;
-        background-color: rgba($color-white, 0.8);
+        background-color: rgba($color-primary, 0.2);
     }
   }
   &__content {

@@ -311,7 +311,7 @@ body {
       background-color: #38b3c1; }
   .dropdown--content {
     overflow: scroll;
-    min-width: 450px;
+    min-width: 100%;
     border-radius: 8px;
     box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.24);
     background-color: #ffffff;
@@ -372,7 +372,7 @@ body {
     .construction .tab__links--construction,
     .factory .tab__links--factory {
       color: #49BDCA;
-      background-color: rgba(255, 255, 255, 0.8); }
+      background-color: rgba(73, 189, 202, 0.2); }
   .tab__content {
     display: none;
     opacity: 0;
@@ -428,6 +428,8 @@ body {
 
 .svg--lineChart {
   margin-top: 5rem; }
+  .svg--lineChart .text {
+    font-size: 20px; }
 
 .checkbox {
   display: none; }
@@ -550,7 +552,7 @@ body {
   100% {
     transform: translate(6rem, 0); } }
 
-header.header {
+.header {
   margin-top: 3rem;
   width: 100%;
   height: 220px;
@@ -572,32 +574,32 @@ header.header {
   color: #fff;
   font-stretch: normal;
   font-style: normal; }
-  header.header__right {
+  .header__right {
     text-align: right;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around; }
-  header.header__left {
+  .header__left {
     text-align: left; }
-  header.header__main-box, header.header__sub-box, header.header__wind, header.header__range {
+  .header__main-box, .header__sub-box, .header__wind, .header__range {
     display: flex;
     flex-direction: row;
     align-items: center; }
-  header.header__date {
+  .header__date {
     font-weight: bold;
     line-height: normal;
     letter-spacing: normal; }
-  header.header__temp {
+  .header__temp {
     font-size: 110px;
     font-weight: bold;
     line-height: normal;
     letter-spacing: normal; }
-  header.header__weather--icon {
+  .header__weather--icon {
     width: 100%; }
-  header.header__wind {
+  .header__wind {
     margin-right: 2rem; }
-    header.header__wind--icon {
+    .header__wind--icon {
       width: 14px;
       height: 14px;
       transform: rotate(-330deg);
@@ -605,19 +607,19 @@ header.header {
       -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
       clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
       margin-right: 1rem; }
-    header.header__wind--text {
+    .header__wind--text {
       line-height: 1.79;
       letter-spacing: 0.67px;
       color: #ffffff; }
-  header.header__range {
+  .header__range {
     font-size: 30px;
     font-weight: 500;
     line-height: 1.43;
     letter-spacing: 0.83px; }
-    header.header__range--rowtemp {
+    .header__range--rowtemp {
       opacity: 55%;
       margin-left: 5px; }
-  header.header__aqi {
+  .header__aqi {
     font-family: HelveticaNeue;
     font-size: 52px;
     font-weight: bold;
@@ -629,23 +631,23 @@ header.header {
     padding: 16px 76px;
     border-radius: 24px;
     box-shadow: 0 5px 18px 0 rgba(0, 0, 0, 0.28); }
-    header.header__aqi.green {
+    .header__aqi.green {
       background-color: #6bb274; }
-    header.header__aqi.yello {
+    .header__aqi.yello {
       background-color: #d4c614; }
-    header.header__aqi.orange {
+    .header__aqi.orange {
       background-color: #f5a623; }
-    header.header__aqi.red {
+    .header__aqi.red {
       background-color: #f2565c; }
-    header.header__aqi.purple {
+    .header__aqi.purple {
       background-color: #9050c8; }
-    header.header__aqi.maroon {
+    .header__aqi.maroon {
       background-color: #7c3553; }
-  header.header--sub {
+  .header--sub {
     padding: 3rem 3rem 0 3rem;
     display: flex;
     align-items: center; }
-    header.header--sub > span:not(:last-child) {
+    .header--sub > span:not(:last-child) {
       margin-right: 2rem; }
 
 .navigation {
@@ -709,7 +711,6 @@ header.header {
   border-radius: 24px;
   box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.3);
   background-color: #ffffff;
-  padding: 3rem;
   position: relative; }
   .background__container {
     display: flex;
@@ -908,6 +909,13 @@ header.header {
   top: 0; }
 
 /* The dots/bullets/indicators */
+.dot-box {
+  z-index: 100;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  bottom: 1.5rem;
+  left: 50%; }
+
 .dot {
   cursor: pointer;
   height: 15px;

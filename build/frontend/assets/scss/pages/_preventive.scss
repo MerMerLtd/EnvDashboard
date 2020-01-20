@@ -5,8 +5,6 @@
   background-color: #fff;
   position: relative;
   margin: auto;
-
-  
 }
 
 /* Hide the images by default */
@@ -49,6 +47,7 @@
   right: 7rem;
 }
 
+
 /* On hover, add a black background color with a little bit see-through */
 .prev:hover,
 .next:hover {
@@ -76,6 +75,13 @@
 }
 
 /* The dots/bullets/indicators */
+.dot-box{
+  z-index: 100;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  bottom: 1.5rem;
+  left: 50%;
+}
 .dot {
   cursor: pointer;
   height: 15px;

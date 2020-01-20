@@ -224,7 +224,7 @@ const renderLineChart = _ => {
     const height = navHeight;
     const margin = {
       top: 20,
-      right: 10,
+      right: 20,
       bottom: 30,
       left: 40
     };
@@ -276,7 +276,8 @@ const renderLineChart = _ => {
       .attr("fill", "#9b9b9b")
       .attr("transform", "rotate(-90)")
       .attr("text-anchor", "middle")
-      .text(`PM2.5 (µg/m3)`);
+      .text(`PM2.5 (µg/m3)`)
+      .attr("font-size", "14px");
 
     const lineGenerator = d3
       .line()
