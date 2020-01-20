@@ -9,6 +9,7 @@
     & rect {
       // fill: linear-gradient(to bottom, $color-primary-light-1,  $color-primary-dark-1);
       fill: $color-primary;
+
     }
     & text {
       font-size: 7px;
@@ -18,31 +19,35 @@
     // background-color: salmon;
   }
   &--lineChart,
-  &--multiLinesChart {
+  &--multiLinesChart,
+  &--barChart,&--pieChart {
     // background-color: palevioletred;
     & .tick line {
-      stroke: $color-grey-light-1;
+      stroke: $color-grey;
       opacity: 0.5;
+    }
+    & .tick{
+      stroke: $color-grey;
     }
     & .axis-label--x {
       font-size: 2rem;
-      fill: $color-white;
+      fill: $color-grey;
     }
     & path {
-      stroke: $color-primary-light;
+      stroke: #6dcccb;
       fill: none;
       stroke-width: 2.5;
       stroke-linejoin: round;
       stroke-linecap: round;
     }
     & circle {
-      fill: $color-primary-light;
+      fill: #6dcccb;
     }
   }
   &--multiLinesChart {
     // background-color: indianred;
     & .ref{
-      stroke: #fff;
+      stroke: $color-grey;
     }
   }
   &--lineChart{

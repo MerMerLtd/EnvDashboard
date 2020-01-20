@@ -7,72 +7,102 @@
   // text-align: center;
   margin-top: 3rem;
   width: 100%;
-  height: 22rem;
+  height: 220px;
   align-items: center;
   display: flex;
-  // justify-content: space-between;
-  & > *:last-child {
-    flex: 1;
-  }
-  & > *:not(:last-child) {
-    margin-right: 3rem;
-  }
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem 3rem;
+  background-image: url(../img/sunny-bg.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  overflow: hidden;
+  box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 24px;
 
-  &__date {
-    grid-area: date;
-    line-height: 1.2;
-    &--year {
-      font-size: 3.6rem;
-    }
-    &--dd,
-    &--mm {
-      font-size: 3rem;
-    }
+  font-family: HelveticaNeue;
+  font-size: 24px;
+  font-weight: 500;
+  color: $color-white;
+  font-stretch: normal;
+  font-style: normal;
+  // justify-content: space-between;
+  &__right {
+    text-align: right;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
   }
-  &__weather--icon {
-    grid-area: weather;
-    & > i {
-      font-size: 5rem;
-    }
-    &.sunny {
-      color: yellow;
-    }
+  &__left {
+    text-align: left;
+  }
+  &__main-box,
+  &__sub-box,
+  &__wind,
+  &__range {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    // justify-content: space-between;
+  }
+  &__date {
+    font-weight: bold;
+    line-height: normal;
+    letter-spacing: normal;
   }
   &__temp {
-    grid-area: temp;
-    line-height: 1.2;
-    &--avg {
-      font-size: 4.2rem;
-    }
-    &--high,
-    &--low {
-      font-size: 1.8rem;
+    font-size: 110px;
+    font-weight: bold;
+    line-height: normal;
+    letter-spacing: normal;
+  }
+  &__weather {
+    &--icon {
+      width: 100%;
     }
   }
   &__wind {
-    grid-area: wind;
-    &--icon > i {
-      line-height: 1.2;
-      font-size: 4.5rem;
+    margin-right: 2rem;
+    &--icon {
+      width: 14px;
+      height: 14px;
+      transform: rotate(-330deg);
+      background-color: #ffffff;
+      -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      // https://bennettfeely.com/clippy/
+      margin-right: 1rem;
     }
     &--text {
-      font-size: 1.8rem;
+      line-height: 1.79;
+      letter-spacing: 0.67px;
+      color: #ffffff;
+    }
+  }
+  &__range {
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1.43;
+    letter-spacing: 0.83px;
+    &--rowtemp {
+      opacity: 55%;
+      margin-left: 5px;
     }
   }
   &__aqi {
-    grid-area: aqi;
-    line-height: 1.2;
-    padding: 1rem;
-    border-radius: 5px;
-    min-width: 10rem;
-    text-align: center;
-
-    &--text {
-      font-size: 3rem;
-    }
-    &--value {
-      font-size: 3.8rem;
-    }
+    font-family: HelveticaNeue;
+    font-size: 52px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #ffffff;
+    padding: 16px 76px;
+    border-radius: 24px;
+    box-shadow: 0 5px 18px 0 rgba(0, 0, 0, 0.28);
     &.green {
       //0 to 50 Good
       background-color: $color-aqi-green;
@@ -96,16 +126,6 @@
     &.maroon {
       // 300-500 Hazardous
       background-color: $color-aqi-maroon;
-    }
-  }
-
-  &__leading-text {
-    grid-area: text;
-    text-align: left;
-    line-height: 1.5;
-    font-size: 2.4rem;
-    &--main {
-      font-size: 3rem;
     }
   }
 }
