@@ -1,4 +1,4 @@
-.header {
+header.header {
   // display: grid;
   // justify-content: center;
   // grid-template-columns: repeat(10, 1fr);
@@ -126,6 +126,14 @@
     &.maroon {
       // 300-500 Hazardous
       background-color: $color-aqi-maroon;
+    }
+  }
+  &--sub {
+    padding: 3rem 3rem 0 3rem;
+    display: flex;
+    align-items: center;
+    & > span:not(:last-child){
+      margin-right: 2rem;
     }
   }
 }

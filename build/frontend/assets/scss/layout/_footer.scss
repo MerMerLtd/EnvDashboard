@@ -1,0 +1,10 @@
+.footer {
+//   margin-top: 4rem;
+  padding: 2rem;
+  background-color: #4e9bd2;
+
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: 6fr 4fr;
+//   column-gap: 3rem;
+}

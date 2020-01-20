@@ -1,32 +1,62 @@
-.iframe{
-    &__container{
-        border-radius: 24px;
-        box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.3);
-        overflow: hidden;
-        // height: 40rem;
-        position: relative;
-    }
-    &__heading{
-        width: 75px;
-        height: 33px;
-        font-family: PingFangTC;
-        font-size: 24px;
-        font-weight: 500;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: 0.67px;
-        color: #ffffff;
-        margin: 4.5px auto;
-    }
-    &__heading-background{
-        position: absolute;
-        top: 2rem;
-        left: 0;
-        width: 202px;
-        height: 42px;
-        background-color: #6dcccb;
-        -webkit-clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
-        clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
-    }
+.iframe {
+  &__container {
+    border-radius: 24px;
+    box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    // height: 40rem;
+    position: relative;
+  }
+  &__heading {
+    width: 75px;
+    height: 33px;
+    font-family: PingFangTC;
+    font-size: 24px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.67px;
+    color: #ffffff;
+    margin: 4.5px auto;
+  }
+  &__heading-background {
+    position: absolute;
+    top: 2rem;
+    left: 0;
+    width: 202px;
+    height: 42px;
+    background-color: #6dcccb;
+    -webkit-clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+  }
+
+  &__main {
+    width: 100%;
+    transition: all 0.5s;
+  }
+  &__menu {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    transition: all 0.5s;
+  }
+
+  &__img-box {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  &__img {
+    width: 100%;
+    height: 100%;
+  }
+  &__cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+  }
 }

@@ -1,0 +1,97 @@
+.checkbox{
+    &{
+        display: none;
+    }
+    & ~ .container .iframe__main{
+        // background-color: pink;
+        height: 0;
+    }
+    &:checked  ~ .container .iframe__main{
+        // background-color: palevioletred;
+        height: 100%;
+        flex:4;
+    }
+
+    & ~ .container .iframe__menu{
+
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+
+        column-gap: 3rem;
+        row-gap: 3rem;
+        align-items: center;
+    }
+
+    &:checked ~ .container .iframe__menu{
+        margin-top: 2rem;
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: repeat(1, 1fr);
+        flex: 1;
+        column-gap: 2rem;
+
+        & .iframe__cover{
+            opacity: 0.7;
+        }
+
+    }
+    &__button{
+        // background-color: $color-white;
+        display: none;
+        height: 6rem;
+        width: 6rem;
+        position: fixed;
+        top: 3rem;
+        right: 3rem;
+        z-index: 2000;
+        text-align: center;
+        cursor: pointer;
+        // opacity: 0;
+    }
+    &__icon{
+        position: relative;
+        margin-top: 3.5rem;
+
+        &,
+        &::before,
+        &::after {
+            width: 3rem;
+            height: 2px;
+            background-color: $color-grey-dark-3;
+            display: inline-block;
+        }
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            transition: all .2s;
+        }
+
+        &::before { top: -.8rem; }
+        &::after { top: .8rem; }
+    }
+
+    &:checked + &__button {
+        // opacity: 1;
+        display: block;
+
+    }
+
+
+    &:checked + &__button &__icon {
+        background-color: transparent;
+    }
+
+    &:checked + &__button &__icon::before {
+        top: 0;
+        transform: rotate(135deg);
+    }
+
+    &:checked + &__button &__icon::after {
+        top: 0;
+        transform: rotate(-135deg);
+    }
+
+  
+}

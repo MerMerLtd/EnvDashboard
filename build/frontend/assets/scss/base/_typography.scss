@@ -16,6 +16,13 @@ body {
   .pollution-ratio & {
     color: $color-grey-dark-5;
   }
+
+  .layout & {
+    font-size: 3rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    color: $color-grey-dark;
+  }
 }
 
 .heading-secondary {
@@ -26,6 +33,12 @@ body {
 .paragraph {
   font-size: 2rem;
   line-height: 2;
+  .layout & {
+    color: $color-white;
+    font-size: 1rem;
+    line-height: 2;
+    font-weight: 100;
+  }
 }
 
 .caption {
