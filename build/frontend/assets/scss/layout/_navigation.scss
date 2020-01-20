@@ -3,7 +3,7 @@
   // justify-content: center;
   // grid-template-columns: 1fr 2fr ;
   // grid-column-gap: 3rem;
-  align-items: center;
+  // align-items: center;
   display: flex;
   justify-content: space-between;
   height: calc(100vh / 4 - 10rem);
@@ -26,8 +26,9 @@
   }
   &__chart-box {
     // background-color: rgb(50, 155, 155);
+    margin-left: 2rem;
     height: 100%;
-    width: 100%;
+    width: 625px;
     flex: 2;
     padding: 3rem 3rem 3rem 0;
   }

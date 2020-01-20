@@ -703,7 +703,7 @@ const renderMultiLinesChart = _ => {
       .select(".navigation__chart")
       .append("svg")
       .attr("class", "svg svg--multiLinesChart");
-    const width = 630;
+    const width = 610;
     const height = 220;
     svg.attr("width", width);
     svg.attr("height", height); //?

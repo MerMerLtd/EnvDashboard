@@ -658,7 +658,6 @@ body {
       margin-right: 2rem; }
 
 .navigation {
-  align-items: center;
   display: flex;
   justify-content: space-between;
   height: calc(100vh / 4 - 10rem);
@@ -675,8 +674,9 @@ body {
       padding-top: 2rem;
       text-align: center; }
   .navigation__chart-box {
+    margin-left: 2rem;
     height: 100%;
-    width: 100%;
+    width: 625px;
     flex: 2;
     padding: 3rem 3rem 3rem 0; }
   .navigation__chart-title {
