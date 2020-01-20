@@ -475,12 +475,8 @@ const renderPieChart = _ => {
         "#9b9b9b",
         "#BED1D5"
       ]);
-    const width = +window
-      .getComputedStyle(document.querySelector(".preventive"))
-      .width.replace("px", "");
-    const height = +window
-      .getComputedStyle(document.querySelector(".preventive"))
-      .height.replace("px", "");
+    const width = 450;
+    const height = 320;
     // svg.attr("width", width);
     // svg.attr("height", height);
     const outerRadius = Math.min(width, height) / 4;
@@ -546,7 +542,7 @@ const renderPieChart = _ => {
           "translate(" +
           d3
             .arc()
-            .outerRadius(outerRadius * 3)
+            .outerRadius(outerRadius * 4)
             .centroid(d)[0] +
           "," +
           d3
