@@ -303,111 +303,111 @@ const renderLineChart = _ => {
 
 //===============================================
 //===============  barChart svg  ================
-// const renderBarChart = _ => {
-//   // const pollute = document.querySelector(".pie-chart--pollute").innerText;
-//   // console.log(year, pollute);
-//   // const opts = {
-//   //   contentType: "application/json",
-//   //   method: "GET",
-//   //   url: `total-emision/?pollute=${pollute}`,
-//   // };
-//   // let err, data;
-//   // [err, data] = await to(makeRequest(opts));
-//   // if (err) {
-//   //   console.log(err);
-//   //   // throw new Error(err)
-//   // }
-//   // if (data) {
-//   //   console.log(data);
-//   //   return;
-//   // }
-//   d3.csv("./assets/csv/barchart.csv").then(data => {
-//     const width =
-//       +window
-//         .getComputedStyle(document.querySelector(".pollution-ratio"))
-//         .width.replace("px", "") / 3.5;
-//     const height =
-//       +window
-//         .getComputedStyle(document.querySelector(".pollution-ratio"))
-//         .height.replace("px", "") / 4;
+const renderBarChart = _ => {
+  // const pollute = document.querySelector(".pie-chart--pollute").innerText;
+  // console.log(year, pollute);
+  // const opts = {
+  //   contentType: "application/json",
+  //   method: "GET",
+  //   url: `total-emision/?pollute=${pollute}`,
+  // };
+  // let err, data;
+  // [err, data] = await to(makeRequest(opts));
+  // if (err) {
+  //   console.log(err);
+  //   // throw new Error(err)
+  // }
+  // if (data) {
+  //   console.log(data);
+  //   return;
+  // }
+  d3.csv("./assets/csv/barchart.csv").then(data => {
+    const width =
+      +window
+        .getComputedStyle(document.querySelector(".pollution-ratio"))
+        .width.replace("px", "") / 3.5;
+    const height =
+      +window
+        .getComputedStyle(document.querySelector(".pollution-ratio"))
+        .height.replace("px", "") / 4;
 
-//     d3.select(".pollution-ratio__chart--barChart > svg").remove();
-//     const svg = d3
-//       .select(".pollution-ratio__chart--barChart")
-//       .append("svg")
-//       .attr("width", width)
-//       .attr("height", height)
-//       .attr("class", "svg svg--barChart");
-//     const render = data => {
-//       const xValue = d => d.name;
-//       const yValue = d => +d.value;
-//       const margin = {
-//         top: 20,
-//         left: 35,
-//         right: 10,
-//         bottom: 20
-//       };
-//       const innerWidth = width - margin.left - margin.right;
-//       const innerHeight = height - margin.top - margin.bottom;
-//       const xScale = d3
-//         .scaleBand()
-//         .domain(data.map(xValue))
-//         .range([0, innerWidth])
-//         .padding(0.35);
+    d3.select(".pollution-ratio__chart--barChart > svg").remove();
+    const svg = d3
+      .select(".pollution-ratio__chart--barChart")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("class", "svg svg--barChart");
+    const render = data => {
+      const xValue = d => d.name;
+      const yValue = d => +d.value;
+      const margin = {
+        top: 20,
+        left: 35,
+        right: 10,
+        bottom: 20
+      };
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+      const xScale = d3
+        .scaleBand()
+        .domain(data.map(xValue))
+        .range([0, innerWidth])
+        .padding(0.35);
 
-//       const yScale = d3
-//         .scaleLinear()
-//         .domain([0, d3.max(data, yValue)])
-//         .range([innerHeight, 0])
-//         .nice(); //https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/
+      const yScale = d3
+        .scaleLinear()
+        .domain([0, d3.max(data, yValue)])
+        .range([innerHeight, 0])
+        .nice(); //https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/
 
-//       const xAxis = d3.axisBottom(xScale); //.tickSize(-innerHeight); //.tickFormat(xAxisTickFormat);
-//       const yAxis = d3
-//         .axisLeft(yScale)
-//         .tickSize(-innerWidth)
-//         .ticks(5);
+      const xAxis = d3.axisBottom(xScale); //.tickSize(-innerHeight); //.tickFormat(xAxisTickFormat);
+      const yAxis = d3
+        .axisLeft(yScale)
+        .tickSize(-innerWidth)
+        .ticks(5);
 
-//       const g = svg
-//         .append("g")
-//         .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
+      const g = svg
+        .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
 
-//       const xAxisG = g
-//         .append("g")
-//         .call(xAxis)
-//         .attr("transform", `translate(0, ${innerHeight})`);
-//       xAxisG.selectAll(".domain, .tick line").remove();
+      const xAxisG = g
+        .append("g")
+        .call(xAxis)
+        .attr("transform", `translate(0, ${innerHeight})`);
+      xAxisG.selectAll(".domain, .tick line").remove();
 
-//       // xAxisG
-//       //   .append("text")
-//       //   .attr("class", "axis-label--x")
-//       //   .attr("y", 30)
-//       //   .attr("x", innerWidth / 2)
-//       //   .attr("fill", "#9b9b9b")
-//       //   .text(`近年度${"某污染物"}總排放量`);
+      // xAxisG
+      //   .append("text")
+      //   .attr("class", "axis-label--x")
+      //   .attr("y", 30)
+      //   .attr("x", innerWidth / 2)
+      //   .attr("fill", "#9b9b9b")
+      //   .text(`近年度${"某污染物"}總排放量`);
 
-//       const yAxisG = g.append("g").call(yAxis);
-//       yAxisG.select(".domain").remove();
-//       yAxisG
-//         .append("text")
-//         .attr("y", -25)
-//         .attr("x", -innerHeight / 2)
-//         .attr("fill", "#9b9b9b")
-//         .attr("transform", "rotate(-90)")
-//         .attr("text-anchor", "middle")
-//         .text(`µg/m3`);
+      const yAxisG = g.append("g").call(yAxis);
+      yAxisG.select(".domain").remove();
+      yAxisG
+        .append("text")
+        .attr("y", -25)
+        .attr("x", -innerHeight / 2)
+        .attr("fill", "#9b9b9b")
+        .attr("transform", "rotate(-90)")
+        .attr("text-anchor", "middle")
+        .text(`µg/m3`);
 
-//       g.selectAll("rect")
-//         .data(data)
-//         .enter()
-//         .append("rect")
-//         .attr("x", d => xScale(xValue(d)))
-//         .attr("y", d => yScale(yValue(d)))
-//         .attr("width", xScale.bandwidth())
-//         .attr("height", d => innerHeight - yScale(yValue(d)));
-//     };
-//     render(data);
-//   });
-// };
+      g.selectAll("rect")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("x", d => xScale(xValue(d)))
+        .attr("y", d => yScale(yValue(d)))
+        .attr("width", xScale.bandwidth())
+        .attr("height", d => innerHeight - yScale(yValue(d)));
+    };
+    render(data);
+  });
+};
 
 //===============================================
 //===============  pieChart svg  ================
@@ -830,7 +830,7 @@ function showSlides(n) {
 window.onload = () => {
   console.log("load")
   renderPieChart();
-  // renderBarChart();
+  renderBarChart();
   renderMultiLinesChart();
   renderLineChart();
 };
