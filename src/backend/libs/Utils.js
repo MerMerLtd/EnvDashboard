@@ -498,6 +498,20 @@ class Utils {
     database.leveldb.close();
   }
 
+  static parseData({ data, format }) {
+    let result;
+    console.log(data);
+    console.log(format);
+    switch(true) {
+      case /JSON/i.test(format):
+        result = JSON.parse(data);
+        break;
+      default:
+        result = data;
+    }
+    return result;
+  }
+
   static crossOrigin(options = {}) {
     const defaultOptions = {
       allowMethods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']
