@@ -7,7 +7,7 @@
     box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.3);
     background-color: #ffffff;
     margin-right: 3rem;
-    padding-top: 3rem;
+    padding-top: 2rem;
 
 
     &__chart{
@@ -18,10 +18,13 @@
         position: relative;
         &--barChart{
             position: absolute;
-            bottom: 0;
-            right: 0;
+            bottom: 5px;
+            right: 5px;
         }
-        &--pieChart{
+        & > #donut{
+            position: absolute;
+            top: 2rem;
+            left: 5px;
         }
     }
 }

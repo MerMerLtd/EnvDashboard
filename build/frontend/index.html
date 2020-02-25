@@ -1,316 +1,437 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <!-- d3.js -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://d3js.org/topojson.v1.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="http://bost.ocks.org/mike/fisheye/fisheye.js?0.0.3"
+    ></script>
+    <!-- google font -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- material icon -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <title>新北市環保局</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <link rel="stylesheet" href="./assets/css/style.css" />
-  <!-- d3.js -->
-  <script src="https://d3js.org/d3.v5.min.js"></script>
-  <script type="text/javascript" src="https://d3js.org/topojson.v1.min.js"></script>
-  <script type="text/javascript" src="http://bost.ocks.org/mike/fisheye/fisheye.js?0.0.3"></script>
-  <!-- google font -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet" />
-  <!-- material icon -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-  <title>新北市環保局</title>
-</head>
-
-<body>
-  <div class="show" style="font-size: 24px;color:black"></div>
-  <div class="container">
-    <div class="section">
-      <header class="header">
-        <div class="header__left">
-          <div class="header__date">
-            民國 109 年 01 月 20 日
-          </div>
-          <div class="header__main-box">
-            <div class="header__weather">
-              <img src="./assets/img/fill-3.png" alt="sunny" class="header__weather--icon" />
+  <body>
+    <div class="show" style="font-size: 24px;color:black"></div>
+    <div class="container">
+      <div class="section">
+        <header class="header">
+          <div class="header__left">
+            <div class="header__date">
+              民國 109 年 01 月 20 日
             </div>
-            <div class="header__temp">15°C</div>
-          </div>
-          <div class="header__sub-box">
-            <div class="header__wind">
-              <div class="header__wind--icon"></div>
-              <div class="header__wind--text">東北季風</div>
+            <div class="header__main-box">
+              <div class="header__weather">
+                <img
+                  src="./assets/img/fill-3.png"
+                  alt="sunny"
+                  class="header__weather--icon"
+                />
+              </div>
+              <div class="header__temp">15°C</div>
             </div>
-            <div class="header__range">
-              <div class="header__range--hightemp">17°C /</div>
-              <div class="header__range--rowtemp">14°C</div>
-            </div>
-          </div>
-        </div>
-        <div class="header__right">
-          <div class="header__aqi green">
-            AQI 50
-          </div>
-          <div class="header__description">
-            體感溫度<span class="header__description--temp">28 ̊C</span>，降雨機率<span
-              class="header__description--chance">90%</span>
-          </div>
-          <div class="header__comment">
-            今日空氣品質良好，是個適合出遊的好日子
-          </div>
-        </div>
-      </header>
-      <nav class="navigation">
-        <div class="navigation__map">
-          <!-- <h1 class="heading-primary"><span class="dropdown"></h1> -->
-          <svg class="svg svg--nav"></svg>
-          <!-- <svg class="svg svg--nav"></svg> -->
-        </div>
-        <div class="navigation__chart-box">
-          <div class="navigation__chart-title">環保署板橋站</div>
-          <h1 class="heading-primary">
-            過去24小時 -
-
-            <span class="dropdown">
-              <div class="dropdown--btn">
-                <span class="mulit-chart--pollute">PM2.5</span>
-                <i class="material-icons">
-                  arrow_drop_down
-                </i>
+            <div class="header__sub-box">
+              <div class="header__wind">
+                <div class="header__wind--icon"></div>
+                <div class="header__wind--text">東北季風</div>
               </div>
-              <div class="dropdown--content">
-                <a data-chart="mulitlines">PM2.5</a>
-                <a data-chart="mulitlines">SOx</a>
-                <a data-chart="mulitlines">NOx</a>
-                <a data-chart="mulitlines">NMHC</a>
-              </div>
-            </span>
-            隨時間變化
-          </h1>
-          <div class="navigation__chart">
-            <svg class="svg svg--multiLinesChart"></svg>
-          </div>
-        </div>
-      </nav>
-      <div class="iframe__container">
-        <div class="iframe__heading-background">
-          <div class="iframe__heading">
-            空氣網
-          </div>
-        </div>
-        <iframe src="https://wot.epa.gov.tw/" name="mainframe" id="mainframe" width="100%" height="400px"
-          marginwidth="0" marginheight="0" scrolling="No" frameborder="0" class="iframe"></iframe>
-      </div>
-      <div class="background__container">
-        <div class="pollution-ratio">
-          <h1 class="heading-primary">
-            <span class="dropdown">
-              <div class="dropdown--btn">
-                <span class="pie-chart--year">107</span>
-                <i class="material-icons">
-                  arrow_drop_down
-                </i>
-              </div>
-              <div class="dropdown--content">
-                <a data-chart="pie">108</a>
-                <a data-chart="pie">107</a>
-                <a data-chart="pie">106</a>
-                <a data-chart="pie">105</a>
-                <a data-chart="pie">104</a>
-                <a data-chart="pie">103</a>
-                <a data-chart="pie">102</a>
-                <a data-chart="pie">101</a>
-                <a data-chart="pie">100</a>
-              </div>
-            </span>
-            年度
-            <span class="dropdown">
-              <div class="dropdown--btn">
-                <span class="pie-chart--pollute">PM2.5</span>
-                <i class="material-icons">
-                  arrow_drop_down
-                </i>
-              </div>
-              <div class="dropdown--content">
-                <a data-chart="pie">PM2.5</a>
-                <a data-chart="pie">SOx</a>
-                <a data-chart="pie">NOx</a>
-                <a data-chart="pie">NMHC</a>
-              </div>
-            </span>
-            污染來源比例
-          </h1>
-          <!-- <div class="background__img-box">
-            <img src="./assets/img/chart_02.png" alt="population" class="background__img" />
-          </div> -->
-          <div class="pollution-ratio__chart">
-            <div id="donut">
-              <svg></svg>
-            </div>
-            <div class="pollution-ratio__chart--barChart">
-              <svg></svg>
-            </div>
-
-            <!-- <div class="pollution-ratio__chart--pieChart">
-              <svg class="svg svg--pieChart"></svg>
-            </div> -->
-          </div>
-        </div>
-        <div class="background">
-          <input type="checkbox" class="background__checkbox" id="background-toggle" />
-          <div class="background__btn">
-            <span class="background__icon">&nbsp;</span>
-          </div>
-          <div class="background--main">
-            <h1 class="heading-primary">環境背景掌握</h1>
-            <div class="tab population">
-              <!-- Tab links -->
-              <div class="tab__tabs">
-                <div class="tab__links tab__links--population" data-type="population">
-                  人口
-                </div>
-                <div class="tab__links tab__links--vehicle" data-type="vehicle">
-                  車輛
-                </div>
-                <div class="tab__links tab__links--construction" data-type="construction">
-                  工地
-                </div>
-                <div class="tab__links tab__links--factory" data-type="factory">
-                  工廠
-                </div>
-              </div>
-              <div class="tab__contents">
-                <!-- Tab content -->
-                <div class="tab__content tab__content--population">
-                  <div class="tab__img-box">
-                    <img src="./assets/img/population.png" alt="population" class="tab__img" />
-                  </div>
-                  <p class="paragraph">新北市400+萬人口</p>
-                </div>
-
-                <div class="tab__content tab__content--vehicle">
-                  <h2 class="heading-secondary">321萬輛車</h2>
-                  <p class="paragraph">二行程 9.4萬輛</p>
-                  <p class="paragraph">電動機車 3.9萬輛</p>
-                  <p class="caption">統計至108年X月底</p>
-                  <p class="paragraph">1-2期大型柴車 5056餘輛</p>
-                  <p class="caption">統計至108年9月底</p>
-                </div>
-
-                <div class="tab__content tab__content--construction">
-                  <h2 class="heading-secondary">6885處施工中工地</h2>
-                  <p class="paragraph">一級 1357處</p>
-                  <p class="paragraph">二級 1025處</p>
-                  <p class="caption">統計至108年10月底</p>
-                </div>
-                <div class="tab__content tab__content--factory">
-                  <h2 class="heading-secondary">列管工廠 2370家</h2>
-                  <label for="background-toggle">
-                    <p class="paragraph btn-cems">CEMS 6廠/ 14根煙道</p>
-                  </label>
-                  <p class="paragraph">有效許可證 685張</p>
-                  <p class="paragraph">生煤許可證 13張</p>
-                  <p class="paragraph">焚化爐 3家 8座</p>
-                  <p class="paragraph">加油站 229家</p>
-                </div>
+              <div class="header__range">
+                <div class="header__range--hightemp">17°C /</div>
+                <div class="header__range--rowtemp">14°C</div>
               </div>
             </div>
           </div>
-          <div class="background--sub">
+          <div class="header__right">
+            <div class="header__aqi green">
+              AQI 50
+            </div>
+            <div class="header__description">
+              體感溫度<span class="header__description--temp">28 ̊C</span
+              >，降雨機率<span class="header__description--chance">90%</span>
+            </div>
+            <div class="header__comment">
+              今日空氣品質良好，是個適合出遊的好日子
+            </div>
+          </div>
+        </header>
+        <nav class="navigation">
+          <div class="navigation__map">
+            <!-- <h1 class="heading-primary"><span class="dropdown"></h1> -->
+            <svg class="svg svg--nav"></svg>
+            <!-- <svg class="svg svg--nav"></svg> -->
+          </div>
+          <div class="navigation__chart-box">
+            <div class="navigation__chart-title">環保署板橋站</div>
             <h1 class="heading-primary">
+              過去24小時 -
+
               <span class="dropdown">
                 <div class="dropdown--btn">
-                  <span class="line-chart--location">林口發電廠</span>
+                  <span class="mulit-chart--pollute">PM2.5</span>
                   <i class="material-icons">
                     arrow_drop_down
                   </i>
                 </div>
                 <div class="dropdown--content">
-                  <a data-chart="line">XXXX發電廠</a>
-                  <a data-chart="line">XXXX發電廠</a>
+                  <a data-chart="mulitlines">PM2.5</a>
+                  <a data-chart="mulitlines">SOx</a>
+                  <a data-chart="mulitlines">NOx</a>
+                  <a data-chart="mulitlines">NMHC</a>
                 </div>
               </span>
-              污染物排放監測濃度
+              隨時間變化
+            </h1>
+            <div class="navigation__chart">
+              <svg class="svg svg--multiLinesChart"></svg>
+            </div>
+          </div>
+        </nav>
+        <div class="iframe__container">
+          <div class="iframe__heading-background">
+            <div class="iframe__heading">
+              空氣網
+            </div>
+          </div>
+          <iframe
+            src="https://wot.epa.gov.tw/"
+            name="mainframe"
+            id="mainframe"
+            width="100%"
+            height="400px"
+            marginwidth="0"
+            marginheight="0"
+            scrolling="No"
+            frameborder="0"
+            class="iframe"
+          ></iframe>
+        </div>
+        <div class="background__container">
+          <div class="pollution-ratio">
+            <h1 class="heading-primary">
+              <span class="dropdown">
+                <div class="dropdown--btn">
+                  <span class="pie-chart--year">107</span>
+                  <i class="material-icons">
+                    arrow_drop_down
+                  </i>
+                </div>
+                <div class="dropdown--content">
+                  <a data-chart="pie">108</a>
+                  <a data-chart="pie">107</a>
+                  <a data-chart="pie">106</a>
+                  <a data-chart="pie">105</a>
+                  <a data-chart="pie">104</a>
+                  <a data-chart="pie">103</a>
+                  <a data-chart="pie">102</a>
+                  <a data-chart="pie">101</a>
+                  <a data-chart="pie">100</a>
+                </div>
+              </span>
+              年度
+              <span class="dropdown">
+                <div class="dropdown--btn">
+                  <span class="pie-chart--pollute">PM2.5</span>
+                  <i class="material-icons">
+                    arrow_drop_down
+                  </i>
+                </div>
+                <div class="dropdown--content">
+                  <a data-chart="pie">PM2.5</a>
+                  <a data-chart="pie">SOx</a>
+                  <a data-chart="pie">NOx</a>
+                  <a data-chart="pie">NMHC</a>
+                </div>
+              </span>
+              污染來源比例
             </h1>
             <!-- <div class="background__img-box">
+            <img src="./assets/img/chart_02.png" alt="population" class="background__img" />
+          </div> -->
+            <div class="pollution-ratio__chart">
+              <div id="donut">
+                <svg></svg>
+              </div>
+              <div class="pollution-ratio__chart--barChart">
+                <svg></svg>
+              </div>
+
+              <!-- <div class="pollution-ratio__chart--pieChart">
+              <svg class="svg svg--pieChart"></svg>
+            </div> -->
+            </div>
+          </div>
+          <div class="background">
+            <input
+              type="checkbox"
+              class="background__checkbox"
+              id="background-toggle"
+            />
+            <div class="background__btn">
+              <span class="background__icon">&nbsp;</span>
+            </div>
+            <div class="background--main">
+              <h1 class="heading-primary">環境背景掌握</h1>
+              <div class="tab population">
+                <!-- Tab links -->
+                <div class="tab__tabs">
+                  <div
+                    class="tab__links tab__links--population"
+                    data-type="population"
+                  >
+                    人口
+                  </div>
+                  <div
+                    class="tab__links tab__links--vehicle"
+                    data-type="vehicle"
+                  >
+                    車輛
+                  </div>
+                  <div
+                    class="tab__links tab__links--construction"
+                    data-type="construction"
+                  >
+                    工地
+                  </div>
+                  <div
+                    class="tab__links tab__links--factory"
+                    data-type="factory"
+                  >
+                    工廠
+                  </div>
+                </div>
+                <div class="tab__contents">
+                  <!-- Tab content -->
+                  <div class="tab__content tab__content--population">
+                    <div class="tab__img-box">
+                      <img
+                        src="./assets/img/population.png"
+                        alt="population"
+                        class="tab__img"
+                      />
+                    </div>
+                    <p class="paragraph">新北市近402萬人</p>
+                  </div>
+
+                  <div class="tab__content tab__content--vehicle">
+                    <h2 class="heading-secondary">323萬輛車</h2>
+                    <p class="paragraph">二行程 8.7萬輛</p>
+                    <p class="paragraph">電動機車 4.8萬輛</p>
+                    <p class="caption">統計至108年11月底</p>
+                    <p class="paragraph">1-2期大型柴車 4,802餘輛</p>
+                    <p class="caption">統計至108年11月底</p>
+                  </div>
+
+                  <div class="tab__content tab__content--construction">
+                    <h2 class="heading-secondary">7,096處施工中工地</h2>
+                    <p class="paragraph">一級 1,630處</p>
+                    <p class="paragraph">二級 1,311處</p>
+                    <p class="caption">統計至108年11月底</p>
+                  </div>
+                  <div class="tab__content tab__content--factory">
+                    <h2 class="heading-secondary">列管工廠 2,575家</h2>
+                    <label for="background-toggle">
+                      <p class="paragraph btn-cems">CEMS 6廠/ 13根煙道</p>
+                    </label>
+                    <p class="paragraph">有效許可證 657張</p>
+                    <p class="paragraph">生煤許可證 13張</p>
+                    <p class="paragraph">焚化爐 3家 8座</p>
+                    <p class="paragraph">加油站 230家</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="background--sub">
+              <h1 class="heading-primary">
+                <span class="dropdown">
+                  <div class="dropdown--btn">
+                    <span class="line-chart--location">林口發電廠</span>
+                    <i class="material-icons">
+                      arrow_drop_down
+                    </i>
+                  </div>
+                  <div class="dropdown--content">
+                    <a data-chart="line">XXXX發電廠</a>
+                    <a data-chart="line">XXXX發電廠</a>
+                  </div>
+                </span>
+                污染物排放監測濃度
+              </h1>
+              <!-- <div class="background__img-box">
               <img src="./assets/img/chart_03.png" alt="population" class="background__img" />
             </div> -->
-            <div class="background--sub__lineChart">
-              <svg class="svg svg--lineChart"></svg>
+              <div class="background--sub__lineChart">
+                <svg class="svg svg--lineChart"></svg>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="preventive__container">
-        <div class="video factory">
-          <div class="video__title-box">
-            <h1 class="heading-primary">
-              <span class="dropdown">
-                <div class="dropdown--btn">
-                  <span>工地</span>
-                  <i class="material-icons">
-                    arrow_drop_down
-                  </i>
-                </div>
-                <div class="dropdown--content">
-                  <a data-type="factory">工地</a>
-                  <a data-type="vehicle">噪音車</a>
-                </div>
-              </span>
-              即時影像資訊
-            </h1>
-            <p class="paragraph">地點: XXXXXXX</p>
-          </div>
-          <div class="video__vbox">
-            <div class="video__img-box">
-              <img src="./assets/img/video_01.png" alt="population" class="video__img video__img--factory" />
+        <div class="preventive__container">
+          <div class="video factory">
+            <div class="video__title-box">
+              <h1 class="heading-primary">
+                <span class="dropdown">
+                  <div class="dropdown--btn">
+                    <span>工地</span>
+                    <i class="material-icons">
+                      arrow_drop_down
+                    </i>
+                  </div>
+                  <div class="dropdown--content">
+                    <a data-type="factory">工地</a>
+                    <a data-type="vehicle">噪音車</a>
+                  </div>
+                </span>
+                即時影像資訊
+              </h1>
+              <p class="paragraph">地點: XXXXXXX</p>
             </div>
-            <div class="video__img-box">
-              <img src="./assets/img/video_02.png" alt="population" class="video__img video__img--vehicle" />
-            </div>
-            <!-- <div class="video__cover">
+            <div class="video__vbox">
+              <div class="video__img-box">
+                <img
+                  src="./assets/img/video_01.png"
+                  alt="population"
+                  class="video__img video__img--factory"
+                />
+              </div>
+              <div class="video__img-box">
+                <img
+                  src="./assets/img/video_02.png"
+                  alt="population"
+                  class="video__img video__img--vehicle"
+                />
+              </div>
+              <!-- <div class="video__cover">
               <div class="video__button">
                 查看
               </div>
             </div> -->
+            </div>
           </div>
-        </div>
-        <div class="preventive">
-          <!-- <h1 class="heading-primary">污染改善措施</h1> -->
-          <!-- Slideshow container -->
-          <div class="slideshow-container">
-            <!-- Full-width images with number and caption text -->
-            <div class="mySlides fade">
-              <div class="numbertext">1 / 3</div>
-              <img src="./assets/img/slide_01.png" />
-              <div class="text">Caption Text</div>
-            </div>
+          <div class="preventive">
+            <!-- <h1 class="heading-primary">污染改善措施</h1> -->
+            <!-- Slideshow container -->
+            <div class="slideshow-container">
+              <!-- Full-width images with number and caption text -->
+              <div class="mySlides fade">
+                <div class="numbertext">1 / 16</div>
+                <img src="./assets/img/投影片1.JPG" />
+                <!-- <div class="text">Caption One</div> -->
+              </div>
 
-            <div class="mySlides fade">
-              <div class="numbertext">2 / 3</div>
-              <img src="./assets/img/slide_02.png" />
-              <div class="text">Caption Two</div>
-            </div>
+              <div class="mySlides fade">
+                <div class="numbertext">2 / 16</div>
+                <img src="./assets/img/投影片2.JPG" />
+                <!-- <div class="text">Caption Two</div> -->
+              </div>
 
-            <div class="mySlides fade">
-              <div class="numbertext">3 / 3</div>
-              <img src="./assets/img/slide_03.png" />
-              <div class="text">Caption Three</div>
+              <div class="mySlides fade">
+                <div class="numbertext">3 / 16</div>
+                <img src="./assets/img/投影片3.JPG" />
+                <!-- <div class="text">Caption Three</div> -->
+              </div>
+              <div class="mySlides fade">
+                <div class="numbertext">4 / 16</div>
+                <img src="./assets/img/投影片4.JPG" />
+                <!-- <div class="text">Caption Four</div> -->
+              </div>
+              <div class="mySlides fade">
+                <div class="numbertext">5 / 16</div>
+                <img src="./assets/img/投影片5.JPG" />
+                <!-- <div class="text">Caption Five</div> -->
+              </div>
+              <div class="mySlides fade">
+                <div class="numbertext">6 / 16</div>
+                <img src="./assets/img/投影片6.JPG" />
+                <!-- <div class="text">Caption Six</div> -->
+              </div>
+              <div class="mySlides fade">
+                <div class="numbertext">7 / 16</div>
+                <img src="./assets/img/投影片7.JPG" />
+                <!-- <div class="text">Caption Seven</div> -->
+              </div>
+              <div class="mySlides fade">
+                <div class="numbertext">8 / 16</div>
+                <img src="./assets/img/投影片8.JPG" />
+                <!-- <div class="text">Caption Eight</div> -->
+              </div>
+              <div class="mySlides fade">
+                <div class="numbertext">9 / 16</div>
+                <img src="./assets/img/投影片9.JPG" />
+                <!-- <div class="text">Caption Nine</div> -->
+              </div>
+              <div class="mySlides fade">
+                <div class="numbertext">10 / 16</div>
+                <img src="./assets/img/投影片10.JPG" />
+                <!-- <div class="text">Caption Ten</div> -->
+              </div>
+              <div class="mySlides fade">
+                <div class="numbertext">11 / 16</div>
+                <img src="./assets/img/投影片11.JPG" />
+                <!-- <div class="text">Caption Eleven</div> -->
+              </div>
+              <div class="mySlides fade">
+                <div class="numbertext">12 / 16</div>
+                <img src="./assets/img/投影片12.JPG" />
+                <!-- <div class="text">Caption Twelve</div> -->
+              </div>
+              <div class="mySlides fade">
+                <div class="numbertext">13 / 16</div>
+                <img src="./assets/img/投影片13.JPG" />
+                <!-- <div class="text">Caption Thirteen</div> -->
+              </div>
+              <div class="mySlides fade">
+                <div class="numbertext">14 / 16</div>
+                <img src="./assets/img/投影片14.JPG" />
+                <!-- <div class="text">Caption Fourteen</div> -->
+              </div>
+              <div class="mySlides fade">
+                <div class="numbertext">15 / 16</div>
+                <img src="./assets/img/投影片15.JPG" />
+                <!-- <div class="text">Caption Fifteen</div> -->
+              </div>
+              <div class="mySlides fade">
+                <div class="numbertext">16 / 16</div>
+                <img src="./assets/img/投影片16.JPG" />
+                <!-- <div class="text">Caption Sixteen</div> -->
+              </div>
+
+              <!-- Next and previous buttons -->
+              <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+              <a class="next" onclick="plusSlides(1)">&#10095;</a>
             </div>
-            <!-- Next and previous buttons -->
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
-          </div>
-          <br />
-          <div class="dot-box" style="text-align:center">
-            <span class="dot" onclick="currentSlide(1)"></span>
-            <span class="dot" onclick="currentSlide(2)"></span>
-            <span class="dot" onclick="currentSlide(3)"></span>
-            <span class="dot" onclick="currentSlide(4)"></span>
-            <span class="dot" onclick="currentSlide(5)"></span>
-            <span class="dot" onclick="currentSlide(6)"></span>
+            <br />
+            <div class="dot-box" style="text-align:center">
+              <span class="dot" onclick="currentSlide(1)"></span>
+              <span class="dot" onclick="currentSlide(2)"></span>
+              <span class="dot" onclick="currentSlide(3)"></span>
+              <span class="dot" onclick="currentSlide(4)"></span>
+              <span class="dot" onclick="currentSlide(5)"></span>
+              <span class="dot" onclick="currentSlide(6)"></span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
-<script src="./assets/js/script.js"></script>
-
+  </body>
+  <script src="./assets/js/script.js"></script>
 </html>

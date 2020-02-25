@@ -818,7 +818,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 100; }
+    z-index: 100;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px; }
     .video__title-box .heading-primary {
       padding-top: 2rem;
       padding-bottom: 1rem; }
@@ -987,11 +989,15 @@ body {
   box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.3);
   background-color: #ffffff;
   margin-right: 3rem;
-  padding-top: 3rem; }
+  padding-top: 2rem; }
   .pollution-ratio__chart {
     height: 100%;
     position: relative; }
     .pollution-ratio__chart--barChart {
       position: absolute;
-      bottom: 0;
-      right: 0; }
+      bottom: 5px;
+      right: 5px; }
+    .pollution-ratio__chart > #donut {
+      position: absolute;
+      top: 2rem;
+      left: 5px; }

@@ -76,6 +76,10 @@ const handleDropdown = evt => {
     evt.target.classList.toggle("show");
     return;
   }
+  if (evt.target.matches(".dropdown--btn > *")) {
+    evt.target.parentElement.classList.toggle("show");
+    return;
+  }
   Array.from(els.dropdownBtns).forEach(dropdownBtn => {
     dropdownBtn.classList.remove("show");
   });
@@ -324,7 +328,36 @@ const renderBarChart = _ => {
   //   console.log(data);
   //   return;
   // }
-  d3.csv("./assets/csv/barchart.csv").then(data => {
+  d3.csv("./assets/csv/barchart.csv").then(rawData => {
+    const pollute = document.querySelector(".pie-chart--pollute").innerText;
+    const dataset = {
+      "PM2.5": rawData
+        .filter(d => d.pollute === "PM2.5")
+        .map(d => ({
+          year: d.year,
+          value: d.value
+        })),
+      SOx: rawData
+        .filter(d => d.pollute === "SOx")
+        .map(d => ({
+          year: d.year,
+          value: d.value
+        })),
+      NOx: rawData
+        .filter(d => d.pollute === "NOx")
+        .map(d => ({
+          year: d.year,
+          value: d.value
+        })),
+      NMHC: rawData
+        .filter(d => d.pollute === "NMHC")
+        .map(d => ({
+          year: d.year,
+          value: d.value
+        }))
+    };
+    console.log(dataset[`${pollute}`], 'from barChart');
+    const data = dataset[`${pollute}`];
     const width =
       +window
         .getComputedStyle(document.querySelector(".pollution-ratio"))
@@ -332,7 +365,7 @@ const renderBarChart = _ => {
     const height =
       +window
         .getComputedStyle(document.querySelector(".pollution-ratio"))
-        .height.replace("px", "") / 4;
+        .height.replace("px", "") / 3.5;
 
     d3.select(".pollution-ratio__chart--barChart > svg").remove();
     const svg = d3
@@ -342,7 +375,7 @@ const renderBarChart = _ => {
       .attr("height", height)
       .attr("class", "svg svg--barChart");
     const render = data => {
-      const xValue = d => d.name;
+      const xValue = d => d.year;
       const yValue = d => +d.value;
       const margin = {
         top: 20,
