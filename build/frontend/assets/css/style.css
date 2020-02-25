@@ -568,7 +568,7 @@ body {
   flex-direction: row;
   justify-content: space-between;
   padding: 1rem 3rem;
-  background-image: url(../img/sunny-bg.png);
+  background-image: url(../img/thunder-bg.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -640,7 +640,7 @@ body {
     box-shadow: 0 5px 18px 0 rgba(0, 0, 0, 0.28); }
     .header__aqi.green {
       background-color: #6bb274; }
-    .header__aqi.yello {
+    .header__aqi.yellow {
       background-color: #d4c614; }
     .header__aqi.orange {
       background-color: #f5a623; }
