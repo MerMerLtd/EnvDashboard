@@ -500,8 +500,6 @@ class Utils {
 
   static parseData({ data, format }) {
     let result;
-    console.log(data);
-    console.log(format);
     switch(true) {
       case /JSON/i.test(format):
         result = JSON.parse(data);

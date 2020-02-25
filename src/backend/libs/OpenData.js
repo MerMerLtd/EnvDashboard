@@ -15,8 +15,12 @@ class OpenData extends Bot {
   }
 
   start() {
-    this.crawlAll();
+    //this.crawlAll();
     return super.start();
+  }
+
+  ready() {
+    return super.ready();
   }
 
   request({ targetURL, dataType ='JSON' }) {
@@ -31,29 +35,61 @@ class OpenData extends Bot {
     clearInterval(this.timer);
     const run = async () => {
       await this.crawlAQI();
+      await this.crawlWeather();
     };
     this.timer = setInterval(run, 3600000);
     run();
   }
 
   async crawlAQI() {
-    const now = new Date().getTime();
+    const timestamp = new Date().getTime();
     let result;
-    if(aqi.timestamp + 3600000 < now) {
-      const targetURL = 'http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=County&$skip=0&$top=1000&format=json&token=OfsHxaW3FEmG23qxZlqQmA';
-      result = await this.request({ targetURL })
-      result = result.filter((v) => {
-        return v.County == '新北市';
-      });
-      this.aqi = { data: result, timestamp: now };
-    } else {
-        result = aqi.data;
-    }
-    return Promise.resolve(result);
+    const targetURL = 'http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=County&$skip=0&$top=1000&format=json&token=OfsHxaW3FEmG23qxZlqQmA';
+    result = await this.request({ targetURL });
+    result = result.filter((v) => {
+      return v.County == '新北市';
+    });
+    this.aqi = { data: result, timestamp };
+    console.log(result)
+  }
+
+  async crawlWeather() {
+    const currentDate = new Date();
+    const timestamp = currentDate.getTime();
+    let list;
+    let result = {};
+
+    const targetURL = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-069?Authorization=CWB-DA6F23D8-AF4A-4497-8C11-1E07120A9B0D';
+    list = await this.request({ targetURL });
+    list = list.records.locations[0].location.map((v) => {
+      const temperatureArray = v.weatherElement[3].time.map((v) => {
+        const value = v.elementValue[0].value;
+        return value;
+      }).sort();
+      const lowTemp = temperatureArray[0];
+      const highTemp = temperatureArray[temperatureArray.length - 1];
+      
+      const record = {
+        date: `民國 ${(currentDate.getFullYear() - 1911)}年 ${(currentDate.getMonth() + 1)}月 ${currentDate.getDate()}日`,
+        quote: `今日 ${v.locationName} 空氣品質良好，是個適合出遊的好日子`,
+        location: v.locationName,
+        weather: v.weatherElement[1].time[0].elementValue[0].value,
+        chanceOfRain: v.weatherElement[0].time[0].elementValue[0].value / 100,
+        temperature: v.weatherElement[3].time[0].elementValue[0].value,
+        apparentTemp: v.weatherElement[2].time[0].elementValue[0].value,
+        highTemp,
+        lowTemp,
+        windDirection: v.weatherElement[9].time[0].elementValue[0].value,
+      };
+      result[v.locationName] = record;
+      this.weather = result;
+      return record;
+    });
+    console.log(list[0])
   }
 
   topData() {
-    
+    return Promise.resolve(this.weather);
   }
 }
 

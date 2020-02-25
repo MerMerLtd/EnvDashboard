@@ -125,7 +125,7 @@ const handleHeaderInfo = location => {
     highTemp: 31,
     lowTemp: 19,
     windDirection: "東北季風",
-    weather: "rain", // ['sunny', 'cloudy', 'rain', 'thundershower],
+    weather: "sunny", // ['sunny', 'cloudy', 'rain', 'thundershower],
     chanceOfRain: 0.31,
     apparentTemp: 28, //'體感溫度',
     AQI: 302,
