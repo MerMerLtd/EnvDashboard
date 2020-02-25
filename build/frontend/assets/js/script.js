@@ -50,30 +50,116 @@ let els = {
     ".video .dropdown--content > a"
   ),
   navChartTitle: document.querySelector(".navigation__chart-title"),
-  header: document.querySelector(".header")
+  header: document.querySelector(".header"),
+  headerDate: document.querySelector(".header__date"),
+  headerTemp: document.querySelector(".header__temp"),
+  headerHTemp: document.querySelector(".header__range--hightemp"),
+  headerLTemp: document.querySelector(".header__range--lowtemp"),
+  headerWindDir: document.querySelector(".header__wind--text"),
+  headerWeather: document.querySelector(".header__weather--icon"),
+  headerAQI: document.querySelector(".header__aqi"),
+  apparentTemp: document.querySelector(".header__description--temp"),
+  chanceOfRain: document.querySelector(".header__description--chance"),
+  headerQuote: document.querySelector(".header__comment")
 };
 
-const handleHeaderInfo = _ => {
-  // const opts = {
-  //     contentType: "application/json",
-  //     method: "GET",
-  //     url: `factory-cems/?pollute=${pollute}&location=${location}`,
-  //   };
-  //   let err, data;
-  //   [err, data] = await to(makeRequest(opts));
-  //   if (err) {
-  //     console.log(err);
-  //     // throw new Error(err)
-  //   }
-  //   if (data) {
-  //     console.log(data);
-  //     return;
-  //   }
+const getWeatherUI = weather => {
+  switch (weather) {
+    case "sunny":
+      return {
+        icon: "./assets/img/fill-3.png",
+        background: "url(./assets/img/sunny-bg.png)"
+      };
+    case "cloudy":
+      return {
+        icon: "./assets/img/fill-4.png",
+        background: "url(./assets/img/cloud-bg.png)"
+      };
+    case "rain":
+      return {
+        icon: "./assets/img/fill-6.png",
+        background: "url(./assets/img/raining-bg.png)"
+      };
+    case "thundershower":
+      return {
+        icon: "./assets/img/fill-11.png",
+        background: "url(./assets/img/thunder-bg.png)"
+      };
+    default:
+      break;
+  }
+};
+
+const getAQIColor = aqi => {
+  if (0 <= aqi && aqi <= 50) {
+    return "green";
+  } else if (51 <= aqi && aqi <= 100) {
+    return "yellow";
+  } else if (101 <= aqi && aqi <= 150) {
+    return "orange";
+  } else if (151 <= aqi && aqi <= 200) {
+    return "red";
+  } else if (201 <= aqi && aqi <= 300) {
+    return "purple";
+  } else if (301 <= aqi && aqi <= 500) {
+    return "maroon";
+  }
+};
+
+const handleHeaderInfo = location => {
+  console.log(location);
+  if(location === undefined){
+    location = '板橋區';
+  }
+  console.log(location);
+  const opts = {
+    contentType: "application/json",
+    method: "GET",
+    url: `weather-info/?location=${location}`
+  };
+  let err, data;
+  // [err, data] = await to(makeRequest(opts));
+  data = {
+    date: "民國 109年 2月 25號",
+    temperature: 25,
+    highTemp: 31,
+    lowTemp: 19,
+    windDirection: "東北季風",
+    weather: "rain", // ['sunny', 'cloudy', 'rain', 'thundershower],
+    chanceOfRain: 0.31,
+    apparentTemp: 28, //'體感溫度',
+    AQI: 302,
+    quote: `今日${location}空氣品質良好，是個適合出遊的好日子`
+  };
+  if (err) {
+    console.log(err);
+    // throw new Error(err)
+  }
+  if (data) {
+    console.log(data);
+    els.headerDate.innerText = data.date;
+    els.headerTemp.innerText = `${data.temperature}°C`;
+    els.headerHTemp.innerText = `${data.highTemp}°C /`;
+    els.headerLTemp.innerText = `${data.lowTemp}°C`;
+    els.headerWindDir.innerText = data.windDirection;
+    els.headerWeather.src = getWeatherUI(data.weather).icon;
+    els.header.style.backgroundImage = getWeatherUI(data.weather).background;
+    els.apparentTemp.innerText = `${data.apparentTemp}°C`;
+    els.chanceOfRain.innerText = `${data.chanceOfRain * 100}%`;
+    els.headerQuote.innerText = data.quote;
+    els.headerAQI.innerText = `AQI ${data.AQI}`;
+    els.headerAQI.className = `header__aqi ${getAQIColor(data.AQI)}`;
+    return;
+  }
 };
 
 const handleDropdown = evt => {
   if (evt.target.matches(".dropdown--btn")) {
     evt.target.classList.toggle("show");
+    return;
+  }
+  if (evt.target.matches(".dropdown--btn > *")) {
+    evt.target.parentElement.classList.toggle("show");
     return;
   }
   Array.from(els.dropdownBtns).forEach(dropdownBtn => {
@@ -177,6 +263,7 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
       };
       console.log(d.properties.number, d.properties.TOWN);
       els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
+      handleHeaderInfo(d.properties.TOWN);
       renderMultiLinesChart();
     })
     .on("mouseout", function(d) {
@@ -324,7 +411,36 @@ const renderBarChart = _ => {
   //   console.log(data);
   //   return;
   // }
-  d3.csv("./assets/csv/barchart.csv").then(data => {
+  d3.csv("./assets/csv/barchart.csv").then(rawData => {
+    const pollute = document.querySelector(".pie-chart--pollute").innerText;
+    const dataset = {
+      "PM2.5": rawData
+        .filter(d => d.pollute === "PM2.5")
+        .map(d => ({
+          year: d.year,
+          value: d.value
+        })),
+      SOx: rawData
+        .filter(d => d.pollute === "SOx")
+        .map(d => ({
+          year: d.year,
+          value: d.value
+        })),
+      NOx: rawData
+        .filter(d => d.pollute === "NOx")
+        .map(d => ({
+          year: d.year,
+          value: d.value
+        })),
+      NMHC: rawData
+        .filter(d => d.pollute === "NMHC")
+        .map(d => ({
+          year: d.year,
+          value: d.value
+        }))
+    };
+    console.log(dataset[`${pollute}`], "from barChart");
+    const data = dataset[`${pollute}`];
     const width =
       +window
         .getComputedStyle(document.querySelector(".pollution-ratio"))
@@ -332,7 +448,7 @@ const renderBarChart = _ => {
     const height =
       +window
         .getComputedStyle(document.querySelector(".pollution-ratio"))
-        .height.replace("px", "") / 4;
+        .height.replace("px", "") / 3.5;
 
     d3.select(".pollution-ratio__chart--barChart > svg").remove();
     const svg = d3
@@ -342,7 +458,7 @@ const renderBarChart = _ => {
       .attr("height", height)
       .attr("class", "svg svg--barChart");
     const render = data => {
-      const xValue = d => d.name;
+      const xValue = d => d.year;
       const yValue = d => +d.value;
       const margin = {
         top: 20,
@@ -833,6 +949,7 @@ window.onload = () => {
   renderBarChart();
   renderMultiLinesChart();
   renderLineChart();
+  handleHeaderInfo();
 };
 
 // document.querySelector(".show").innerText = `Height:${window.innerHeight}, Width:${window.innerWidth}, ${Math.random()*10}`

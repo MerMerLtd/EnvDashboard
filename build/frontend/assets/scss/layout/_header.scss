@@ -13,7 +13,7 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 1rem 3rem;
-  background-image: url(../img/sunny-bg.png);
+  background-image: url(../img/thunder-bg.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -107,9 +107,9 @@
       //0 to 50 Good
       background-color: $color-aqi-green;
     }
-    &.yello {
+    &.yellow {
       // 51-100 Moderate
-      background-color: $color-aqi-yello;
+      background-color: $color-aqi-yellow;
     }
     &.orange {
       // 101-150 Unhealthy for Sensitive Groups
