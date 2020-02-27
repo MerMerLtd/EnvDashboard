@@ -108,8 +108,8 @@ const getAQIColor = aqi => {
 
 const handleHeaderInfo = location => {
   console.log(location);
-  if(location === undefined){
-    location = '板橋區';
+  if (location === undefined) {
+    location = "板橋區";
   }
   console.log(location);
   const opts = {
@@ -240,6 +240,9 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
   let path = d3.geoPath().projection(projection);
   let svg = d3
     .select(".svg--nav")
+    // .attr('id', 'map')
+    .attr("xmlns", "http://www.w3.org/2000/svg")
+    .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
     .attr("height", 400)
     .attr("width", 400);
   svg
@@ -273,7 +276,41 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
     .text(d => d.properties.TOWN);
 
   // d3.select("svg").style("background-color", "pink");
+//=========================================================
+  // var svgHtml = document.getElementById("map"),
+  //   svgData = new XMLSerializer().serializeToString(svgHtml),
+  //   svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+  // var svgUrl = URL.createObjectURL(svgBlob);
+  // var downloadLink = document.createElement("a");
+  // downloadLink.href = svgUrl;
+  // downloadLink.download = "map.svg";
+  // document.body.appendChild(downloadLink);
+  // downloadLink.click();
+  // document.body.removeChild(downloadLink);
+//=========================================================
+
+  // console.log(svgData);
 });
+d3.selectAll(".svg--nav > path")
+.on("click", function(d) {
+  d3.select(this).attr("fill", "#6dcccb");
+  const location = prop => {
+    switch (prop) {
+      case `板橋區`:
+        return `環保署板橋站`;
+      default:
+        return prop;
+    }
+  };
+  console.log(d.properties.number, d.properties.TOWN);
+  els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
+  handleHeaderInfo(d.properties.TOWN);
+  renderMultiLinesChart();
+  console.log('click', d);
+})
+.on("mouseout", function(d) {
+  d3.select(this).attr("fill", "#ddd");
+})
 
 //!!! d3 timeformat https://www.oxxostudio.tw/articles/201412/svg-d3-11-time.html
 //
