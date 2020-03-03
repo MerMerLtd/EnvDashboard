@@ -6,13 +6,22 @@
   transition: all 0.2s;
   display: flex;
   margin-left: 2rem;
-
-  & > *:not(:last-child){
+  @include respond(big-desktop) {
+    margin-left: 1rem;
+  }
+  & > *:not(:last-child) {
     margin-right: 2rem;
     min-width: 10rem;
+    @include respond(big-desktop) {
+      margin-right: 1rem;
+      min-width: 5rem;
+    }
   }
   &__img-box {
-    min-width:calc(100vw/4);
+    min-width: calc(100vw / 4);
+    @include respond(big-desktop) {
+      min-width: 15vw;
+    }
     // height: 100%;
     // margin-bottom: 2rem;
   }
@@ -27,20 +36,27 @@
     background-color: rgba($color-white, 1);
     border-radius: 2.4rem;
     color: $color-primary;
+    @include respond(big-desktop) {
+      margin-right: 1rem;
+    }
   }
   &__links {
     background-color: rgba($color-primary, 1);
     border-radius: 5px;
     text-align: center;
     padding: 1rem 2rem;
+    @include respond(big-desktop) {
+      padding: 1rem;
+      font-size: 18px;
+    }
     margin: 0 0 1rem 0;
     flex: 1;
     .population &--population,
     .vehicle &--vehicle,
     .construction &--construction,
     .factory &--factory {
-        color: $color-primary;
-        background-color: rgba($color-primary, 0.2);
+      color: $color-primary;
+      background-color: rgba($color-primary, 0.2);
     }
   }
   &__content {
@@ -48,10 +64,12 @@
     opacity: 0;
     padding: 0 3rem;
     flex: 3;
-
+    @include respond(big-desktop) {
+      padding: 0rem;
+    }
     .population &--population {
-        @include absCenter;
-      
+      // @include absCenter;
+
       text-align: center;
       display: block;
       opacity: 1;

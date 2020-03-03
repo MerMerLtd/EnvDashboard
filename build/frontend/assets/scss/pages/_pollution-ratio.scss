@@ -1,30 +1,37 @@
-.pollution-ratio{
-    height:100%;
-    display: flex;
-    flex-direction: column;
-    // height: 36rem;
-    border-radius: 2.4rem;
-    box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.3);
-    background-color: #ffffff;
-    margin-right: 3rem;
-    padding-top: 2rem;
+.pollution-ratio {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  // height: 36rem;
+  border-radius: 2.4rem;
+  box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.3);
+  background-color: #ffffff;
+  margin-right: 3rem;
+  padding-top: 2rem;
+  @include respond(big-desktop) {
+    margin: 0 1rem;
+    padding-top: 1rem;
+  }
 
-
-    &__chart{
-        // height: calc(100% - 5rem);
-        // width: 100%;
-        // background-color: #fff;
-        height:100%;
-        position: relative;
-        &--barChart{
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-        }
-        & > #donut{
-            position: absolute;
-            top: 2rem;
-            left: 5px;
-        }
+  &__chart {
+    // height: calc(100% - 5rem);
+    // width: 100%;
+    // background-color: #fff;
+    height: 100%;
+    position: relative;
+    &--barChart {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
     }
+    & > #donut {
+      position: absolute;
+      top: 2rem;
+      left: 5px;
+      @include respond(big-desktop) {
+        top: 0;
+        left: 0;
+      }
+    }
+  }
 }

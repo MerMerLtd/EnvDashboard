@@ -106,7 +106,7 @@ const getAQIColor = aqi => {
   }
 };
 
-const handleHeaderInfo = location => {
+const handleHeaderInfo = async location => {
   console.log(location);
   if (location === undefined) {
     location = "板橋區";
@@ -115,22 +115,22 @@ const handleHeaderInfo = location => {
   const opts = {
     contentType: "application/json",
     method: "GET",
-    url: `weather-info/?location=${location}`
+    url: `/weather/?location=${location}`
   };
   let err, data;
-  // [err, data] = await to(makeRequest(opts));
-  data = {
-    date: "民國 109年 2月 25號",
-    temperature: 25,
-    highTemp: 31,
-    lowTemp: 19,
-    windDirection: "東北季風",
-    weather: "sunny", // ['sunny', 'cloudy', 'rain', 'thundershower],
-    chanceOfRain: 0.31,
-    apparentTemp: 28, //'體感溫度',
-    AQI: 302,
-    quote: `今日${location}空氣品質良好，是個適合出遊的好日子`
-  };
+  [err, data] = await to(makeRequest(opts));
+  // data = {
+  //   date: "民國 109年 2月 25號",
+  //   temperature: 25,
+  //   highTemp: 31,
+  //   lowTemp: 19,
+  //   windDirection: "東北季風",
+  //   weather: "sunny", // ['sunny', 'cloudy', 'rain', 'thundershower],
+  //   chanceOfRain: 0.31,
+  //   apparentTemp: 28, //'體感溫度',
+  //   AQI: 302,
+  //   quote: `今日${location}空氣品質良好，是個適合出遊的好日子`
+  // };
   if (err) {
     console.log(err);
     // throw new Error(err)
@@ -220,97 +220,112 @@ const navHeight = +window
 // 4. var projection = d3.geoMercator() to setup geo projection type
 // 5. var path = d3.geoPath().projection(projection) to create path base on projection
 
-d3.json("./assets/topojson/town_1999.json").then(topodata => {
-  let features = topodata.features.filter(
-    data => data.properties.COUNTY === "新北市"
-  );
-  for (i = features.length - 1; i >= 0; i--) {
-    features[i].properties.number = i;
-  }
-  // console.log(features);
-  let color = d3
-    .scaleLinear()
-    .domain([0, 10000])
-    .range(["#ddd", "#ddd"]);
+// d3.json("./assets/topojson/town_1999.json").then(topodata => {
+//   let features = topodata.features.filter(
+//     data => data.properties.COUNTY === "新北市"
+//   );
+//   for (i = features.length - 1; i >= 0; i--) {
+//     features[i].properties.number = i;
+//   }
+//   // console.log(features);
+//   let color = d3
+//     .scaleLinear()
+//     .domain([0, 10000])
+//     .range(["#ddd", "#ddd"]);
 
-  let projection = d3
-    .geoMercator()
-    .scale(31500)
-    .center([122.14, 24.905]);
-  let path = d3.geoPath().projection(projection);
-  let svg = d3
-    .select(".svg--nav")
-    // .attr('id', 'map')
-    .attr("xmlns", "http://www.w3.org/2000/svg")
-    .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
-    .attr("height", 400)
-    .attr("width", 400);
-  svg
-    .selectAll("path")
-    .data(features)
-    .enter()
-    .append("path")
-    .attr("d", path)
-    .attr("fill", d => color(d.properties.number * 300))
-    .attr("stroke", "#fff")
-    .attr("stroke-width", "5px")
-    .on("click", function(d) {
-      d3.select(this).attr("fill", "#6dcccb");
-      const location = prop => {
-        switch (prop) {
-          case `板橋區`:
-            return `環保署板橋站`;
-          default:
-            return prop;
-        }
-      };
-      console.log(d.properties.number, d.properties.TOWN);
-      els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
-      handleHeaderInfo(d.properties.TOWN);
-      renderMultiLinesChart();
-    })
-    .on("mouseout", function(d) {
-      d3.select(this).attr("fill", color(d.properties.number * 300));
-    })
-    .append("text")
-    .text(d => d.properties.TOWN);
+//   let projection = d3
+//     .geoMercator()
+//     .scale(31500)
+//     .center([122.14, 24.905]);
+//   let path = d3.geoPath().projection(projection);
+//   let svg = d3
+//     .select(".svg--nav")
+//     // .attr('id', 'map')
+//     .attr("xmlns", "http://www.w3.org/2000/svg")
+//     .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
+//     .attr("height", 400)
+//     .attr("width", 400);
+//   svg
+//     .selectAll("path")
+//     .data(features)
+//     .enter()
+//     .append("path")
+//     .attr("d", path)
+//     .attr("fill", d => color(d.properties.number * 300))
+//     .attr("stroke", "#fff")
+//     .attr("stroke-width", "1px")
+//     .on("click", function(d) {
+//       d3.select(this).attr("fill", "#6dcccb");
+//       const location = prop => {
+//         switch (prop) {
+//           case `板橋區`:
+//             return `環保署板橋站`;
+//           default:
+//             return prop;
+//         }
+//       };
+//       console.log(d.properties.number, d.properties.TOWN);
+//       els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
+//       handleHeaderInfo(d.properties.TOWN);
+//       renderMultiLinesChart();
+//     })
+//     .on("mouseout", function(d) {
+//       d3.select(this).attr("fill", color(d.properties.number * 300));
+//     });
 
-  // d3.select("svg").style("background-color", "pink");
-//=========================================================
-  // var svgHtml = document.getElementById("map"),
-  //   svgData = new XMLSerializer().serializeToString(svgHtml),
-  //   svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
-  // var svgUrl = URL.createObjectURL(svgBlob);
-  // var downloadLink = document.createElement("a");
-  // downloadLink.href = svgUrl;
-  // downloadLink.download = "map.svg";
-  // document.body.appendChild(downloadLink);
-  // downloadLink.click();
-  // document.body.removeChild(downloadLink);
-//=========================================================
+//   svg
+//     .selectAll("text")
+//     .data(features)
+//     .enter()
+//     .append("text")
+//     .text(d => d.properties.TOWN)
+//     .attr("x", function(d) {
+//       console.log(path.centroid(d)[0]);
+//       return path.centroid(d)[0];
+//     })
+//     .attr("y", function(d) {
+//       return path.centroid(d)[1];
+//     })
+//     .attr("text-anchor", "middle")
+//     .attr("font-size", "12px")
+//     .attr("fill", "#4a4a4a");
 
-  // console.log(svgData);
-});
+//   // d3.select("svg").style("background-color", "pink");
+//   //=========================================================
+//   // var svgHtml = document.getElementById("map"),
+//   //   svgData = new XMLSerializer().serializeToString(svgHtml),
+//   //   svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+//   // var svgUrl = URL.createObjectURL(svgBlob);
+//   // var downloadLink = document.createElement("a");
+//   // downloadLink.href = svgUrl;
+//   // downloadLink.download = "map.svg";
+//   // document.body.appendChild(downloadLink);
+//   // downloadLink.click();
+//   // document.body.removeChild(downloadLink);
+//   //=========================================================
+
+//   // console.log(svgData);
+// });
 d3.selectAll(".svg--nav > path")
-.on("click", function(d) {
-  d3.select(this).attr("fill", "#6dcccb");
-  const location = prop => {
-    switch (prop) {
-      case `板橋區`:
-        return `環保署板橋站`;
-      default:
-        return prop;
-    }
-  };
-  console.log(d.properties.number, d.properties.TOWN);
-  els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
-  handleHeaderInfo(d.properties.TOWN);
-  renderMultiLinesChart();
-  console.log('click', d);
-})
-.on("mouseout", function(d) {
-  d3.select(this).attr("fill", "#ddd");
-})
+  .on("click", function(d) {
+    d3.select(this).attr("fill", "#6dcccb");
+    const location = prop => {
+      switch (prop) {
+        case `板橋區`:
+          return `環保署板橋站`;
+        default:
+          return prop;
+      }
+    };
+    console.log(d.properties.number, d.properties.TOWN);
+    els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
+    handleHeaderInfo(d.properties.TOWN);
+    renderMultiLinesChart();
+    console.log("click", d);
+  })
+  .on("mouseout", function(d) {
+    d3.select(this).attr("fill", "#ddd");
+  });
 
 //!!! d3 timeformat https://www.oxxostudio.tw/articles/201412/svg-d3-11-time.html
 //
@@ -631,8 +646,8 @@ const renderPieChart = _ => {
         "#9b9b9b",
         "#BED1D5"
       ]);
-    const width = 450;
-    const height = 320;
+    const width = 300;
+    const height = 170;
     // svg.attr("width", width);
     // svg.attr("height", height);
     const outerRadius = Math.min(width, height) / 4;

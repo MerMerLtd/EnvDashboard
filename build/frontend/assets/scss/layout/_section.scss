@@ -41,13 +41,44 @@
 //     // background-color: #cec14d;
 //   }
 // }
-.section{
-  height: 100%;
+.section {
+  // height: 100%;
   display: flex;
   flex-direction: column;
- & > *:not(:last-child){
-  margin-bottom: 3rem;
- }
+  & > *:not(:last-child) {
+    margin-bottom: 3rem;
+    @include respond(big-desktop) {
+      margin-bottom: 2vh;
+    }
+  }
+
+  &__helper-1,
+  &__helper-2 {
+    margin-bottom: 3rem;
+    & > *:not(:last-child) {
+      margin-bottom: 3rem;
+      @include respond(big-desktop) {
+        margin-bottom: 2vh;
+      }
+    }
+  }
+  &__helper {
+    @include respond(big-desktop) {
+      display: flex;
+      height: 86vh;
+      // background-color: palevioletred;
+    }
+  }
+  &__helper-1 {
+    @include respond(big-desktop) {
+      width: 50%;
+    }
+  }
+  &__helper-2 {
+    @include respond(big-desktop) {
+      width: 50%;
+    }
+  }
   // & > .iframe__container{
   //   flex: 1;
   // }
