@@ -3,6 +3,9 @@
   width: 100vw;
   background-image: linear-gradient(to bottom, #8cece6, #3a82ab);
   padding: 0 2rem;
+  @include respond(big-desktop) {
+    padding: 0 1rem;
+  }
 
   &__style {
     width: 1040px;

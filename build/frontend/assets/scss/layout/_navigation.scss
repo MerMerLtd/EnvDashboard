@@ -12,6 +12,9 @@
   border-radius: 24px;
   box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.3);
   background-color: #f7f7f8;
+  @include respond(big-desktop) {
+    height: 42vh;
+  }
   &__map {
     // background-color: rgb(143, 39, 39);
     width: 400px;
