@@ -55,6 +55,7 @@ class OpenData extends Bot {
   async crawlWeather() {
     const currentDate = new Date();
     const timestamp = currentDate.getTime();
+    const weatherType = ['sunny', 'cloudy', 'rain', 'thundershower'];
     let list;
 
     const targetURL = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-069?Authorization=CWB-DA6F23D8-AF4A-4497-8C11-1E07120A9B0D';
@@ -71,13 +72,13 @@ class OpenData extends Bot {
         date: `民國 ${(currentDate.getFullYear() - 1911)}年 ${(currentDate.getMonth() + 1)}月 ${currentDate.getDate()}日`,
         quote: `今日${v.locationName}空氣品質良好，是個適合出遊的好日子`,
         location: v.locationName,
-        weather: v.weatherElement[1].time[0].elementValue[0].value,
+        weather: weatherType[Math.floor(Math.random() * weatherType.length)], //v.weatherElement[1].time[0].elementValue[0].value,
         chanceOfRain: v.weatherElement[0].time[0].elementValue[0].value / 100,
         temperature: v.weatherElement[3].time[0].elementValue[0].value,
         apparentTemp: v.weatherElement[2].time[0].elementValue[0].value,
         highTemp,
         lowTemp,
-        windDirection: v.weatherElement[9].time[0].elementValue[0].value,
+        windDirection: v.weatherElement[9].time[0].elementValue[0].value
       };
       return record;
     });
