@@ -73,6 +73,10 @@ class Receptor extends Bot {
       if(/Bot/i.test(operationParams[0])) {
         return this.getBot(operationParams[1])
         .then((bot) => {
+setTimeout(() => {
+  bot.topData().then(console.log)
+}, 10000)
+          
           operation = (inputs) => {
           	return bot[operationParams[2]](inputs);
           };

@@ -15,7 +15,7 @@ class OpenData extends Bot {
   }
 
   start() {
-    //this.crawlAll();
+    this.crawlAll();
     return super.start();
   }
 
@@ -49,15 +49,13 @@ class OpenData extends Bot {
     result = result.filter((v) => {
       return v.County == '新北市';
     });
-    this.aqi = { data: result, timestamp };
-    console.log(result)
+    this.aqi = result;
   }
 
   async crawlWeather() {
     const currentDate = new Date();
     const timestamp = currentDate.getTime();
     let list;
-    let result = {};
 
     const targetURL = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-069?Authorization=CWB-DA6F23D8-AF4A-4497-8C11-1E07120A9B0D';
     list = await this.request({ targetURL });
@@ -71,7 +69,7 @@ class OpenData extends Bot {
       
       const record = {
         date: `民國 ${(currentDate.getFullYear() - 1911)}年 ${(currentDate.getMonth() + 1)}月 ${currentDate.getDate()}日`,
-        quote: `今日 ${v.locationName} 空氣品質良好，是個適合出遊的好日子`,
+        quote: `今日${v.locationName}空氣品質良好，是個適合出遊的好日子`,
         location: v.locationName,
         weather: v.weatherElement[1].time[0].elementValue[0].value,
         chanceOfRain: v.weatherElement[0].time[0].elementValue[0].value / 100,
@@ -81,15 +79,52 @@ class OpenData extends Bot {
         lowTemp,
         windDirection: v.weatherElement[9].time[0].elementValue[0].value,
       };
-      result[v.locationName] = record;
-      this.weather = result;
       return record;
     });
-    console.log(list[0])
+    this.weather = list;
   }
 
-  topData() {
-    return Promise.resolve(this.weather);
+  findWeather(location) {
+    if(!this.weather) {
+      return {};
+    }
+
+    const weather = this.weather.find((v) => {
+      return v.location == location;
+    }) ||
+    this.weather.find((v) => {
+      return v.location == '板橋區';
+    });
+    return weather;
+  }
+
+  findAQI(location) {
+    if(!this.aqi) {
+      return {};
+    }
+
+    let searchKey;
+    if(location && location.indexOf('區') == location.length - 1) {
+      searchKey = location.substr(0, location.legnth - 1);
+    }
+
+    const aqi = this.aqi.find((v) => {
+      return v.SiteName == searchKey;
+    }) ||
+    this.aqi.find((v) => {
+      return v.SiteName == '板橋';
+    });
+    return aqi;
+  }
+
+  topData({ query }) {
+    const location = query.location;
+    const result = this.findAQI(location) || {};
+    const weather = this.findWeather(location);
+    Object.keys(weather).map((v) => {
+      result[v] = weather[v];
+    });
+    return Promise.resolve(result);
   }
 }
 
