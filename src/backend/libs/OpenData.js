@@ -131,72 +131,72 @@ class OpenData extends Bot {
     }
 
     let timestamp = new Date(data.PublishTime).getTime();
-    const key = `AIR.${timestamp}`;
+    let key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
-    const key = `AIR.${timestamp}`;
+    key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
-    const key = `AIR.${timestamp}`;
+    key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
-    const key = `AIR.${timestamp}`;
+    key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
-    const key = `AIR.${timestamp}`;
+    key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
-    const key = `AIR.${timestamp}`;
+    key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
-    const key = `AIR.${timestamp}`;
+    key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
-    const key = `AIR.${timestamp}`;
+    key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
-    const key = `AIR.${timestamp}`;
+    key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
-    const key = `AIR.${timestamp}`;
+    key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
-    const key = `AIR.${timestamp}`;
+    key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
-    const key = `AIR.${timestamp}`;
+    key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
-    const key = `AIR.${timestamp}`;
+    key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
-    const key = `AIR.${timestamp}`;
+    key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
     await this.write({ key, value: data });
   }
