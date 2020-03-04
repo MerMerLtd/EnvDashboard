@@ -132,45 +132,72 @@ class OpenData extends Bot {
 
     let timestamp = new Date(data.PublishTime).getTime();
     const key = `AIR.${timestamp}`;
+    console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
+    const key = `AIR.${timestamp}`;
+    console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
+    const key = `AIR.${timestamp}`;
+    console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
+    const key = `AIR.${timestamp}`;
+    console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
+    const key = `AIR.${timestamp}`;
+    console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
+    const key = `AIR.${timestamp}`;
+    console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
+    const key = `AIR.${timestamp}`;
+    console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
+    const key = `AIR.${timestamp}`;
+    console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
+    const key = `AIR.${timestamp}`;
+    console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
+    const key = `AIR.${timestamp}`;
+    console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
+    const key = `AIR.${timestamp}`;
+    console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
+    const key = `AIR.${timestamp}`;
+    console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
+    const key = `AIR.${timestamp}`;
+    console.log(`write: ${key}`);
     await this.write({ key, value: data });
 
     timestamp = timestamp - 3600000;
+    const key = `AIR.${timestamp}`;
+    console.log(`write: ${key}`);
     await this.write({ key, value: data });
   }
 
@@ -178,6 +205,7 @@ class OpenData extends Bot {
     const timestamp = new String(new Date().getTime() - 86400000).substr(0, 4);
     const key = `AIR.${timestamp}`;
     const data = await this.find({ key });
+    console.log(`save: ${key}`);
     return data;
   }
 
