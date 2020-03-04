@@ -222,7 +222,6 @@ console.log(`navW: ${navW}, navH; ${navH}`);
 // 4. var projection = d3.geoMercator() to setup geo projection type
 // 5. var path = d3.geoPath().projection(projection) to create path base on projection
 
-
 d3.json("./assets/topojson/town_1999.json").then(topodata => {
   console.log("run topojson");
   let features = topodata.features.filter(
@@ -240,43 +239,44 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
   // let projection = d3
   //   .geoMercator()
   //   .scale(31500) // 31500
-  //   .center([122.14, 24.905]);//[122.14, 24.905]
+  //   .center([122.14, 24.905]);//[122.14, 24.905]  [122.6, 24.69]
   // let path = d3.geoPath().projection(projection);
+
   let svg = d3
     .select(".svg--nav")
     // .attr('id', 'map')
     // .attr("xmlns", "http://www.w3.org/2000/svg")
     // .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
-    .attr("height", navW * 0.383)
-    .attr("width", navW * 0.383)
+    // .attr("height", navW * 0.383)
+    // .attr("width", navW * 0.383)
     .attr("preserveAspectRatio", "xMinYMin meet");
   svg
     .selectAll("path")
     .data(features)
     .enter();
-    // .append("path")
-    // .attr("d", path)
-    // .attr("fill", d => color(d.properties.number * 300))
-    // .attr("stroke", "#fff")
-    // .attr("stroke-width", "1px")
-    // .on("click", function(d) {
-      // d3.select(this).attr("fill", "#6dcccb");
-      // const location = prop => {
-      //   switch (prop) {
-      //     case `板橋區`:
-      //       return `環保署板橋站`;
-      //     default:
-      //       return prop;
-      //   }
-      // };
-      // console.log(d.properties.number, d.properties.TOWN);
-      // els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
-      // handleHeaderInfo(d.properties.TOWN);
-      // renderMultiLinesChart();
-    // })
-    // .on("mouseout", function(d) {
-    //   d3.select(this).attr("fill", color(d.properties.number * 300));
-    // });
+  // .append("path")
+  // .attr("d", path)
+  // .attr("fill", d => color(d.properties.number * 300))
+  // .attr("stroke", "#fff")
+  // .attr("stroke-width", "1px")
+  // .on("click", function(d) {
+  // d3.select(this).attr("fill", "#6dcccb");
+  // const location = prop => {
+  //   switch (prop) {
+  //     case `板橋區`:
+  //       return `環保署板橋站`;
+  //     default:
+  //       return prop;
+  //   }
+  // };
+  // console.log(d.properties.number, d.properties.TOWN);
+  // els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
+  // handleHeaderInfo(d.properties.TOWN);
+  // renderMultiLinesChart();
+  // })
+  // .on("mouseout", function(d) {
+  //   d3.select(this).attr("fill", color(d.properties.number * 300));
+  // });
 
   // svg
   //   .selectAll("text")

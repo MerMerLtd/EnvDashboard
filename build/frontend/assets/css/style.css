@@ -770,12 +770,10 @@ body {
   @media only screen and (min-width: 75em) {
     .navigation {
       height: 42vh; } }
-  .navigation__map {
-    height: 100%; }
-    .navigation__map h1 {
-      width: 100%;
-      padding-top: 2rem;
-      text-align: center; }
+  .navigation__map h1 {
+    width: 100%;
+    padding-top: 2rem;
+    text-align: center; }
   .navigation__chart {
     margin: 0 2rem;
     height: fit-content;
