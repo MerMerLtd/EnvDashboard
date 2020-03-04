@@ -123,14 +123,23 @@ class OpenData extends Bot {
   }
 
   async saveAirHistory() {
-    const data = {
+    const dataset = {
       weather: this.weather,
       aqi: this.aqi
     };
-    if(!data || !data.PublishTime) {
+    
+    if(!dataset.weather || !dataset.aqi) {
       return;
+    } else {
+      const jobs = dataset.weather.map((v, k) => {
+        const data = this.makeSummary({ weather: v, aqi: dataset.aqi[k] });
+        return saveAirHistoryLocation({ data });
+      });
+      return Promise.all(jobs);
     }
+  }
 
+  async saveAirHistoryLocation({ data }) {
     let timestamp = new Date(data.PublishTime).getTime();
     let key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
@@ -204,19 +213,27 @@ class OpenData extends Bot {
 
   async pollution({ pollution = 'PM2.5' }) {
     const timestamp = new String(new Date().getTime() - 86400000).substr(0, 4);
-    const key = `AIR.${timestamp}`;
+    const key = `AIR.`;
     const data = await this.find({ key });
     return data;
   }
 
-  summary({ query }) {
-    console.log('summary');//--
-    const location = query.location;
-    const result = this.findAQI(location) || {};
-    const weather = this.findWeather(location);
+  makeSummary({ aqi, weather }) {
+    const result = {};
+    Object.keys(aqi).map((v) => {
+      result[v] = aqi[v];
+    });
     Object.keys(weather).map((v) => {
       result[v] = weather[v];
     });
+  }
+
+  summary({ query }) {
+    const location = query.location;
+    const aqi = this.findAQI(location) || {};
+    const weather = this.findWeather(location);
+    const result = this.makeSummary({ aqi, weather });
+
     return Promise.resolve(result);
   }
 }
