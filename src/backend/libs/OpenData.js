@@ -35,8 +35,11 @@ class OpenData extends Bot {
     clearInterval(this.timer);
     const run = async () => {
       await this.crawlAQI();
+      console.log(1);
       await this.crawlWeather();
+      console.log(2);
       await this.saveAirHistory();
+      console.log(3);
     };
     this.timer = setInterval(run, 3600000);
     run();
@@ -51,7 +54,6 @@ class OpenData extends Bot {
       return v.County == '新北市';
     });
     this.aqi = result;
-    console.log(result);//--
   }
 
   async crawlWeather() {
@@ -85,7 +87,6 @@ class OpenData extends Bot {
       return record;
     });
     this.weather = list;
-    console.log(list);//--
   }
 
   findWeather(location) {
@@ -205,7 +206,6 @@ class OpenData extends Bot {
     const timestamp = new String(new Date().getTime() - 86400000).substr(0, 4);
     const key = `AIR.${timestamp}`;
     const data = await this.find({ key });
-    console.log(`save: ${key}`);
     return data;
   }
 
