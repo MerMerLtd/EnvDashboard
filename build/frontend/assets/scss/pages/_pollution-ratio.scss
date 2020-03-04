@@ -29,7 +29,7 @@
       top: 2rem;
       left: 5px;
       @include respond(big-desktop) {
-        top: 0;
+        top: -2rem;
         left: 0;
       }
     }

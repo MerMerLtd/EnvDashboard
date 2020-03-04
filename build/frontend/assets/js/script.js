@@ -132,7 +132,7 @@ const handleHeaderInfo = async location => {
   //   quote: `今日${location}空氣品質良好，是個適合出遊的好日子`
   // };
   if (err) {
-    console.log(err);
+    // console.log(err);
     // throw new Error(err)
   }
   if (data) {
@@ -208,104 +208,109 @@ Array.from(els.videoDropdownLinks).forEach(videoDropdownLink =>
 
 //===============================================
 //==============  新北市行政區 svg  ===============
-const navWidth = +window
-  .getComputedStyle(document.querySelector(".navigation__chart"))
+const navW = +window
+  .getComputedStyle(document.querySelector(".navigation"))
   .width.replace("px", "");
-const navHeight = +window
-  .getComputedStyle(document.querySelector(".navigation__chart"))
+const navH = +window
+  .getComputedStyle(document.querySelector(".navigation"))
   .height.replace("px", "");
+console.log(`navW: ${navW}, navH; ${navH}`);
+
 // 1. use shp2json COUNTY_MOI_1060525.shp -o county.json --encoding big5 to convert from .shp to .json with big5 encoding
 // 2. d3.json read the json file
 // 3. create d3 group with data.features
 // 4. var projection = d3.geoMercator() to setup geo projection type
 // 5. var path = d3.geoPath().projection(projection) to create path base on projection
 
-// d3.json("./assets/topojson/town_1999.json").then(topodata => {
-//   let features = topodata.features.filter(
-//     data => data.properties.COUNTY === "新北市"
-//   );
-//   for (i = features.length - 1; i >= 0; i--) {
-//     features[i].properties.number = i;
-//   }
-//   // console.log(features);
-//   let color = d3
-//     .scaleLinear()
-//     .domain([0, 10000])
-//     .range(["#ddd", "#ddd"]);
+d3.json("./assets/topojson/town_1999.json").then(topodata => {
+  console.log("run topojson");
+  let features = topodata.features.filter(
+    data => data.properties.COUNTY === "新北市"
+  );
+  for (i = features.length - 1; i >= 0; i--) {
+    features[i].properties.number = i;
+  }
+  // console.log(features);
+  // let color = d3
+  //   .scaleLinear()
+  //   .domain([0, 10000])
+  //   .range(["#ddd", "#ddd"]);
 
-//   let projection = d3
-//     .geoMercator()
-//     .scale(31500)
-//     .center([122.14, 24.905]);
-//   let path = d3.geoPath().projection(projection);
-//   let svg = d3
-//     .select(".svg--nav")
-//     // .attr('id', 'map')
-//     .attr("xmlns", "http://www.w3.org/2000/svg")
-//     .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
-//     .attr("height", 400)
-//     .attr("width", 400);
-//   svg
-//     .selectAll("path")
-//     .data(features)
-//     .enter()
-//     .append("path")
-//     .attr("d", path)
-//     .attr("fill", d => color(d.properties.number * 300))
-//     .attr("stroke", "#fff")
-//     .attr("stroke-width", "1px")
-//     .on("click", function(d) {
-//       d3.select(this).attr("fill", "#6dcccb");
-//       const location = prop => {
-//         switch (prop) {
-//           case `板橋區`:
-//             return `環保署板橋站`;
-//           default:
-//             return prop;
-//         }
-//       };
-//       console.log(d.properties.number, d.properties.TOWN);
-//       els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
-//       handleHeaderInfo(d.properties.TOWN);
-//       renderMultiLinesChart();
-//     })
-//     .on("mouseout", function(d) {
-//       d3.select(this).attr("fill", color(d.properties.number * 300));
-//     });
+  // let projection = d3
+  //   .geoMercator()
+  //   .scale(31500) // 31500
+  //   .center([122.14, 24.905]);//[122.14, 24.905]  [122.6, 24.69]
+  // let path = d3.geoPath().projection(projection);
 
-//   svg
-//     .selectAll("text")
-//     .data(features)
-//     .enter()
-//     .append("text")
-//     .text(d => d.properties.TOWN)
-//     .attr("x", function(d) {
-//       console.log(path.centroid(d)[0]);
-//       return path.centroid(d)[0];
-//     })
-//     .attr("y", function(d) {
-//       return path.centroid(d)[1];
-//     })
-//     .attr("text-anchor", "middle")
-//     .attr("font-size", "12px")
-//     .attr("fill", "#4a4a4a");
+  let svg = d3
+    .select(".svg--nav")
+    // .attr('id', 'map')
+    // .attr("xmlns", "http://www.w3.org/2000/svg")
+    // .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
+    // .attr("height", navW * 0.383)
+    // .attr("width", navW * 0.383)
+    .attr("preserveAspectRatio", "xMinYMin meet");
+  svg
+    .selectAll("path")
+    .data(features)
+    .enter();
+  // .append("path")
+  // .attr("d", path)
+  // .attr("fill", d => color(d.properties.number * 300))
+  // .attr("stroke", "#fff")
+  // .attr("stroke-width", "1px")
+  // .on("click", function(d) {
+  // d3.select(this).attr("fill", "#6dcccb");
+  // const location = prop => {
+  //   switch (prop) {
+  //     case `板橋區`:
+  //       return `環保署板橋站`;
+  //     default:
+  //       return prop;
+  //   }
+  // };
+  // console.log(d.properties.number, d.properties.TOWN);
+  // els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
+  // handleHeaderInfo(d.properties.TOWN);
+  // renderMultiLinesChart();
+  // })
+  // .on("mouseout", function(d) {
+  //   d3.select(this).attr("fill", color(d.properties.number * 300));
+  // });
 
-//   // d3.select("svg").style("background-color", "pink");
-//   //=========================================================
-//   // var svgHtml = document.getElementById("map"),
-//   //   svgData = new XMLSerializer().serializeToString(svgHtml),
-//   //   svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
-//   // var svgUrl = URL.createObjectURL(svgBlob);
-//   // var downloadLink = document.createElement("a");
-//   // downloadLink.href = svgUrl;
-//   // downloadLink.download = "map.svg";
-//   // document.body.appendChild(downloadLink);
-//   // downloadLink.click();
-//   // document.body.removeChild(downloadLink);
-//   //=========================================================
+  // svg
+  //   .selectAll("text")
+  //   .data(features)
+  //   .enter()
+  //   .append("text")
+  //   .text(d => d.properties.TOWN)
+  //   .attr("x", function(d) {
+  //     console.log(path.centroid(d)[0]);
+  //     return path.centroid(d)[0];
+  //   })
+  //   .attr("y", function(d) {
+  //     return path.centroid(d)[1];
+  //   })
+  //   .attr("text-anchor", "middle")
+  //   .attr("font-size", "12px")
+  //   .attr("fill", "#4a4a4a");
 
-//   // console.log(svgData);
-// });
+  // d3.select("svg").style("background-color", "pink");
+  //=========================================================
+  // var svgHtml = document.getElementById("map"),
+  //   svgData = new XMLSerializer().serializeToString(svgHtml),
+  //   svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+  // var svgUrl = URL.createObjectURL(svgBlob);
+  // var downloadLink = document.createElement("a");
+  // downloadLink.href = svgUrl;
+  // downloadLink.download = "map.svg";
+  // document.body.appendChild(downloadLink);
+  // downloadLink.click();
+  // document.body.removeChild(downloadLink);
+  //=========================================================
+
+  // console.log(svgData);
+});
 d3.selectAll(".svg--nav > path")
   .on("click", function(d) {
     d3.select(this).attr("fill", "#6dcccb");
@@ -362,7 +367,7 @@ const renderLineChart = _ => {
     // const height = +window
     //   .getComputedStyle(document.querySelector(".background--main"))
     //   .height.replace("px", "");
-    const height = navHeight;
+    const height = 200; //153
     const margin = {
       top: 20,
       right: 20,
@@ -445,6 +450,13 @@ const renderLineChart = _ => {
 
 //===============================================
 //===============  barChart svg  ================
+const layoutW = +window
+  .getComputedStyle(document.querySelector(".pollution-ratio"))
+  .width.replace("px", "");
+const layoutH = +window
+  .getComputedStyle(document.querySelector(".pollution-ratio"))
+  .height.replace("px", "");
+
 const renderBarChart = _ => {
   // const pollute = document.querySelector(".pie-chart--pollute").innerText;
   // console.log(year, pollute);
@@ -493,14 +505,8 @@ const renderBarChart = _ => {
     };
     console.log(dataset[`${pollute}`], "from barChart");
     const data = dataset[`${pollute}`];
-    const width =
-      +window
-        .getComputedStyle(document.querySelector(".pollution-ratio"))
-        .width.replace("px", "") / 3.5;
-    const height =
-      +window
-        .getComputedStyle(document.querySelector(".pollution-ratio"))
-        .height.replace("px", "") / 3.5;
+    const width = layoutH / 3.5;
+    const height = layoutH / 3.5;
 
     d3.select(".pollution-ratio__chart--barChart > svg").remove();
     const svg = d3
@@ -646,8 +652,9 @@ const renderPieChart = _ => {
         "#9b9b9b",
         "#BED1D5"
       ]);
-    const width = 300;
-    const height = 170;
+    console.log(`layoutW: ${layoutW}, layoutH; ${layoutH}`);
+    const width = layoutW; //450;
+    const height = layoutH > layoutW ? layoutH / 1.76 : layoutH / 1.25; //320;
     // svg.attr("width", width);
     // svg.attr("height", height);
     const outerRadius = Math.min(width, height) / 4;
@@ -660,12 +667,9 @@ const renderPieChart = _ => {
       .select("#donut")
       .append("svg")
       .attr("width", width)
-      .attr("height", height * 0.8)
+      .attr("height", height)
       .append("g")
-      .attr(
-        "transform",
-        "translate(" + width / 2 + "," + (height * 0.8) / 2 + ")"
-      );
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
     // const arc = function(d) {
     //   return d3
     //     .arc()
@@ -866,12 +870,12 @@ const renderMultiLinesChart = _ => {
       }
     ];
     // console.log(data);
-    d3.select(".navigation__chart > svg").remove();
+    d3.select(".navigation__chart-line > svg").remove();
     const svg = d3
-      .select(".navigation__chart")
+      .select(".navigation__chart-line")
       .append("svg")
       .attr("class", "svg svg--multiLinesChart");
-    const width = 610;
+    const width = navW * (1 - 0.383) - 20;
     const height = 220;
     svg.attr("width", width);
     svg.attr("height", height); //?
@@ -993,6 +997,11 @@ function showSlides(n) {
     dots[i].className = dots[i].className.replace(" active", "");
   }
   slides[slideIndex - 1].style.display = "block";
+}
+
+if (layoutW < 450) {
+  document.querySelector(".change-line").style.display = "block";
+  document.querySelector(".change-line").style.padding = "1rem";
 }
 
 window.onload = () => {
