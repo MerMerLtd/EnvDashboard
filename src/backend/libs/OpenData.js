@@ -36,6 +36,7 @@ class OpenData extends Bot {
     const run = async () => {
       await this.crawlAQI();
       await this.crawlWeather();
+      await this.saveAirHistory();
     };
     this.timer = setInterval(run, 3600000);
     run();
@@ -50,6 +51,7 @@ class OpenData extends Bot {
       return v.County == '新北市';
     });
     this.aqi = result;
+    console.log(result);//--
   }
 
   async crawlWeather() {
@@ -83,6 +85,7 @@ class OpenData extends Bot {
       return record;
     });
     this.weather = list;
+    console.log(list);//--
   }
 
   findWeather(location) {
@@ -118,7 +121,68 @@ class OpenData extends Bot {
     return aqi;
   }
 
-  topData({ query }) {
+  async saveAirHistory() {
+    const data = {
+      weather: this.weather,
+      aqi: this.aqi
+    };
+    if(!data || !data.PublishTime) {
+      return;
+    }
+
+    let timestamp = new Date(data.PublishTime).getTime();
+    const key = `AIR.${timestamp}`;
+    await this.write({ key, value: data });
+
+    timestamp = timestamp - 3600000;
+    await this.write({ key, value: data });
+
+    timestamp = timestamp - 3600000;
+    await this.write({ key, value: data });
+
+    timestamp = timestamp - 3600000;
+    await this.write({ key, value: data });
+
+    timestamp = timestamp - 3600000;
+    await this.write({ key, value: data });
+
+    timestamp = timestamp - 3600000;
+    await this.write({ key, value: data });
+
+    timestamp = timestamp - 3600000;
+    await this.write({ key, value: data });
+
+    timestamp = timestamp - 3600000;
+    await this.write({ key, value: data });
+
+    timestamp = timestamp - 3600000;
+    await this.write({ key, value: data });
+
+    timestamp = timestamp - 3600000;
+    await this.write({ key, value: data });
+
+    timestamp = timestamp - 3600000;
+    await this.write({ key, value: data });
+
+    timestamp = timestamp - 3600000;
+    await this.write({ key, value: data });
+
+    timestamp = timestamp - 3600000;
+    await this.write({ key, value: data });
+
+    timestamp = timestamp - 3600000;
+    await this.write({ key, value: data });
+  }
+
+  async pollution({ pollution = 'PM2.5' }) {
+    const timestamp = new String(new Date().getTime() - 86400000).substr(0, 4);
+    const key = `AIR.${timestamp}`;
+    const data = await this.find({ key });
+    return data;
+  }
+
+  summary({ query }) {
+    console.log('summary');//--
     const location = query.location;
     const result = this.findAQI(location) || {};
     const weather = this.findWeather(location);
