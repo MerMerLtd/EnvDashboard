@@ -775,6 +775,7 @@ body {
     padding-top: 2rem;
     text-align: center; }
   .navigation__chart {
+    pointer-events: none;
     margin: 0 2rem;
     height: fit-content;
     position: absolute;
