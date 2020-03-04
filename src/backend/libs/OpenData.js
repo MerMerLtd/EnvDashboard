@@ -133,7 +133,7 @@ class OpenData extends Bot {
     } else {
       const jobs = dataset.weather.map((v, k) => {
         const data = this.makeSummary({ weather: v, aqi: dataset.aqi[k] });
-        return saveAirHistoryLocation({ data });
+        return this.saveAirHistoryLocation({ data });
       });
       return Promise.all(jobs);
     }
@@ -144,7 +144,7 @@ class OpenData extends Bot {
     let key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
     await this.write({ key, value: data });
-
+/*
     timestamp = timestamp - 3600000;
     key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
@@ -209,6 +209,7 @@ class OpenData extends Bot {
     key = `AIR.${timestamp}`;
     console.log(`write: ${key}`);
     await this.write({ key, value: data });
+*/
   }
 
   async pollution({ pollution = 'PM2.5' }) {
@@ -226,14 +227,15 @@ class OpenData extends Bot {
     Object.keys(weather).map((v) => {
       result[v] = weather[v];
     });
+    return result;
   }
 
   summary({ query }) {
     const location = query.location;
-    const aqi = this.findAQI(location) || {};
+    const aqi = this.findAQI(location);
     const weather = this.findWeather(location);
     const result = this.makeSummary({ aqi, weather });
-
+    
     return Promise.resolve(result);
   }
 }
