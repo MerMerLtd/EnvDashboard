@@ -1170,5 +1170,5 @@ body {
       left: 5px; }
       @media only screen and (min-width: 75em) {
         .pollution-ratio__chart > #donut {
-          top: 0;
+          top: -2rem;
           left: 0; } }
