@@ -11,12 +11,16 @@ body {
 }
 
 .heading-primary {
+  pointer-events: stroke;
   @include respond(big-desktop) {
     font-size: 20px;
   }
   font-size: $default-font-size;
   font-weight: 300;
   margin-bottom: 1rem;
+  .background--sub &{
+    margin-bottom: 3rem;
+  }
   .navigation &,
   .pollution-ratio & {
     color: $color-grey-dark-5;

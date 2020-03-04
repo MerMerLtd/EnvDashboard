@@ -87,12 +87,15 @@ body {
       font-size: 16px; } }
 
 .heading-primary {
+  pointer-events: stroke;
   font-size: 2.4rem;
   font-weight: 300;
   margin-bottom: 1rem; }
   @media only screen and (min-width: 75em) {
     .heading-primary {
       font-size: 20px; } }
+  .background--sub .heading-primary {
+    margin-bottom: 3rem; }
   .navigation .heading-primary,
   .pollution-ratio .heading-primary {
     color: #4A4A4A; }
@@ -478,10 +481,8 @@ body {
 .svg--multiLinesChart .ref {
   stroke: #9b9b9b; }
 
-.svg--lineChart {
-  margin-top: 5rem; }
-  .svg--lineChart .text {
-    font-size: 20px; }
+.svg--lineChart .text {
+  font-size: 20px; }
 
 .checkbox {
   display: none; }
