@@ -4,6 +4,7 @@
   // grid-template-columns: 1fr 2fr ;
   // grid-column-gap: 3rem;
   // align-items: center;
+  position: relative;
   display: flex;
   justify-content: space-between;
   height: calc(100vh / 4 - 10rem);
@@ -17,23 +18,32 @@
   }
   &__map {
     // background-color: rgb(143, 39, 39);
-    width: 400px;
+    // position: relative;
+    // width: 400px;
     height: 100%;
- 
+    // flex: 1;
     & h1 {
       width: 100%;
       padding-top: 2rem;
       text-align: center;
     }
-    flex: 1;
   }
-  &__chart-box {
+  &__chart {
     // background-color: rgb(50, 155, 155);
-    margin-left: 2rem;
-    height: 100%;
-    width: 625px;
-    flex: 2;
-    padding: 3rem 3rem 3rem 0;
+    // margin-left: 2rem;
+    // height: 100%;
+    // width: 625px;
+    // flex: 2;
+    // padding: 3rem 3rem 3rem 0;
+    margin: 0 2rem ;
+    height: fit-content;
+    position: absolute;
+    transform: translate(0,-50%);
+    top: 50%;
+    right: 0;
+    @include respond(big-desktop){
+      margin: 0 1rem ;
+    }
   }
   &__chart-title {
     font-size: 36px;
@@ -46,8 +56,9 @@
     padding-bottom: 1.2rem;
     border-bottom: solid 1px #15d5c0;
     margin-bottom: 3rem;
-  }
-  &__chart {
-    // height: calc(100% - 10rem);
+    @include respond(big-desktop){
+      margin-bottom: 1rem;
+      margin-left: 0.5rem;
+    }
   }
 }

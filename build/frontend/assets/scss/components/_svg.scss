@@ -3,6 +3,9 @@
   // height: 100%;
   &--nav {
     // width: calc((100vw - 9rem) / 3);
+    position: absolute;
+    transform: translate(0,-50%);
+    top: 50%;
   }
   &--barChart {
     // background-color: pink;

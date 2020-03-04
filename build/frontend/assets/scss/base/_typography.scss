@@ -20,15 +20,24 @@ body {
   .navigation &,
   .pollution-ratio & {
     color: $color-grey-dark-5;
-  
   }
-
+  .navigation__chart & {
+    @include respond(big-desktop) {
+      margin-left: 0.5rem;
+    }
+  }
   .layout & {
     font-size: 3rem;
     font-weight: 300;
     margin-bottom: 1rem;
     color: $color-grey-dark;
   }
+  // .change-line{
+  //   @include respond(big-desktop){
+  //     display: block;
+  //     padding: 1rem;
+  //   }
+  // }
 }
 
 .heading-secondary {

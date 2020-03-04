@@ -96,6 +96,9 @@ body {
   .navigation .heading-primary,
   .pollution-ratio .heading-primary {
     color: #4A4A4A; }
+  @media only screen and (min-width: 75em) {
+    .navigation__chart .heading-primary {
+      margin-left: 0.5rem; } }
   .layout .heading-primary {
     font-size: 3rem;
     font-weight: 300;
@@ -440,6 +443,11 @@ body {
       display: block;
       opacity: 1; }
 
+.svg--nav {
+  position: absolute;
+  transform: translate(0, -50%);
+  top: 50%; }
+
 .svg--barChart rect {
   fill: #49BDCA; }
 
@@ -751,6 +759,7 @@ body {
       margin-right: 2rem; }
 
 .navigation {
+  position: relative;
   display: flex;
   justify-content: space-between;
   height: calc(100vh / 4 - 10rem);
@@ -762,19 +771,21 @@ body {
     .navigation {
       height: 42vh; } }
   .navigation__map {
-    width: 400px;
-    height: 100%;
-    flex: 1; }
+    height: 100%; }
     .navigation__map h1 {
       width: 100%;
       padding-top: 2rem;
       text-align: center; }
-  .navigation__chart-box {
-    margin-left: 2rem;
-    height: 100%;
-    width: 625px;
-    flex: 2;
-    padding: 3rem 3rem 3rem 0; }
+  .navigation__chart {
+    margin: 0 2rem;
+    height: fit-content;
+    position: absolute;
+    transform: translate(0, -50%);
+    top: 50%;
+    right: 0; }
+    @media only screen and (min-width: 75em) {
+      .navigation__chart {
+        margin: 0 1rem; } }
   .navigation__chart-title {
     font-size: 36px;
     font-weight: 500;
@@ -786,6 +797,10 @@ body {
     padding-bottom: 1.2rem;
     border-bottom: solid 1px #15d5c0;
     margin-bottom: 3rem; }
+    @media only screen and (min-width: 75em) {
+      .navigation__chart-title {
+        margin-bottom: 1rem;
+        margin-left: 0.5rem; } }
 
 .section {
   display: flex;
