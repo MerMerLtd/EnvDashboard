@@ -16,5 +16,6 @@ type = "firebase"
 [api]
 pathname = [
   "get | /,/version | Static.Utils.readPackageInfo",
-  "get | /weather/ | Bot.OpenData.topData"
+  "get | /weather/ | Bot.OpenData.summary",
+  "get | /pollution/ | Bot.OpenData.pollution"
 ]
