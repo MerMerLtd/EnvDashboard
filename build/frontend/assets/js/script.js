@@ -60,7 +60,8 @@ let els = {
   headerAQI: document.querySelector(".header__aqi"),
   apparentTemp: document.querySelector(".header__description--temp"),
   chanceOfRain: document.querySelector(".header__description--chance"),
-  headerQuote: document.querySelector(".header__comment")
+  headerQuote: document.querySelector(".header__comment"),
+  svgMap: document.querySelector(".svg--nav")
 };
 
 const getWeatherUI = weather => {
@@ -239,17 +240,17 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
   // let projection = d3
   //   .geoMercator()
   //   .scale(31500) // 31500
-  //   .center([122.14, 24.905]);//[122.14, 24.905]  [122.6, 24.69]
+  //   .center([122.1275, 24.8915]); //[122.14, 24.905]  [122.6, 24.69]
   // let path = d3.geoPath().projection(projection);
 
-  let svg = d3
-    .select(".svg--nav")
-    // .attr('id', 'map')
-    // .attr("xmlns", "http://www.w3.org/2000/svg")
-    // .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
-    // .attr("height", navW * 0.383)
-    // .attr("width", navW * 0.383)
-    .attr("preserveAspectRatio", "xMinYMin meet");
+  let svg = d3.select(".svg--nav");
+  // .attr("id", "map")
+  // .attr("xmlns", "http://www.w3.org/2000/svg")
+  // .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
+  // .attr("height", 385)
+  // .attr("width", 415)
+  // .attr("preserveAspectRatio", "xMinYMin meet")
+  // .attr("overflow", "visible");
   svg
     .selectAll("path")
     .data(features)
@@ -260,19 +261,19 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
   // .attr("stroke", "#fff")
   // .attr("stroke-width", "1px")
   // .on("click", function(d) {
-  // d3.select(this).attr("fill", "#6dcccb");
-  // const location = prop => {
-  //   switch (prop) {
-  //     case `板橋區`:
-  //       return `環保署板橋站`;
-  //     default:
-  //       return prop;
-  //   }
-  // };
-  // console.log(d.properties.number, d.properties.TOWN);
-  // els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
-  // handleHeaderInfo(d.properties.TOWN);
-  // renderMultiLinesChart();
+  //   d3.select(this).attr("fill", "#6dcccb");
+  //   const location = prop => {
+  //     switch (prop) {
+  //       case `板橋區`:
+  //         return `環保署板橋站`;
+  //       default:
+  //         return prop;
+  //     }
+  //   };
+  //   console.log(d.properties.number, d.properties.TOWN);
+  //   els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
+  //   handleHeaderInfo(d.properties.TOWN);
+  //   renderMultiLinesChart();
   // })
   // .on("mouseout", function(d) {
   //   d3.select(this).attr("fill", color(d.properties.number * 300));
@@ -311,26 +312,29 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
 
   // console.log(svgData);
 });
-d3.selectAll(".svg--nav > path")
-  .on("click", function(d) {
-    d3.select(this).attr("fill", "#6dcccb");
-    const location = prop => {
-      switch (prop) {
-        case `板橋區`:
-          return `環保署板橋站`;
-        default:
-          return prop;
-      }
-    };
-    console.log(d.properties.number, d.properties.TOWN);
-    els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
-    handleHeaderInfo(d.properties.TOWN);
-    renderMultiLinesChart();
-    console.log("click", d);
-  })
-  .on("mouseout", function(d) {
-    d3.select(this).attr("fill", "#ddd");
-  });
+d3.selectAll(".svg--nav > path").on("click", function(d) {
+  d3.selectAll("path").attr("fill", "#ddd");
+  d3.select(this).attr("fill", "#6dcccb");
+  const location = prop => {
+    switch (prop) {
+      case `板橋區`:
+        return `環保署板橋站`;
+      default:
+        return prop;
+    }
+  };
+  // console.log(d.properties.number, d.properties.TOWN);
+  els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
+  handleHeaderInfo(d.properties.TOWN);
+  renderMultiLinesChart();
+});
+let scaleRatio = navH / 385;
+// let translateY = -0.5 * scaleRatio * 100; // parseFloat((-0.5 * scaleRatio * 100).toFixed(0));
+
+if (navH < 385) {
+  els.svgMap.style.transform = `scale(${scaleRatio})`;
+  els.svgMap.style.marginLeft = `-${window.innerWidth * scaleRatio * 0.014}px`;
+}
 
 //!!! d3 timeformat https://www.oxxostudio.tw/articles/201412/svg-d3-11-time.html
 //
