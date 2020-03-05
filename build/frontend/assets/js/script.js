@@ -876,7 +876,7 @@ const renderMultiLinesChart = _ => {
       .append("svg")
       .attr("class", "svg svg--multiLinesChart");
     const width = navW * (1 - 0.383) - 20;
-    const height = 220;
+    const height = navH * 0.5;
     svg.attr("width", width);
     svg.attr("height", height); //?
     console.log(width, height);
