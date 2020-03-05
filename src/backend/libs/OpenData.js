@@ -108,6 +108,8 @@ class OpenData extends Bot {
     let searchKey;
     if(location && location.indexOf('區') == location.length - 1) {
       searchKey = location.substr(0, location.legnth - 1);
+    } else {
+      searchKey = location;
     }
 
     const aqi = this.aqi.find((v) => {
@@ -193,10 +195,10 @@ class OpenData extends Bot {
 
   makeSummary({ aqi, weather }) {
     const result = {};
-    Object.keys(aqi).map((v) => {
+    Object.keys(aqi || {}).map((v) => {
       result[v] = aqi[v];
     });
-    Object.keys(weather).map((v) => {
+    Object.keys(weather || {}).map((v) => {
       result[v] = weather[v];
     });
     return result;
