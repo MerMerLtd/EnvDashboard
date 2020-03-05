@@ -35,11 +35,8 @@ class OpenData extends Bot {
     clearInterval(this.timer);
     const run = async () => {
       await this.crawlAQI();
-      console.log(1);
       await this.crawlWeather();
-      console.log(2);
       await this.saveAirHistory();
-      console.log(3);
     };
     this.timer = setInterval(run, 3600000);
     run();
@@ -91,11 +88,11 @@ class OpenData extends Bot {
 
   findWeather(location) {
     if(!this.weather) {
-      return {};
+      return;
     }
 
     const weather = this.weather.find((v) => {
-      return v.location == location;
+      return new RegExp(location).test(v.location);
     }) ||
     this.weather.find((v) => {
       return v.location == '板橋區';
@@ -105,7 +102,7 @@ class OpenData extends Bot {
 
   findAQI(location) {
     if(!this.aqi) {
-      return {};
+      return;
     }
 
     let searchKey;
@@ -114,12 +111,29 @@ class OpenData extends Bot {
     }
 
     const aqi = this.aqi.find((v) => {
-      return v.SiteName == searchKey;
+      return new RegExp(searchKey).test(v.SiteName);
     }) ||
     this.aqi.find((v) => {
       return v.SiteName == '板橋';
     });
     return aqi;
+  }
+
+  findSearchKey(location) {
+    if(!location || !(location.length > 0)) {
+      return '板橋';
+    }
+    let weather = this.findWeather(location);
+    const result = !!weather ? '板橋' : weather.location.substr(0, 2);
+    return result;
+  }
+
+  findPollutionKey(pollution) {
+    const list = ['AQI', 'SO2', 'CO', 'O3', 'PM10', 'PM2.5', 'NO2', 'NOX', 'NO'];
+    const result = list.find((v) => {
+      return new RegExp(v, 'i').test(pollution);
+    }) || 'PM2.5';
+    return result;
   }
 
   async saveAirHistory() {
@@ -131,8 +145,19 @@ class OpenData extends Bot {
     if(!dataset.weather || !dataset.aqi) {
       return;
     } else {
+      let PublishTime = 0;
       const jobs = dataset.weather.map((v, k) => {
-        const data = this.makeSummary({ weather: v, aqi: dataset.aqi[k] });
+        const SiteName = v.location.substr(0, 2);
+        const weather = v;
+        const aqi = dataset.aqi.find((v) => {
+          return new RegExp(SiteName).test(v.SiteName);
+        }) || {};
+        if(!aqi.PublishTime) {
+          aqi.PublishTime = PublishTime;
+        } else {
+          PublishTime = aqi.PublishTime;
+        }
+        const data = this.makeSummary({ weather, aqi });
         return this.saveAirHistoryLocation({ data });
       });
       return Promise.all(jobs);
@@ -141,82 +166,29 @@ class OpenData extends Bot {
 
   async saveAirHistoryLocation({ data }) {
     let timestamp = new Date(data.PublishTime).getTime();
-    let key = `AIR.${timestamp}`;
-    console.log(`write: ${key}`);
+    let SiteName = data.location.substr(0, 2);
+    let key = `AIR.${SiteName}.${timestamp}`;
     await this.write({ key, value: data });
-/*
-    timestamp = timestamp - 3600000;
-    key = `AIR.${timestamp}`;
-    console.log(`write: ${key}`);
-    await this.write({ key, value: data });
-
-    timestamp = timestamp - 3600000;
-    key = `AIR.${timestamp}`;
-    console.log(`write: ${key}`);
-    await this.write({ key, value: data });
-
-    timestamp = timestamp - 3600000;
-    key = `AIR.${timestamp}`;
-    console.log(`write: ${key}`);
-    await this.write({ key, value: data });
-
-    timestamp = timestamp - 3600000;
-    key = `AIR.${timestamp}`;
-    console.log(`write: ${key}`);
-    await this.write({ key, value: data });
-
-    timestamp = timestamp - 3600000;
-    key = `AIR.${timestamp}`;
-    console.log(`write: ${key}`);
-    await this.write({ key, value: data });
-
-    timestamp = timestamp - 3600000;
-    key = `AIR.${timestamp}`;
-    console.log(`write: ${key}`);
-    await this.write({ key, value: data });
-
-    timestamp = timestamp - 3600000;
-    key = `AIR.${timestamp}`;
-    console.log(`write: ${key}`);
-    await this.write({ key, value: data });
-
-    timestamp = timestamp - 3600000;
-    key = `AIR.${timestamp}`;
-    console.log(`write: ${key}`);
-    await this.write({ key, value: data });
-
-    timestamp = timestamp - 3600000;
-    key = `AIR.${timestamp}`;
-    console.log(`write: ${key}`);
-    await this.write({ key, value: data });
-
-    timestamp = timestamp - 3600000;
-    key = `AIR.${timestamp}`;
-    console.log(`write: ${key}`);
-    await this.write({ key, value: data });
-
-    timestamp = timestamp - 3600000;
-    key = `AIR.${timestamp}`;
-    console.log(`write: ${key}`);
-    await this.write({ key, value: data });
-
-    timestamp = timestamp - 3600000;
-    key = `AIR.${timestamp}`;
-    console.log(`write: ${key}`);
-    await this.write({ key, value: data });
-
-    timestamp = timestamp - 3600000;
-    key = `AIR.${timestamp}`;
-    console.log(`write: ${key}`);
-    await this.write({ key, value: data });
-*/
   }
 
-  async pollution({ pollution = 'PM2.5' }) {
+  parsePollution({ data, pollution }) {
+    const result = data.map((v) => {
+      const hour = new Date(v.value.PublishTime).getHours() || 0;
+      const value = parseInt(v.value[pollution]) || 0;
+      const location = this.findSearchKey(v.value.location);
+      return { hour, value, location };
+    });
+    return result;
+  }
+
+  async pollution({ query: { pollution = 'PM2.5', location = '板橋' }}) {
     const timestamp = new String(new Date().getTime() - 86400000).substr(0, 4);
-    const key = `AIR.`;
+    const searchLocation = this.findSearchKey(location);
+    const searchPollution = this.findPollutionKey(pollution);
+    const key = `AIR.${searchLocation}.${timestamp}`;
     const data = await this.find({ key });
-    return data;
+    const result = this.parsePollution({ data, pollution: searchPollution });
+    return result;
   }
 
   makeSummary({ aqi, weather }) {
@@ -235,7 +207,7 @@ class OpenData extends Bot {
     const aqi = this.findAQI(location);
     const weather = this.findWeather(location);
     const result = this.makeSummary({ aqi, weather });
-    
+   
     return Promise.resolve(result);
   }
 }
