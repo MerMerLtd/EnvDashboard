@@ -2,17 +2,20 @@
   // width: 100%;
   // height: 100%;
   &--nav {
-    // width: calc((100vw - 9rem) / 3);
-    position: absolute;
-    transform: translate(0,-50%);
-    top: 50%;
+    // transform: translate(0, -50%);
+    // top: 50%;
+
+    // transform-origin: center;
+    // background-color: purple;
+    align-self: center;
+    // @include respond(big-desktop) {
+    // }
   }
   &--barChart {
     // background-color: pink;
     & rect {
       // fill: linear-gradient(to bottom, $color-primary-light-1,  $color-primary-dark-1);
       fill: $color-primary;
-
     }
     & text {
       font-size: 7px;
@@ -23,13 +26,14 @@
   }
   &--lineChart,
   &--multiLinesChart,
-  &--barChart,&--pieChart {
+  &--barChart,
+  &--pieChart {
     // background-color: palevioletred;
     & .tick line {
       stroke: $color-grey;
       opacity: 0.5;
     }
-    & .tick{
+    & .tick {
       stroke: $color-grey;
     }
     & .axis-label--x {
@@ -49,14 +53,13 @@
   }
   &--multiLinesChart {
     // background-color: indianred;
-    & .ref{
+    & .ref {
       stroke: $color-grey;
     }
   }
-  &--lineChart{
-    
+  &--lineChart {
     // background-color: palevioletred;
-    & .text{
+    & .text {
       font-size: 20px;
     }
   }

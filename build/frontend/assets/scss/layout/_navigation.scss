@@ -1,15 +1,9 @@
 .navigation {
-  // display: grid;
-  // justify-content: center;
-  // grid-template-columns: 1fr 2fr ;
-  // grid-column-gap: 3rem;
-  // align-items: center;
-  position: relative;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  height: calc(100vh / 4 - 10rem);
-  // width: 1040px;
-  height: 401px;
+  position: relative;
+  height: 400px;//21vh; //calc(100vh / 4 - 10rem); //401px
   border-radius: 24px;
   box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.3);
   background-color: #f7f7f8;
@@ -17,11 +11,14 @@
     height: 42vh;
   }
   &__map {
-    // background-color: rgb(143, 39, 39);
-    // position: relative;
-    // width: 400px;
-    // height: 100%;
-    // flex: 1;
+    position: relative;
+  
+    height: 100%;
+    width: 100%;
+    // flex: 2;
+    display: flex; 
+   
+    // flex-direction: row;
     & h1 {
       width: 100%;
       padding-top: 2rem;
@@ -29,15 +26,11 @@
     }
   }
   &__chart {
-    // background-color: rgb(50, 155, 155);
-    // margin-left: 2rem;
-    // height: 100%;
-    // width: 625px;
-    // flex: 2;
-    // padding: 3rem 3rem 3rem 0;
+    // flex: 3;
     pointer-events: none;
     margin: 0 2rem;
     height: fit-content;
+    // background-color: plum;
     position: absolute;
     transform: translate(0, -50%);
     top: 50%;

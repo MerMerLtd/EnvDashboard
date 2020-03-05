@@ -447,9 +447,7 @@ body {
       opacity: 1; }
 
 .svg--nav {
-  position: absolute;
-  transform: translate(0, -50%);
-  top: 50%; }
+  align-self: center; }
 
 .svg--barChart rect {
   fill: #49BDCA; }
@@ -736,7 +734,7 @@ body {
       .header__aqi {
         font-size: 24px;
         font-weight: normal;
-        padding: 10px 20px;
+        padding: 0px 20px;
         border-radius: 12px;
         margin: 0 2rem;
         line-height: 1.5; } }
@@ -760,21 +758,26 @@ body {
       margin-right: 2rem; }
 
 .navigation {
-  position: relative;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  height: calc(100vh / 4 - 10rem);
-  height: 401px;
+  position: relative;
+  height: 400px;
   border-radius: 24px;
   box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.3);
   background-color: #f7f7f8; }
   @media only screen and (min-width: 75em) {
     .navigation {
       height: 42vh; } }
-  .navigation__map h1 {
+  .navigation__map {
+    position: relative;
+    height: 100%;
     width: 100%;
-    padding-top: 2rem;
-    text-align: center; }
+    display: flex; }
+    .navigation__map h1 {
+      width: 100%;
+      padding-top: 2rem;
+      text-align: center; }
   .navigation__chart {
     pointer-events: none;
     margin: 0 2rem;
