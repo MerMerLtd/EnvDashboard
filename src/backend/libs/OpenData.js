@@ -105,15 +105,8 @@ class OpenData extends Bot {
       return;
     }
 
-    let searchKey;
-    if(location && location.indexOf('區') == location.length - 1) {
-      searchKey = location.substr(0, location.legnth - 1);
-    } else {
-      searchKey = location;
-    }
-
     const aqi = this.aqi.find((v) => {
-      return new RegExp(searchKey).test(v.SiteName);
+      return new RegExp(location).test(v.SiteName);
     }) ||
     this.aqi.find((v) => {
       return v.SiteName == '板橋';
@@ -131,7 +124,7 @@ class OpenData extends Bot {
   }
 
   findPollutionKey(pollution) {
-    const list = ['AQI', 'SO2', 'CO', 'O3', 'PM10', 'PM2.5', 'NO2', 'NOX', 'NO'];
+    const list = this.config.env.pollutions;
     const result = list.find((v) => {
       return new RegExp(v, 'i').test(pollution);
     }) || 'PM2.5';
@@ -177,20 +170,43 @@ class OpenData extends Bot {
     const result = data.map((v) => {
       const hour = new Date(v.value.PublishTime).getHours() || 0;
       const value = parseInt(v.value[pollution]) || 0;
-      const location = this.findSearchKey(v.value.location);
-      return { hour, value, location };
+      return { hour, value };
     });
     return result;
   }
 
+  async pollutionType({}) {
+    const data = this.config.env.pollutions;
+    return {
+      success: true,
+      message: `get pollution ${searchPollution} in ${searchLocation}`,
+      data,
+      code: '00000'
+    };
+  }
+
   async pollution({ query: { pollution = 'PM2.5', location = '板橋' }}) {
-    const timestamp = new String(new Date().getTime() - 86400000).substr(0, 4);
+    const timestamp = new String(new Date().getTime() - 86400000).substr(0, 3);
     const searchLocation = this.findSearchKey(location);
     const searchPollution = this.findPollutionKey(pollution);
     const key = `AIR.${searchLocation}.${timestamp}`;
     const data = await this.find({ key });
-    const result = this.parsePollution({ data, pollution: searchPollution });
-    return result;
+    const dataset = this.parsePollution({ data, pollution: searchPollution });
+    if(dataset.length > 24) {
+      dataset.splice(0, dataset.length - 24);
+    }
+    const result = {
+      pollution: searchPollution,
+      location: searchLocation,
+      safeRange: 12,
+      dataset
+    };
+    return {
+      success: true,
+      message: `get pollution ${searchPollution} in ${searchLocation}`,
+      data: result,
+      code: '00000'
+    };
   }
 
   makeSummary({ aqi, weather }) {
@@ -206,9 +222,16 @@ class OpenData extends Bot {
 
   summary({ query }) {
     const location = query.location;
-    const aqi = this.findAQI(location);
-    const weather = this.findWeather(location);
-    const result = this.makeSummary({ aqi, weather });
+    const searchKey = this.findSearchKey(location);
+    const aqi = this.findAQI(searchKey);
+    const weather = this.findWeather(searchKey);
+    const data = this.makeSummary({ aqi, weather });
+    const result = {
+      success: true,
+      message: `get weather summary in ${searchKey}`,
+      data,
+      code: '00000'
+    };
    
     return Promise.resolve(result);
   }

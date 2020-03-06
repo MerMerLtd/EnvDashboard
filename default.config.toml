@@ -1,6 +1,6 @@
 # MerMer Default Config
 
-title = "MerMer"
+title = "EnvDashboard"
 
 [base]
 folder = "MerMer-framework"
@@ -12,6 +12,19 @@ type = "ethereum"
 
 [database]
 type = "firebase"
+
+[env]
+pollutions = [
+  "AQI",
+  "SO2",
+  "CO",
+  "O3",
+  "PM10",
+  "PM2.5",
+  "NO2",
+  "NOX",
+  "NO"
+]
 
 [api]
 pathname = [
