@@ -186,6 +186,13 @@ class OpenData extends Bot {
   }
 
   aqiStations() {
+    if(!this.aqi) {
+      return Promise.resolve({
+        success: false,
+        message: `no AQI cems data`,
+        code: '00001'
+      });
+    }
     const stations = this.aqi.map((v) => {
       return v.SiteName;
     });
