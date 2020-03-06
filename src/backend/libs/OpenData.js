@@ -213,7 +213,7 @@ class OpenData extends Bot {
       });
     }
     const stations = this.weather.map((v) => {
-      return this.findSearchKey(v.location);
+      return v.location.substr(0, 2);
     });
     return Promise.resolve({
       success: true,
