@@ -10,8 +10,8 @@ class OpenData extends Bot {
     this.name = 'OpenData';
   }
 
-  init({ database, logger, i18n }) {
-    return super.init({ database, logger, i18n });
+  init({ database, logger, i18n, config }) {
+    return super.init({ database, logger, i18n, config });
   }
 
   start() {
@@ -175,7 +175,7 @@ class OpenData extends Bot {
     return result;
   }
 
-  async pollutionType({}) {
+  async pollutionTypes() {
     const data = this.config.env.pollutions;
     return {
       success: true,
@@ -185,7 +185,7 @@ class OpenData extends Bot {
     };
   }
 
-  async pollution({ query: { pollution = 'PM2.5', location = '板橋' }}) {
+  async pollution24h({ query: { pollution = 'PM2.5', location = '板橋' }}) {
     const timestamp = new String(new Date().getTime() - 86400000).substr(0, 3);
     const searchLocation = this.findSearchKey(location);
     const searchPollution = this.findPollutionKey(pollution);

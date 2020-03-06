@@ -30,5 +30,6 @@ pollutions = [
 pathname = [
   "get | /,/version | Static.Utils.readPackageInfo",
   "get | /weather/ | Bot.OpenData.summary",
-  "get | /pollution/ | Bot.OpenData.pollution"
+  "get | /polltionTypes | Bot.OpenData.pollutionTypes",
+  "get | /pollution/24h | Bot.OpenData.pollution24h"
 ]
