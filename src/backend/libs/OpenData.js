@@ -179,7 +179,7 @@ class OpenData extends Bot {
     const data = this.config.env.pollutions;
     return {
       success: true,
-      message: `get pollution ${searchPollution} in ${searchLocation}`,
+      message: `get pollution types`,
       data,
       code: '00000'
     };
