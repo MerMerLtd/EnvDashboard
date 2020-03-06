@@ -1,48 +1,6 @@
-# MerMer-framework
+# EnvDashboard
 
-MerMer Framework for Front End and Back End
-
-## Install
-
-```shell
-npm i -g mermer
-```
-
-## Initial New Project
-
-```shell
-mermer init /path/to/your/new/project
-```
-
-### edit package
-
-```shell
-vi /path/to/your/new/project/package.json
-```
-
-### edit config
-
-```shell
-cp /path/to/your/new/project/default.config.toml /path/to/your/new/project/private/config.toml
-vi /path/to/your/new/project/private/config.toml
-```
-
-```toml
-[api]
-pathname = [
-  "get | /,/version | Static.Utils.readPackageInfo"
-]
-
-# [method] | [path] | [execute function]
-```
-
-## Run Project
-
-```
-cd /path/to/your/new/project/
-npm install
-npm start
-```
+Project for Air Quality Improvement Project
 
 ## API
 
@@ -57,18 +15,18 @@ npm start
 }
 ```
 
-### District Pollutes
-GET District Pollutes options
+### Pollution Types
+GET Polltion Types for cems
 
-GET `/district-pollutes/`
+GET `/pollutionTypes`
 
 response:
 
 ```
 {
     "success": true,
-    "message": "success",
-    "data": ["PM2.5", "SO2", "NO2", "O3"],
+    "message": "get pollution types",
+    "data": [ "AQI", "SO2", "CO", "O3", "PM10", "PM2.5", "NO2", "NOX", "NO" ],
     "code": "00000"
 }
 ```
