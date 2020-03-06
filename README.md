@@ -15,6 +15,57 @@ Project for Air Quality Improvement Project
 }
 ```
 
+### Weather Summary
+GET Weather summary with specific location like 淡水, 鶯歌, 三峽, 永和, 金山, 新莊, 貢寮, 新店, 烏來, 樹林, 萬里, 八里, 板橋, 石門, 三重, 雙溪, 中和, 平溪, 三芝, 坪林, 石碇, 五股, 泰山, 林口, 深坑, 汐止, 瑞芳, 土城, 蘆洲
+
+GET `/weather?location=${location}`
+
+response:
+
+```
+{
+    "success": true,
+    "message": "get weather summary in 板橋", 
+    "data": {
+        "SiteName": "板橋",
+	"County": "新北市",
+	"AQI": "31",
+	"Pollutant": "",
+	"Status": "良好",
+	"SO2": "1.8",
+	"CO": "0.34",
+	"CO_8hr": "0.4",
+	"O3": "42",
+	"O3_8hr": "34",
+	"PM10": "17",
+	"PM2.5": "8",
+	"NO2": "13",
+	"NOx": "16",
+	"NO": "2.7",
+	"WindSpeed": "2.7",
+	"WindDirec": "75",
+	"PublishTime": "2020-03-06 13:00",
+	"PM2.5_AVG": "9",
+	"PM10_AVG": "17",
+	"SO2_AVG": "2",
+	"Longitude": "121.458667",
+	"Latitude": "25.012972",
+	"SiteId": "6",
+	"date": "民國 109年 3月 6日",
+	"quote": "今日板橋區空氣品質良好，是個適合出遊的好日子",
+	"location": "板橋區",
+	"weather": "thundershower",
+	"chanceOfRain": 0,
+	"temperature": "25",
+	"apparentTemp": "24",
+	"highTemp": "25",
+	"lowTemp": "18",
+	"windDirection": "偏東風"
+    },
+    "code": "00000"
+}
+```
+
 ### Pollution Types
 GET Polltion Types for cems
 
@@ -31,11 +82,26 @@ response:
 }
 ```
 
+### CEMS Locations
+GET location list of CEMS
+
+GET `/aqiStations`
+
+response:
+```
+{
+    "success": true,
+    "message": "get AQI cems location",
+    "data": ["富貴角", "樹林", "汐止", "萬里", "新店", "土城", "板橋", "新莊", "菜寮", "林口", "淡水", "永和", "三重"],
+    "code": "00000"
+}
+```
+
 ### District Pollute Chart
 
 GET 當日不同測站(共有九個測站， ex:`環保署板橋站`)或是不同區域連續 24 小時(0 時-23 時，共 24 個數據)，不同污染物濃度資料 `(包括PM2.5、SO2、NO2、O3)`，繪製時序變化圖，並根據所選取的污染物給出對應的對健康不利的參考濃度。
 
-GET `/district-cems/?location=${location}&pollute=${pollute}`
+GET `/pollution/24h?location=${location}&pollution=${pollution}`
 
 response:
 
@@ -44,8 +110,28 @@ response:
   "success": true,
   "message": "success",
   "data": {
-    "values": [6, 8, 9, 6, 6, 10, 9, 9, 8, 7, 5, 5, 6, 6, 10, 8, 9, 5, 7, 5, 6, 6, 4, 6],
-    "refValue": 8
+    "pollution": "PM2.5",
+    "location": "板橋",
+    "safeRange": 12,
+    "dataset": [
+      { "hour": 20, "value": 15 },
+      { "hour": 21, "value": 17 },
+      { "hour": 22, "value": 13 },
+      { "hour": 23, "value": 11 },
+      { "hour": 0, "value": 12 },
+      { "hour": 1, "value": 9 },
+      { "hour": 2, "value": 10 },
+      { "hour": 3, "value": 11 },
+      { "hour": 4, "value": 8 },
+      { "hour": 5, "value": 8 },
+      { "hour": 6, "value": 8 },
+      { "hour": 7, "value": 7 },
+      { "hour": 8, "value": 10 },
+      { "hour": 9, "value": 10 },
+      { "hour": 10, "value": 10 },
+      { "hour": 11, "value": 8 },
+      { "hour": 12, "value": 10 }
+    ]
   },
   "code": "00000"
 }
