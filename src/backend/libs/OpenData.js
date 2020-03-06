@@ -189,12 +189,12 @@ class OpenData extends Bot {
     const stations = this.aqi.map((v) => {
       return v.SiteName;
     });
-    return {
+    return Promise.resolve({
       success: true,
       message: `get AQI cems location`,
       data: stations,
       code: '00000'
-    };
+    });
   }
 
   async pollution24h({ query: { pollution = 'PM2.5', location = '板橋' }}) {
