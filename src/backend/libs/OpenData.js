@@ -204,6 +204,25 @@ class OpenData extends Bot {
     });
   }
 
+  weatherStations() {
+    if(!this.weather) {
+      return Promise.resolve({
+        success: false,
+        message: `no weather data`,
+        code: '00002'
+      });
+    }
+    const stations = this.weather.map((v) => {
+      return this.findSearchKey(v.location);
+    });
+    return Promise.resolve({
+      success: true,
+      message: `get weather location`,
+      data: stations,
+      code: '00000'
+    });
+  }
+
   async pollution24h({ query: { pollution = 'PM2.5', location = '板橋' }}) {
     const timestamp = new String(new Date().getTime() - 86400000).substr(0, 3);
     const searchLocation = this.findSearchKey(location);
