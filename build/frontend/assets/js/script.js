@@ -370,7 +370,7 @@ const renderLineChart = async _ => {
     url: `/factory-cems/?location=${location}`
   };
   let err, data;
-  [err, data] = await to(makeRequest(opts));
+  // [err, data] = await to(makeRequest(opts));
   if (err) {
     // console.log(err);
     // throw new Error(err)
@@ -1248,7 +1248,7 @@ window.onload = () => {
   renderMultiLinesChart();
   renderLineChart();
   handleHeaderInfo();
-  // getPollutionTypes();
+  getPollutionTypes();
   // getFactoryPollutes();
 };
 
