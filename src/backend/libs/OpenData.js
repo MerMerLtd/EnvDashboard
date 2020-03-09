@@ -175,14 +175,15 @@ class OpenData extends Bot {
     return result;
   }
 
-  pollutionTypes() {
+  async pollutionTypes() {
     const data = this.config.env.pollutions;
-    return {
+    const result = {
       success: true,
       message: `get pollution types`,
       data,
       code: '00000'
     };
+    return result;
   }
 
   aqiStations() {
