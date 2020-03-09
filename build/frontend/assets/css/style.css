@@ -95,7 +95,8 @@ body {
     .heading-primary {
       font-size: 20px; } }
   .background--sub .heading-primary {
-    margin-bottom: 3rem; }
+    margin-bottom: 3rem;
+    color: #4a4a4a; }
   .navigation .heading-primary,
   .pollution-ratio .heading-primary {
     color: #4A4A4A; }

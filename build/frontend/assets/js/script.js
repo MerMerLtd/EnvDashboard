@@ -61,7 +61,13 @@ let els = {
   apparentTemp: document.querySelector(".header__description--temp"),
   chanceOfRain: document.querySelector(".header__description--chance"),
   headerQuote: document.querySelector(".header__comment"),
-  svgMap: document.querySelector(".svg--nav")
+  svgMap: document.querySelector(".svg--nav"),
+  backgroundDropdownContent: document.querySelector(
+    ".background--sub .dropdown--content-mulitlines"
+  ),
+  backgroundDropdownLabel: document.querySelector(
+    ".background--sub .background-chart--pollute"
+  )
 };
 
 const getWeatherUI = weather => {
@@ -106,38 +112,53 @@ const getAQIColor = aqi => {
     return "maroon";
   }
 };
+const getPollutionTypes = async _ => {
+  const opts = {
+    contentType: "application/json",
+    method: "GET",
+    url: `/pollutionTypes`
+  };
+  let err, data;
+  [err, data] = await to(makeRequest(opts));
+  if (err) {
+    // console.log(err);
+  }
+  if (data) {
+    // console.log(data);
+    ({ data, message, success } = data);
+    if (!success) {
+      // console.log(message);
+      return;
+    }
+  }
+};
 
 const handleHeaderInfo = async location => {
-  console.log(location);
+  // console.log(location);
   if (location === undefined) {
     location = "板橋區";
+    d3.select('[data-location = "板橋區"]').attr("fill", "#6dcccb");
   }
-  console.log(location);
+  // console.log(location);
   const opts = {
     contentType: "application/json",
     method: "GET",
     url: `/weather/?location=${location}`
   };
+
   let err, data;
   [err, data] = await to(makeRequest(opts));
-  // data = {
-  //   date: "民國 109年 2月 25號",
-  //   temperature: 25,
-  //   highTemp: 31,
-  //   lowTemp: 19,
-  //   windDirection: "東北季風",
-  //   weather: "sunny", // ['sunny', 'cloudy', 'rain', 'thundershower],
-  //   chanceOfRain: 0.31,
-  //   apparentTemp: 28, //'體感溫度',
-  //   AQI: 302,
-  //   quote: `今日${location}空氣品質良好，是個適合出遊的好日子`
-  // };
   if (err) {
     // console.log(err);
-    // throw new Error(err)
   }
   if (data) {
-    console.log(data);
+    ({ data, message, success } = data);
+    if (!success) {
+      // console.log(message);
+      return;
+    }
+    // console.log(data);
+    els.navChartTitle.innerText = data.location;
     els.headerDate.innerText = data.date;
     els.headerTemp.innerText = `${data.temperature}°C`;
     els.headerHTemp.innerText = `${data.highTemp}°C /`;
@@ -150,6 +171,7 @@ const handleHeaderInfo = async location => {
     els.headerQuote.innerText = data.quote;
     els.headerAQI.innerText = `AQI ${data.AQI}`;
     els.headerAQI.className = `header__aqi ${getAQIColor(data.AQI)}`;
+    renderMultiLinesChart();
     return;
   }
 };
@@ -167,6 +189,8 @@ const handleDropdown = evt => {
     dropdownBtn.classList.remove("show");
   });
   if (evt.target.matches(".dropdown--content > a")) {
+    evt.target.parentElement.parentElement.children[0].firstElementChild.innerHTML =
+      evt.target.innerHTML;
     if (evt.target.dataset.chart === "pie") {
       renderPieChart();
       renderBarChart();
@@ -175,8 +199,6 @@ const handleDropdown = evt => {
     } else if (evt.target.dataset.chart === "line") {
       renderLineChart();
     }
-    evt.target.parentElement.parentElement.children[0].firstElementChild.innerHTML =
-      evt.target.innerHTML;
   }
 };
 
@@ -188,7 +210,7 @@ const openTabContent = evt => {
 };
 
 const closeBackgroundSub = _ => {
-  console.log("click");
+  // console.log("click");
   els.backgroundCheckbox.checked = false;
 };
 
@@ -215,7 +237,7 @@ const navW = +window
 const navH = +window
   .getComputedStyle(document.querySelector(".navigation"))
   .height.replace("px", "");
-console.log(`navW: ${navW}, navH; ${navH}`);
+// console.log(`navW: ${navW}, navH; ${navH}`);
 
 // 1. use shp2json COUNTY_MOI_1060525.shp -o county.json --encoding big5 to convert from .shp to .json with big5 encoding
 // 2. d3.json read the json file
@@ -224,7 +246,7 @@ console.log(`navW: ${navW}, navH; ${navH}`);
 // 5. var path = d3.geoPath().projection(projection) to create path base on projection
 
 d3.json("./assets/topojson/town_1999.json").then(topodata => {
-  console.log("run topojson");
+  // console.log("run topojson");
   let features = topodata.features.filter(
     data => data.properties.COUNTY === "新北市"
   );
@@ -240,7 +262,7 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
   // let projection = d3
   //   .geoMercator()
   //   .scale(31500) // 31500
-  //   .center([122.1275, 24.8915]); //[122.14, 24.905]  [122.6, 24.69]
+  //   .center([122.1278, 24.8915]); //[122.14, 24.905]  [122.6, 24.69]
   // let path = d3.geoPath().projection(projection);
 
   let svg = d3.select(".svg--nav");
@@ -257,28 +279,10 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
     .enter();
   // .append("path")
   // .attr("d", path)
-  // .attr("fill", d => color(d.properties.number * 300))
+  // .attr("fill", "#ddd")
   // .attr("stroke", "#fff")
   // .attr("stroke-width", "1px")
-  // .on("click", function(d) {
-  //   d3.select(this).attr("fill", "#6dcccb");
-  //   const location = prop => {
-  //     switch (prop) {
-  //       case `板橋區`:
-  //         return `環保署板橋站`;
-  //       default:
-  //         return prop;
-  //     }
-  //   };
-  //   console.log(d.properties.number, d.properties.TOWN);
-  //   els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
-  //   handleHeaderInfo(d.properties.TOWN);
-  //   renderMultiLinesChart();
-  // })
-  // .on("mouseout", function(d) {
-  //   d3.select(this).attr("fill", color(d.properties.number * 300));
-  // });
-
+  // .attr("data-location", d => d.properties.TOWN);
   // svg
   //   .selectAll("text")
   //   .data(features)
@@ -286,7 +290,7 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
   //   .append("text")
   //   .text(d => d.properties.TOWN)
   //   .attr("x", function(d) {
-  //     console.log(path.centroid(d)[0]);
+  // console.log(path.centroid(d)[0]);
   //     return path.centroid(d)[0];
   //   })
   //   .attr("y", function(d) {
@@ -295,23 +299,9 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
   //   .attr("text-anchor", "middle")
   //   .attr("font-size", "12px")
   //   .attr("fill", "#4a4a4a");
-
   // d3.select("svg").style("background-color", "pink");
-  //=========================================================
-  // var svgHtml = document.getElementById("map"),
-  //   svgData = new XMLSerializer().serializeToString(svgHtml),
-  //   svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
-  // var svgUrl = URL.createObjectURL(svgBlob);
-  // var downloadLink = document.createElement("a");
-  // downloadLink.href = svgUrl;
-  // downloadLink.download = "map.svg";
-  // document.body.appendChild(downloadLink);
-  // downloadLink.click();
-  // document.body.removeChild(downloadLink);
-  //=========================================================
-
-  // console.log(svgData);
 });
+
 d3.selectAll(".svg--nav > path").on("click", function(d) {
   d3.selectAll("path").attr("fill", "#ddd");
   d3.select(this).attr("fill", "#6dcccb");
@@ -323,10 +313,7 @@ d3.selectAll(".svg--nav > path").on("click", function(d) {
         return prop;
     }
   };
-  // console.log(d.properties.number, d.properties.TOWN);
-  els.navChartTitle.innerText = `${location(d.properties.TOWN)}`;
   handleHeaderInfo(d.properties.TOWN);
-  renderMultiLinesChart();
 });
 let scaleRatio = navH / 385;
 // let translateY = -0.5 * scaleRatio * 100; // parseFloat((-0.5 * scaleRatio * 100).toFixed(0));
@@ -336,28 +323,254 @@ if (navH < 385) {
   els.svgMap.style.marginLeft = `-${window.innerWidth * scaleRatio * 0.014}px`;
 }
 
+const getFactoryPollutes = async _ => {
+  const opts = {
+    contentType: "application/json",
+    method: "GET",
+    url: `/factory-pollutes`
+  };
+  let err, data;
+  [err, data] = await to(makeRequest(opts));
+  if (err) {
+    // console.log(err);
+    // throw new Error(err)
+  }
+  if (data) {
+    // console.log(data);
+    ({ data, message, success } = data);
+    if (!success) {
+      // console.log(message);
+      return;
+    }
+    els.backgroundDropdownContent.innerHTML = "";
+    els.backgroundDropdownLabel.innerHTML = data[0];
+    data.forEach(p => {
+      var tempDiv = document.createElement("a");
+      tempDiv.dataset.chart = "line";
+      tempDiv.innerText = p;
+      // const markup = `
+      // <a data-chart="mulitlines">${p}</a>
+      // `;
+      els.backgroundDropdownContent.insertAdjacentElement("beforeend", tempDiv);
+      console.log(data[p]);
+    });
+  }
+};
+
 //!!! d3 timeformat https://www.oxxostudio.tw/articles/201412/svg-d3-11-time.html
 //
 //===============================================
 //============  lineChart svg  ============
-const renderLineChart = _ => {
-  // const location = document.querySelector(".line-chart--location").innerText;
-  // console.log(year, pollute);
-  // const opts = {
-  //   contentType: "application/json",
-  //   method: "GET",
-  //   url: `factory-cems/?pollute=${pollute}&location=${location}`,
-  // };
-  // let err, data;
+const renderLineChart = async _ => {
+  const location = document.querySelector(".line-chart--location").innerText;
+  const pollute = els.backgroundDropdownLabel.innerText;
+  const opts = {
+    contentType: "application/json",
+    method: "GET",
+    url: `/factory-cems/?location=${location}`
+  };
+  let err, data;
   // [err, data] = await to(makeRequest(opts));
-  // if (err) {
-  //   console.log(err);
-  //   // throw new Error(err)
-  // }
-  // if (data) {
-  //   console.log(data);
-  //   return;
-  // }
+  if (err) {
+    // console.log(err);
+    // throw new Error(err)
+  }
+
+  data = {
+    success: true,
+    message: "success",
+    data: {
+      SO2: {
+        values: [
+          6,
+          8,
+          9,
+          6,
+          6,
+          10,
+          9,
+          9,
+          8,
+          7,
+          5,
+          5,
+          6,
+          6,
+          10,
+          8,
+          9,
+          5,
+          7,
+          5,
+          6,
+          6,
+          4,
+          6
+        ],
+        refValues: 12
+      },
+      NOx: {
+        values: [
+          6,
+          8,
+          5,
+          5,
+          6,
+          6,
+          10,
+          8,
+          9,
+          5,
+          7,
+          5,
+          6,
+          6,
+          4,
+          6,
+          9,
+          6,
+          6,
+          10,
+          9,
+          9,
+          8,
+          7
+        ],
+        refValues: 12
+      },
+      O2: {
+        values: [
+          6,
+          8,
+          9,
+          6,
+          6,
+          6,
+          10,
+          8,
+          9,
+          5,
+          7,
+          5,
+          6,
+          10,
+          9,
+          9,
+          8,
+          7,
+          5,
+          5,
+          6,
+          6,
+          4,
+          6
+        ],
+        refValues: 12
+      }
+    },
+    code: "00000"
+  };
+  if (data) {
+    // console.log(data);
+    ({ data, message, success } = data);
+    if (!success) {
+      // console.log(message);
+      return;
+    }
+    console.log(pollute);
+    console.log(data[pollute]);
+      // console.log(data);
+      // d3.select(".background--sub__lineChart > svg").remove();
+      // const svg = d3
+      //   .select(".background--sub__lineChart")
+      //   .append("svg")
+      //   .attr("class", "svg svg--lineChart");
+      // const width = +window
+      //   .getComputedStyle(document.querySelector(".preventive"))
+      //   .width.replace("px", "");
+      // // const height = +window
+      // //   .getComputedStyle(document.querySelector(".background--main"))
+      // //   .height.replace("px", "");
+      // const height = 200; //153
+      // const margin = {
+      //   top: 20,
+      //   right: 20,
+      //   bottom: 30,
+      //   left: 40
+      // };
+      // const innerWidth = width - margin.left - margin.right;
+      // // const innerHeight = height - margin.top - margin.bottom;
+      // const xValue = d => +d.hour;
+      // const yValue = d => +d.value;
+      // const circleRadius = 3.5;
+      // svg.attr("width", width);
+      // svg.attr("height", height);
+      // // const xScale = d3
+      // // .scaleTime()
+      // // .domain([Date.now(), Date.now() + 21 * 60 * 60 * 1000])
+      // // .range([margin.left, width - margin.right])
+      // // .nice();
+      // const g = svg.append("g");
+      // // .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
+      // const xScale = d3
+      //   .scalePoint()
+      //   .domain(data.map(xValue))
+      //   .range([margin.left, width - margin.right]);
+      // // .range([0, innerWidth]);
+  
+      // const xAxis = d3.axisBottom(xScale);
+      // const xAxisG = g
+      //   .append("g")
+      //   .call(xAxis)
+      //   .attr("transform", `translate(0, ${height - margin.bottom})`);
+      // xAxisG.selectAll(".domain, .tick line").remove();
+  
+      // const yScale = d3
+      //   .scaleLinear()
+      //   // .domain(d3.extent(data, yValue))
+      //   .domain([0, d3.max(data, yValue)])
+      //   .range([height - margin.bottom, margin.top])
+      //   .nice();
+  
+      // const yAxis = d3.axisLeft(yScale).tickSize(-innerWidth);
+      // // .ticks(5);
+      // const yAxisG = g
+      //   .append("g")
+      //   .call(yAxis)
+      //   .attr("transform", `translate(${margin.left},0)`);
+      // yAxisG.select(".domain").remove();
+      // yAxisG
+      //   .append("text")
+      //   .attr("y", -25)
+      //   .attr("x", -(height - margin.bottom) / 2)
+      //   .attr("fill", "#9b9b9b")
+      //   .attr("transform", "rotate(-90)")
+      //   .attr("text-anchor", "middle")
+      //   .text(`PM2.5 (µg/m3)`)
+      //   .attr("font-size", "14px");
+  
+      // const lineGenerator = d3
+      //   .line()
+      //   .x(d => xScale(d.hour))
+      //   .y(d => {
+      //     // console.log(d)
+      //     return yScale(+d.value);
+      //   });
+  
+      // g.append("path")
+      //   // .datum(data)
+      //   // .attr("d", lineGenerator());
+      //   .attr("d", lineGenerator(data));
+  
+      // g.selectAll("circle")
+      //   .data(data)
+      //   .enter()
+      //   .append("circle")
+      //   .attr("cx", d => xScale(d.hour))
+      //   .attr("cy", d => yScale(d.value))
+      //   .attr("r", circleRadius);
+  }
+
   d3.csv("./assets/csv/pm25.csv").then(data => {
     // console.log(data);
     d3.select(".background--sub__lineChart > svg").remove();
@@ -472,11 +685,11 @@ const renderBarChart = _ => {
   // let err, data;
   // [err, data] = await to(makeRequest(opts));
   // if (err) {
-  //   console.log(err);
+  // console.log(err);
   //   // throw new Error(err)
   // }
   // if (data) {
-  //   console.log(data);
+  // console.log(data);
   //   return;
   // }
   d3.csv("./assets/csv/barchart.csv").then(rawData => {
@@ -507,9 +720,9 @@ const renderBarChart = _ => {
           value: d.value
         }))
     };
-    console.log(dataset[`${pollute}`], "from barChart");
+    // console.log(dataset[`${pollute}`], "from barChart");
     const data = dataset[`${pollute}`];
-    const width = layoutH / 3.5;
+    const width = layoutH / 2.9;
     const height = layoutH / 3.5;
 
     d3.select(".pollution-ratio__chart--barChart > svg").remove();
@@ -604,11 +817,11 @@ const renderPieChart = _ => {
   // let err, data;
   // [err, data] = await to(makeRequest(opts));
   // if (err) {
-  //   console.log(err);
+  // console.log(err);
   //   // throw new Error(err)
   // }
   // if (data) {
-  //   console.log(data);
+  // console.log(data);
   //   return;
   // }
   d3.csv("./assets/csv/pollute_ratio.csv").then(rawData => {
@@ -656,7 +869,7 @@ const renderPieChart = _ => {
         "#9b9b9b",
         "#BED1D5"
       ]);
-    console.log(`layoutW: ${layoutW}, layoutH; ${layoutH}`);
+    // console.log(`layoutW: ${layoutW}, layoutH; ${layoutH}`);
     const width = layoutW; //450;
     const height = layoutH > layoutW ? layoutH / 1.76 : layoutH / 1.25; //320;
     // svg.attr("width", width);
@@ -690,7 +903,7 @@ const renderPieChart = _ => {
       .value(function(d) {
         return d.value;
       });
-    console.log(data);
+    // console.log(data);
     const g = svg
       .selectAll(".arc")
       .data(pie(data))
@@ -832,43 +1045,56 @@ const renderPieChart = _ => {
 
 //===============================================
 //============  multiLinesChart svg  ============
-const renderMultiLinesChart = _ => {
-  // const location = els.navChartTitle.innerText;
-  // const pollute = document.querySelector(".mulit-chart--pollute").innerText;
-  // console.log(year, pollute);
-  // const opts = {
-  //   contentType: "application/json",
-  //   method: "GET",
-  //   url: `district-cems/?pollute=${pollute}&location=${location}`,
-  // };
-  // let err, data;
-  // [err, data] = await to(makeRequest(opts));
-  // if (err) {
-  //   console.log(err);
-  //   // throw new Error(err)
-  // }
-  // if (data) {
-  //   console.log(data);
-  //   return;
-  // }
+const renderMultiLinesChart = async _ => {
+  const location = els.navChartTitle.innerText;
+  const pollution = document.querySelector(".mulit-chart--pollute").innerText;
+  // console.log(location, pollution);
+  const opts = {
+    contentType: "application/json",
+    method: "GET",
+    url: `/pollution/24h?location=${location}&pollution=${pollution}`
+  };
+  let err, data;
+  [err, data] = await to(makeRequest(opts));
+  if (err) {
+    // console.log(err);
+    // throw new Error(err)
+  }
+  if (data) {
+    // console.log(data);
+    ({ data, message, success } = data);
+    if (!success) {
+      // console.log(message);
+      return;
+    }
+    // console.log(data);
+    ({ dataset, safeRange } = data);
+    while (dataset.length < 24) {
+      // console.log(dataset.length);
+      let lastestH = dataset[dataset.length - 1].hour;
+      // console.log(lastestH);
+      dataset.push({
+        hour: lastestH < 23 ? ++lastestH : 0,
+        value: null
+      });
+    }
+  }
   d3.csv("./assets/csv/pm25.csv").then(rawData => {
     // console.log(rawData);
     const data = [
       {
-        // location: `${rawData[0].location}`,
-        // pollute: "PM2.5",
-        value: rawData.map(d => ({
-          hour: +d.hour,
-          value: +d.value
+        value: dataset.map(d => ({
+          hour: d.hour,
+          value: d.value
         })),
         isRef: false
       },
       {
         // location: `${rawData[0].location}`,
         // pollute: "PM2.5",
-        value: rawData.map(d => ({
+        value: dataset.map(d => ({
           hour: +d.hour,
-          value: 8
+          value: safeRange
         })),
         isRef: true
       }
@@ -883,7 +1109,7 @@ const renderMultiLinesChart = _ => {
     const height = navH * 0.55;
     svg.attr("width", width);
     svg.attr("height", height); //?
-    console.log(width, height);
+    // console.log(width, height);
     // const height = 200;
     const margin = {
       top: 20,
@@ -893,15 +1119,15 @@ const renderMultiLinesChart = _ => {
     };
     const innerWidth = width - margin.left - margin.right;
     // const innerHeight = height - margin.top - margin.bottom;
-    const xValue = d => +d.hour;
-    const yValue = d => +d.value;
+    const xValue = d => d.hour;
+    const yValue = d => d.value;
     const circleRadius = 3.5;
 
     const g = svg.append("g");
     // .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
     const xScale = d3
       .scalePoint()
-      .domain(data[0].value.map(xValue))
+      .domain(dataset.map(xValue))
       .range([margin.left, width - margin.right]);
     const xAxis = d3.axisBottom(xScale);
     const xAxisG = g
@@ -916,6 +1142,11 @@ const renderMultiLinesChart = _ => {
       .domain([0, d3.max(data, d => d3.max(d.value.map(d => d.value)))])
       .range([height - margin.bottom, margin.top])
       .nice();
+    // const yScale = d3
+    // .scaleLinear()
+    // .domain([0, d3.max(dataset.filter(d => d.value !== null))])
+    // .range([height - margin.bottom, margin.top])
+    // .nice();
     const yAxis = d3.axisLeft(yScale).tickSize(-innerWidth);
     // .ticks(5);
     const yAxisG = g
@@ -935,22 +1166,20 @@ const renderMultiLinesChart = _ => {
 
     const lineGenerator = d3
       .line()
+      .defined(d => d.value !== null)
       .x(d => xScale(d.hour))
-      .y(d => {
-        // console.log(d)
-        return yScale(d.value);
-      });
+      .y(d => yScale(d.value));
 
     const path = g
       .selectAll("path")
-      .data(data)
+      .data(dataset)
       .join("path")
       .attr("class", d => (d.isRef ? "ref" : "values"))
-      .attr("d", d => lineGenerator(d.value))
+      .attr("d", d => lineGenerator(dataset))
       .attr("stroke", d => (d.isRef ? "#9b9b9b" : "#dcccb"));
 
     g.selectAll("circle")
-      .data(data[0].value)
+      .data(dataset.filter(d => d.value !== null))
       .enter()
       .append("circle")
       .attr("cx", d => xScale(d.hour))
@@ -958,13 +1187,13 @@ const renderMultiLinesChart = _ => {
       .attr("r", circleRadius);
 
     // console.log(data.filter(d => d.isRef))
-    const refTagY = data.filter(d => d.isRef)[0].value[0].value;
+    // const refTagY = data.filter(d => d.isRef)[0].value[0].value;
     g.append("text")
       .text("對健康會有疑慮的濃度")
       .attr("text-anchor", "end")
       .attr(
         "transform",
-        `translate(${width - margin.right}, ${yScale(refTagY) - 10})`
+        `translate(${width - margin.right}, ${yScale(safeRange) - 10})`
       )
       .attr("fill", "#9b9b9b");
   });
@@ -1004,17 +1233,23 @@ function showSlides(n) {
 }
 
 if (layoutW < 450) {
-  document.querySelector(".change-line").style.display = "block";
-  document.querySelector(".change-line").style.padding = "1rem";
+  Array.from(document.querySelectorAll(".change-line")).forEach(el => {
+    el.style.display = "block";
+    el.style.padding = "1rem";
+  });
+  // document.querySelector(".change-line").style.display = "block";
+  // document.querySelector(".change-line").style.padding = "1rem";
 }
 
 window.onload = () => {
-  console.log("load");
+  // console.log("load");
   renderPieChart();
   renderBarChart();
   renderMultiLinesChart();
   renderLineChart();
   handleHeaderInfo();
+  getPollutionTypes();
+  // getFactoryPollutes();
 };
 
 // document.querySelector(".show").innerText = `Height:${window.innerHeight}, Width:${window.innerWidth}, ${Math.random()*10}`
