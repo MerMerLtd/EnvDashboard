@@ -1187,13 +1187,13 @@ const renderMultiLinesChart = async _ => {
       .attr("r", circleRadius);
 
     // console.log(data.filter(d => d.isRef))
-    const refTagY = data.filter(d => d.isRef)[0].value[0].value;
+    // const refTagY = data.filter(d => d.isRef)[0].value[0].value;
     g.append("text")
       .text("對健康會有疑慮的濃度")
       .attr("text-anchor", "end")
       .attr(
         "transform",
-        `translate(${width - margin.right}, ${yScale(refTagY) - 10})`
+        `translate(${width - margin.right}, ${yScale(safeRange) - 10})`
       )
       .attr("fill", "#9b9b9b");
   });
@@ -1248,8 +1248,8 @@ window.onload = () => {
   renderMultiLinesChart();
   renderLineChart();
   handleHeaderInfo();
-  getPollutionTypes();
-  getFactoryPollutes();
+  // getPollutionTypes();
+  // getFactoryPollutes();
 };
 
 // document.querySelector(".show").innerText = `Height:${window.innerHeight}, Width:${window.innerWidth}, ${Math.random()*10}`
