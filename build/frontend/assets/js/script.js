@@ -63,10 +63,16 @@ let els = {
   headerQuote: document.querySelector(".header__comment"),
   svgMap: document.querySelector(".svg--nav"),
   backgroundDropdownContent: document.querySelector(
-    ".background--sub .dropdown--content-mulitlines"
+    ".background--sub .dropdown--content-multiLines"
   ),
   backgroundDropdownLabel: document.querySelector(
     ".background--sub .background-chart--pollute"
+  ),
+  navDropdownContent: document.querySelector(
+    ".navigation__chart .dropdown--content"
+  ),
+  navDropdownLabel: document.querySelector(
+    ".navigation__chart .multi-chart--pollute"
   )
 };
 
@@ -127,8 +133,25 @@ const getPollutionTypes = async _ => {
     // console.log(data);
     ({ data, message, success } = data);
     if (!success) {
-      // console.log(message);
+      console.log(message);
       return;
+    } else {
+      // console.log(data);
+      els.navDropdownContent.innerHTML = "";
+      els.navDropdownLabel.innerHTML = data[0];
+      data.forEach(type => {
+        console.log(type);
+        var tempDiv = document.createElement("a");
+        tempDiv.dataset.chart = "multiLines";
+        tempDiv.innerText = type;
+        // const markup = `
+        // <a data-chart="multiLines">${type}</a>
+        // `;
+        els.navDropdownContent.insertAdjacentElement(
+          "beforeend",
+          tempDiv
+        );
+      });
     }
   }
 };
@@ -194,7 +217,7 @@ const handleDropdown = evt => {
     if (evt.target.dataset.chart === "pie") {
       renderPieChart();
       renderBarChart();
-    } else if (evt.target.dataset.chart === "mulitlines") {
+    } else if (evt.target.dataset.chart === "multiLines") {
       renderMultiLinesChart();
     } else if (evt.target.dataset.chart === "line") {
       renderLineChart();
@@ -479,96 +502,96 @@ const renderLineChart = async _ => {
     }
     console.log(pollute);
     console.log(data[pollute]);
-      // console.log(data);
-      // d3.select(".background--sub__lineChart > svg").remove();
-      // const svg = d3
-      //   .select(".background--sub__lineChart")
-      //   .append("svg")
-      //   .attr("class", "svg svg--lineChart");
-      // const width = +window
-      //   .getComputedStyle(document.querySelector(".preventive"))
-      //   .width.replace("px", "");
-      // // const height = +window
-      // //   .getComputedStyle(document.querySelector(".background--main"))
-      // //   .height.replace("px", "");
-      // const height = 200; //153
-      // const margin = {
-      //   top: 20,
-      //   right: 20,
-      //   bottom: 30,
-      //   left: 40
-      // };
-      // const innerWidth = width - margin.left - margin.right;
-      // // const innerHeight = height - margin.top - margin.bottom;
-      // const xValue = d => +d.hour;
-      // const yValue = d => +d.value;
-      // const circleRadius = 3.5;
-      // svg.attr("width", width);
-      // svg.attr("height", height);
-      // // const xScale = d3
-      // // .scaleTime()
-      // // .domain([Date.now(), Date.now() + 21 * 60 * 60 * 1000])
-      // // .range([margin.left, width - margin.right])
-      // // .nice();
-      // const g = svg.append("g");
-      // // .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
-      // const xScale = d3
-      //   .scalePoint()
-      //   .domain(data.map(xValue))
-      //   .range([margin.left, width - margin.right]);
-      // // .range([0, innerWidth]);
-  
-      // const xAxis = d3.axisBottom(xScale);
-      // const xAxisG = g
-      //   .append("g")
-      //   .call(xAxis)
-      //   .attr("transform", `translate(0, ${height - margin.bottom})`);
-      // xAxisG.selectAll(".domain, .tick line").remove();
-  
-      // const yScale = d3
-      //   .scaleLinear()
-      //   // .domain(d3.extent(data, yValue))
-      //   .domain([0, d3.max(data, yValue)])
-      //   .range([height - margin.bottom, margin.top])
-      //   .nice();
-  
-      // const yAxis = d3.axisLeft(yScale).tickSize(-innerWidth);
-      // // .ticks(5);
-      // const yAxisG = g
-      //   .append("g")
-      //   .call(yAxis)
-      //   .attr("transform", `translate(${margin.left},0)`);
-      // yAxisG.select(".domain").remove();
-      // yAxisG
-      //   .append("text")
-      //   .attr("y", -25)
-      //   .attr("x", -(height - margin.bottom) / 2)
-      //   .attr("fill", "#9b9b9b")
-      //   .attr("transform", "rotate(-90)")
-      //   .attr("text-anchor", "middle")
-      //   .text(`PM2.5 (µg/m3)`)
-      //   .attr("font-size", "14px");
-  
-      // const lineGenerator = d3
-      //   .line()
-      //   .x(d => xScale(d.hour))
-      //   .y(d => {
-      //     // console.log(d)
-      //     return yScale(+d.value);
-      //   });
-  
-      // g.append("path")
-      //   // .datum(data)
-      //   // .attr("d", lineGenerator());
-      //   .attr("d", lineGenerator(data));
-  
-      // g.selectAll("circle")
-      //   .data(data)
-      //   .enter()
-      //   .append("circle")
-      //   .attr("cx", d => xScale(d.hour))
-      //   .attr("cy", d => yScale(d.value))
-      //   .attr("r", circleRadius);
+    // console.log(data);
+    // d3.select(".background--sub__lineChart > svg").remove();
+    // const svg = d3
+    //   .select(".background--sub__lineChart")
+    //   .append("svg")
+    //   .attr("class", "svg svg--lineChart");
+    // const width = +window
+    //   .getComputedStyle(document.querySelector(".preventive"))
+    //   .width.replace("px", "");
+    // // const height = +window
+    // //   .getComputedStyle(document.querySelector(".background--main"))
+    // //   .height.replace("px", "");
+    // const height = 200; //153
+    // const margin = {
+    //   top: 20,
+    //   right: 20,
+    //   bottom: 30,
+    //   left: 40
+    // };
+    // const innerWidth = width - margin.left - margin.right;
+    // // const innerHeight = height - margin.top - margin.bottom;
+    // const xValue = d => +d.hour;
+    // const yValue = d => +d.value;
+    // const circleRadius = 3.5;
+    // svg.attr("width", width);
+    // svg.attr("height", height);
+    // // const xScale = d3
+    // // .scaleTime()
+    // // .domain([Date.now(), Date.now() + 21 * 60 * 60 * 1000])
+    // // .range([margin.left, width - margin.right])
+    // // .nice();
+    // const g = svg.append("g");
+    // // .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
+    // const xScale = d3
+    //   .scalePoint()
+    //   .domain(data.map(xValue))
+    //   .range([margin.left, width - margin.right]);
+    // // .range([0, innerWidth]);
+
+    // const xAxis = d3.axisBottom(xScale);
+    // const xAxisG = g
+    //   .append("g")
+    //   .call(xAxis)
+    //   .attr("transform", `translate(0, ${height - margin.bottom})`);
+    // xAxisG.selectAll(".domain, .tick line").remove();
+
+    // const yScale = d3
+    //   .scaleLinear()
+    //   // .domain(d3.extent(data, yValue))
+    //   .domain([0, d3.max(data, yValue)])
+    //   .range([height - margin.bottom, margin.top])
+    //   .nice();
+
+    // const yAxis = d3.axisLeft(yScale).tickSize(-innerWidth);
+    // // .ticks(5);
+    // const yAxisG = g
+    //   .append("g")
+    //   .call(yAxis)
+    //   .attr("transform", `translate(${margin.left},0)`);
+    // yAxisG.select(".domain").remove();
+    // yAxisG
+    //   .append("text")
+    //   .attr("y", -25)
+    //   .attr("x", -(height - margin.bottom) / 2)
+    //   .attr("fill", "#9b9b9b")
+    //   .attr("transform", "rotate(-90)")
+    //   .attr("text-anchor", "middle")
+    //   .text(`PM2.5 (µg/m3)`)
+    //   .attr("font-size", "14px");
+
+    // const lineGenerator = d3
+    //   .line()
+    //   .x(d => xScale(d.hour))
+    //   .y(d => {
+    //     // console.log(d)
+    //     return yScale(+d.value);
+    //   });
+
+    // g.append("path")
+    //   // .datum(data)
+    //   // .attr("d", lineGenerator());
+    //   .attr("d", lineGenerator(data));
+
+    // g.selectAll("circle")
+    //   .data(data)
+    //   .enter()
+    //   .append("circle")
+    //   .attr("cx", d => xScale(d.hour))
+    //   .attr("cy", d => yScale(d.value))
+    //   .attr("r", circleRadius);
   }
 
   d3.csv("./assets/csv/pm25.csv").then(data => {
@@ -1047,7 +1070,7 @@ const renderPieChart = _ => {
 //============  multiLinesChart svg  ============
 const renderMultiLinesChart = async _ => {
   const location = els.navChartTitle.innerText;
-  const pollution = document.querySelector(".mulit-chart--pollute").innerText;
+  const pollution = document.querySelector(".multi-chart--pollute").innerText;
   // console.log(location, pollution);
   const opts = {
     contentType: "application/json",
