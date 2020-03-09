@@ -32,6 +32,6 @@ pathname = [
   "get | /weather | Bot.OpenData.summary",
   "get | /aqiStations | Bot.OpenData.aqiStations",
   "get | /weatherStations | Bot.OpenData.weatherStations",
-  "get | /polltionTypes | Bot.OpenData.pollutionTypes",
+  "get | /pollutionTypes | Bot.OpenData.pollutionTypes",
   "get | /pollution/24h | Bot.OpenData.pollution24h"
 ]
