@@ -81,6 +81,11 @@
     }
     .show + & {
       display: flex;
+      flex-wrap: wrap;
+      width: 14vw;
+    }
+    .background--sub .show + & {
+      width: 12vw;
     }
   }
 }

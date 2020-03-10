@@ -147,10 +147,7 @@ const getPollutionTypes = async _ => {
         // const markup = `
         // <a data-chart="multiLines">${type}</a>
         // `;
-        els.navDropdownContent.insertAdjacentElement(
-          "beforeend",
-          tempDiv
-        );
+        els.navDropdownContent.insertAdjacentElement("beforeend", tempDiv);
       });
     }
   }
@@ -1092,19 +1089,32 @@ const renderMultiLinesChart = async _ => {
     }
     // console.log(data);
     ({ dataset, safeRange } = data);
-    while (dataset.length < 24) {
-      // console.log(dataset.length);
-      let lastestH = dataset[dataset.length - 1].hour;
-      // console.log(lastestH);
-      dataset.push({
-        hour: lastestH < 23 ? ++lastestH : 0,
-        value: null
-      });
-    }
+    console.log(dataset);
+    // dataset.forEach((d, i) => {
+    //   // if (i < dataset.length - 1) {
+    //   //   dataset[]
+    //   // }
+    // });
+    // while (dataset.length < 24) {
+    //   // console.log(dataset.length);
+    //   let lastestH = dataset[dataset.length - 1].hour;
+    //   // console.log(lastestH);
+    //   dataset.push({
+    //     hour: lastestH < 23 ? ++lastestH : 0,
+    //     value: null
+    //   });
+    // }
   }
   d3.csv("./assets/csv/pm25.csv").then(rawData => {
     // console.log(rawData);
     const data = [
+      {
+        value: dataset.map(d => ({
+          hour: d.hour,
+          value: 9
+        })),
+        isRef: false
+      },
       {
         value: dataset.map(d => ({
           hour: d.hour,
@@ -1150,15 +1160,21 @@ const renderMultiLinesChart = async _ => {
     // .attr("transform", `translate(${margin.left}, ${margin.bottom})`);
     const xScale = d3
       .scalePoint()
-      .domain(dataset.map(xValue))
+      .domain(dataset.map((d, i) => i))
+      // .domain([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23])
       .range([margin.left, width - margin.right]);
-    const xAxis = d3.axisBottom(xScale);
+    const xAxis = d3.axisBottom(xScale); //.tickValues(dataset.map(xValue));
     const xAxisG = g
       .append("g")
       .call(xAxis)
       .attr("transform", `translate(0, ${height - margin.bottom})`)
       .attr("fill", "#9b9b9b");
     xAxisG.selectAll(".domain, .tick line").remove();
+    Array.from(xAxisG.selectAll("text")["_groups"])[0].forEach((textEl, i) => {
+      textEl.textContent = dataset[i].hour;
+    });
+    // console.log(xAxisG.selectAll("text")._groups)
+    // console.log( Array.from(xAxisG.selectAll("text")._groups));
 
     const yScale = d3
       .scaleLinear()
@@ -1190,7 +1206,7 @@ const renderMultiLinesChart = async _ => {
     const lineGenerator = d3
       .line()
       .defined(d => d.value !== null)
-      .x(d => xScale(d.hour))
+      .x((d,i) => xScale(i))
       .y(d => yScale(d.value));
 
     const path = g
@@ -1205,7 +1221,7 @@ const renderMultiLinesChart = async _ => {
       .data(dataset.filter(d => d.value !== null))
       .enter()
       .append("circle")
-      .attr("cx", d => xScale(d.hour))
+      .attr("cx", (d,i) => xScale(i))
       .attr("cy", d => yScale(d.value))
       .attr("r", circleRadius);
 
