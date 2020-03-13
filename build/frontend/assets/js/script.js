@@ -155,11 +155,12 @@ const getPollutionTypes = async _ => {
 
 const handleHeaderInfo = async location => {
   // console.log(location);
-  if (location === undefined) {
+  if (location === undefined || location === "環保署板橋站") {
     location = "板橋區";
+    d3.selectAll("path").attr("fill", "#ddd");
     d3.select('[data-location = "板橋區"]').attr("fill", "#6dcccb");
   }
-  // console.log(location);
+  console.log(location);
   const opts = {
     contentType: "application/json",
     method: "GET",
@@ -178,7 +179,7 @@ const handleHeaderInfo = async location => {
       return;
     }
     // console.log(data);
-    els.navChartTitle.innerText = data.location;
+    els.navChartTitle.innerText = location;//data.location;
     els.headerDate.innerText = data.date;
     els.headerTemp.innerText = `${data.temperature}°C`;
     els.headerHTemp.innerText = `${data.highTemp}°C /`;
@@ -333,7 +334,8 @@ d3.selectAll(".svg--nav > path").on("click", function(d) {
         return prop;
     }
   };
-  handleHeaderInfo(d.properties.TOWN);
+  console.log(d.properties.TOWN);
+  handleHeaderInfo(location(d.properties.TOWN));
 });
 let scaleRatio = navH / 385;
 // let translateY = -0.5 * scaleRatio * 100; // parseFloat((-0.5 * scaleRatio * 100).toFixed(0));
@@ -1206,7 +1208,7 @@ const renderMultiLinesChart = async _ => {
     const lineGenerator = d3
       .line()
       .defined(d => d.value !== null)
-      .x((d,i) => xScale(i))
+      .x((d, i) => xScale(i))
       .y(d => yScale(d.value));
 
     const path = g
@@ -1221,7 +1223,7 @@ const renderMultiLinesChart = async _ => {
       .data(dataset.filter(d => d.value !== null))
       .enter()
       .append("circle")
-      .attr("cx", (d,i) => xScale(i))
+      .attr("cx", (d, i) => xScale(i))
       .attr("cy", d => yScale(d.value))
       .attr("r", circleRadius);
 
