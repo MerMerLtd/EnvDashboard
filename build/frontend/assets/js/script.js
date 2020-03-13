@@ -1113,13 +1113,6 @@ const renderMultiLinesChart = async _ => {
       {
         value: dataset.map(d => ({
           hour: d.hour,
-          value: 9
-        })),
-        isRef: false
-      },
-      {
-        value: dataset.map(d => ({
-          hour: d.hour,
           value: d.value
         })),
         isRef: false
