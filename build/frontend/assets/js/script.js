@@ -1118,7 +1118,8 @@ const renderMultiLinesChart = async _ => {
     const svg = d3
       .select(".navigation__chart-line")
       .append("svg")
-      .attr("class", "svg svg--multiLinesChart");
+      .attr("class", "svg svg--multiLinesChart")
+      .attr("overflow", "visible");
     const width = navW * (1 - 0.383) - 20;
     const height = navH * 0.55;
     svg.attr("width", width);
