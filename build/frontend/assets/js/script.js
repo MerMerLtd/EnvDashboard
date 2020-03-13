@@ -179,7 +179,7 @@ const handleHeaderInfo = async location => {
       return;
     }
     // console.log(data);
-    els.navChartTitle.innerText = location;//data.location;
+    els.navChartTitle.innerText = location; //data.location;
     els.headerDate.innerText = data.date;
     els.headerTemp.innerText = `${data.temperature}°C`;
     els.headerHTemp.innerText = `${data.highTemp}°C /`;
@@ -1083,29 +1083,13 @@ const renderMultiLinesChart = async _ => {
     // throw new Error(err)
   }
   if (data) {
-    // console.log(data);
     ({ data, message, success } = data);
     if (!success) {
-      // console.log(message);
+      console.log(message);
       return;
     }
-    // console.log(data);
     ({ dataset, safeRange } = data);
-    console.log(dataset);
-    // dataset.forEach((d, i) => {
-    //   // if (i < dataset.length - 1) {
-    //   //   dataset[]
-    //   // }
-    // });
-    // while (dataset.length < 24) {
-    //   // console.log(dataset.length);
-    //   let lastestH = dataset[dataset.length - 1].hour;
-    //   // console.log(lastestH);
-    //   dataset.push({
-    //     hour: lastestH < 23 ? ++lastestH : 0,
-    //     value: null
-    //   });
-    // }
+    console.log(dataset, safeRange);
   }
   d3.csv("./assets/csv/pm25.csv").then(rawData => {
     // console.log(rawData);
@@ -1118,8 +1102,6 @@ const renderMultiLinesChart = async _ => {
         isRef: false
       },
       {
-        // location: `${rawData[0].location}`,
-        // pollute: "PM2.5",
         value: dataset.map(d => ({
           hour: +d.hour,
           value: safeRange
@@ -1127,7 +1109,7 @@ const renderMultiLinesChart = async _ => {
         isRef: true
       }
     ];
-    // console.log(data);
+    console.log(data);
     d3.select(".navigation__chart-line > svg").remove();
     const svg = d3
       .select(".navigation__chart-line")
@@ -1206,11 +1188,15 @@ const renderMultiLinesChart = async _ => {
 
     const path = g
       .selectAll("path")
-      .data(dataset)
+      // .data(dataset)
+      .data(data)
       .join("path")
       .attr("class", d => (d.isRef ? "ref" : "values"))
-      .attr("d", d => lineGenerator(dataset))
+      // .attr("d", d => lineGenerator(dataset))
+      .attr("d", d => lineGenerator(d.value))
       .attr("stroke", d => (d.isRef ? "#9b9b9b" : "#dcccb"));
+
+     
 
     g.selectAll("circle")
       .data(dataset.filter(d => d.value !== null))
@@ -1220,8 +1206,7 @@ const renderMultiLinesChart = async _ => {
       .attr("cy", d => yScale(d.value))
       .attr("r", circleRadius);
 
-    // console.log(data.filter(d => d.isRef))
-    // const refTagY = data.filter(d => d.isRef)[0].value[0].value;
+
     g.append("text")
       .text("對健康會有疑慮的濃度")
       .attr("text-anchor", "end")
