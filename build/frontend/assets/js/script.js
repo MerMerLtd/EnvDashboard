@@ -1093,6 +1093,10 @@ const renderMultiLinesChart = async _ => {
   }
   d3.csv("./assets/csv/pm25.csv").then(rawData => {
     // console.log(rawData);
+    if (dataset === undefined) {
+      dataset = rawData;
+      safeRange = 12;
+    }
     const data = [
       {
         value: dataset.map(d => ({
@@ -1196,16 +1200,21 @@ const renderMultiLinesChart = async _ => {
       .attr("d", d => lineGenerator(d.value))
       .attr("stroke", d => (d.isRef ? "#9b9b9b" : "#dcccb"));
 
-     
-
     g.selectAll("circle")
       .data(dataset.filter(d => d.value !== null))
       .enter()
       .append("circle")
       .attr("cx", (d, i) => xScale(i))
       .attr("cy", d => yScale(d.value))
-      .attr("r", circleRadius);
-
+      .attr("r", circleRadius)
+      .style("stroke", "#fff")
+      .style("fill", d => {
+        if (d.value === 0) {
+          return "transparent";
+        } else {
+          return "#dcccb";
+        }
+      });
 
     g.append("text")
       .text("對健康會有疑慮的濃度")
