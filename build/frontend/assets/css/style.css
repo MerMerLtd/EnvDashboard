@@ -77,7 +77,7 @@ main {
   position: relative; }
 
 body {
-  font-family: "PingFangTC", sans-serif;
+  font-family: "Noto Sans TC", "PingFangTC", sans-serif;
   font-weight: 400;
   font-size: 2rem;
   line-height: 1;
@@ -373,7 +373,11 @@ body {
       .dropdown--content > a:hover {
         background-color: #f0f3f4; }
     .show + .dropdown--content {
-      display: flex; }
+      display: flex;
+      flex-wrap: wrap;
+      width: 14vw; }
+    .background--sub .show + .dropdown--content {
+      width: 12vw; }
 
 .tab {
   height: 100%;
@@ -953,12 +957,20 @@ body {
   display: flex;
   flex-direction: column;
   position: relative; }
+  .video__title-background {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+    background-color: #195675;
+    z-index: -1;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px; }
   .video__title-box {
     position: absolute;
     top: 0;
     width: 100%;
-    opacity: 0.7;
-    background-color: #195675;
     padding: 2rem;
     display: flex;
     justify-content: space-between;
