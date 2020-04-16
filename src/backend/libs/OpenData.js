@@ -119,7 +119,7 @@ class OpenData extends Bot {
       return '板橋';
     }
     let weather = this.findWeather(location);
-    const result = !!weather ? '板橋' : weather.location.substr(0, 2);
+    const result = !weather ? '板橋' : weather.location.substr(0, 2);
     return result;
   }
 
