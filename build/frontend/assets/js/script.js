@@ -1,11 +1,11 @@
-const to = promise => {
+const to = (promise) => {
   return promise
-    .then(data => {
+    .then((data) => {
       return [null, data];
     })
-    .catch(err => [err, null]);
+    .catch((err) => [err, null]);
 };
-const makeRequest = opts => {
+const makeRequest = (opts) => {
   const xhr = new XMLHttpRequest();
   return new Promise((resolve, reject) => {
     xhr.onreadystatechange = () => {
@@ -24,7 +24,7 @@ const makeRequest = opts => {
     // Setup HTTP request
     xhr.open(opts.method || "GET", opts.url, true);
     if (opts.headers) {
-      Object.keys(opts.headers).forEach(key =>
+      Object.keys(opts.headers).forEach((key) =>
         xhr.setRequestHeader(key, opts.headers[key])
       );
     }
@@ -73,37 +73,37 @@ let els = {
   ),
   navDropdownLabel: document.querySelector(
     ".navigation__chart .multi-chart--pollute"
-  )
+  ),
 };
 
-const getWeatherUI = weather => {
+const getWeatherUI = (weather) => {
   switch (weather) {
     case "sunny":
       return {
         icon: "./assets/img/fill-3.png",
-        background: "url(./assets/img/sunny-bg.png)"
+        background: "url(./assets/img/sunny-bg.png)",
       };
     case "cloudy":
       return {
         icon: "./assets/img/fill-4.png",
-        background: "url(./assets/img/cloud-bg.png)"
+        background: "url(./assets/img/cloud-bg.png)",
       };
     case "rain":
       return {
         icon: "./assets/img/fill-6.png",
-        background: "url(./assets/img/raining-bg.png)"
+        background: "url(./assets/img/raining-bg.png)",
       };
     case "thundershower":
       return {
         icon: "./assets/img/fill-11.png",
-        background: "url(./assets/img/thunder-bg.png)"
+        background: "url(./assets/img/thunder-bg.png)",
       };
     default:
       break;
   }
 };
 
-const getAQIColor = aqi => {
+const getAQIColor = (aqi) => {
   if (0 <= aqi && aqi <= 50) {
     return "green";
   } else if (51 <= aqi && aqi <= 100) {
@@ -118,11 +118,11 @@ const getAQIColor = aqi => {
     return "maroon";
   }
 };
-const getPollutionTypes = async _ => {
+const getPollutionTypes = async (_) => {
   const opts = {
     contentType: "application/json",
     method: "GET",
-    url: `/pollutionTypes`
+    url: `/pollutionTypes`,
   };
   let err, data;
   [err, data] = await to(makeRequest(opts));
@@ -139,7 +139,7 @@ const getPollutionTypes = async _ => {
       // console.log(data);
       els.navDropdownContent.innerHTML = "";
       els.navDropdownLabel.innerHTML = data[0];
-      data.forEach(type => {
+      data.forEach((type) => {
         console.log(type);
         var tempDiv = document.createElement("a");
         tempDiv.dataset.chart = "multiLines";
@@ -153,7 +153,7 @@ const getPollutionTypes = async _ => {
   }
 };
 
-const handleHeaderInfo = async location => {
+const handleHeaderInfo = async (location) => {
   // console.log(location);
   if (location === undefined || location === "環保署板橋站") {
     location = "板橋區";
@@ -164,7 +164,7 @@ const handleHeaderInfo = async location => {
   const opts = {
     contentType: "application/json",
     method: "GET",
-    url: `/weather/?location=${location}`
+    url: `/weather/?location=${location}`,
   };
 
   let err, data;
@@ -197,7 +197,7 @@ const handleHeaderInfo = async location => {
   }
 };
 
-const handleDropdown = evt => {
+const handleDropdown = (evt) => {
   if (evt.target.matches(".dropdown--btn")) {
     evt.target.classList.toggle("show");
     return;
@@ -206,7 +206,7 @@ const handleDropdown = evt => {
     evt.target.parentElement.classList.toggle("show");
     return;
   }
-  Array.from(els.dropdownBtns).forEach(dropdownBtn => {
+  Array.from(els.dropdownBtns).forEach((dropdownBtn) => {
     dropdownBtn.classList.remove("show");
   });
   if (evt.target.matches(".dropdown--content > a")) {
@@ -225,28 +225,28 @@ const handleDropdown = evt => {
 
 els.container.addEventListener("click", handleDropdown, false);
 
-const openTabContent = evt => {
+const openTabContent = (evt) => {
   const className = evt.target.dataset.type;
   els.tab.classList = [`tab ${className}`];
 };
 
-const closeBackgroundSub = _ => {
+const closeBackgroundSub = (_) => {
   // console.log("click");
   els.backgroundCheckbox.checked = false;
 };
 
-const switchVideo = evt => {
+const switchVideo = (evt) => {
   const className = evt.target.dataset.type;
   els.video.classList = [`video ${className}`];
 };
 
 els.backgroundBtn.addEventListener("click", closeBackgroundSub, false);
 
-Array.from(els.tablinks).forEach(tablink =>
+Array.from(els.tablinks).forEach((tablink) =>
   tablink.addEventListener("click", openTabContent, false)
 );
 
-Array.from(els.videoDropdownLinks).forEach(videoDropdownLink =>
+Array.from(els.videoDropdownLinks).forEach((videoDropdownLink) =>
   videoDropdownLink.addEventListener("click", switchVideo, false)
 );
 
@@ -266,10 +266,10 @@ const navH = +window
 // 4. var projection = d3.geoMercator() to setup geo projection type
 // 5. var path = d3.geoPath().projection(projection) to create path base on projection
 
-d3.json("./assets/topojson/town_1999.json").then(topodata => {
+d3.json("./assets/topojson/town_1999.json").then((topodata) => {
   // console.log("run topojson");
   let features = topodata.features.filter(
-    data => data.properties.COUNTY === "新北市"
+    (data) => data.properties.COUNTY === "新北市"
   );
   for (i = features.length - 1; i >= 0; i--) {
     features[i].properties.number = i;
@@ -294,10 +294,7 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
   // .attr("width", 415)
   // .attr("preserveAspectRatio", "xMinYMin meet")
   // .attr("overflow", "visible");
-  svg
-    .selectAll("path")
-    .data(features)
-    .enter();
+  svg.selectAll("path").data(features).enter();
   // .append("path")
   // .attr("d", path)
   // .attr("fill", "#ddd")
@@ -323,10 +320,10 @@ d3.json("./assets/topojson/town_1999.json").then(topodata => {
   // d3.select("svg").style("background-color", "pink");
 });
 
-d3.selectAll(".svg--nav > path").on("click", function(d) {
+d3.selectAll(".svg--nav > path").on("click", function (d) {
   d3.selectAll("path").attr("fill", "#ddd");
   d3.select(this).attr("fill", "#6dcccb");
-  const location = prop => {
+  const location = (prop) => {
     switch (prop) {
       case `板橋區`:
         return `環保署板橋站`;
@@ -345,11 +342,11 @@ if (navH < 385) {
   els.svgMap.style.marginLeft = `-${window.innerWidth * scaleRatio * 0.014}px`;
 }
 
-const getFactoryPollutes = async _ => {
+const getFactoryPollutes = async (_) => {
   const opts = {
     contentType: "application/json",
     method: "GET",
-    url: `/factory-pollutes`
+    url: `/factory-pollutes`,
   };
   let err, data;
   [err, data] = await to(makeRequest(opts));
@@ -366,7 +363,7 @@ const getFactoryPollutes = async _ => {
     }
     els.backgroundDropdownContent.innerHTML = "";
     els.backgroundDropdownLabel.innerHTML = data[0];
-    data.forEach(p => {
+    data.forEach((p) => {
       var tempDiv = document.createElement("a");
       tempDiv.dataset.chart = "line";
       tempDiv.innerText = p;
@@ -383,13 +380,13 @@ const getFactoryPollutes = async _ => {
 //
 //===============================================
 //============  lineChart svg  ============
-const renderLineChart = async _ => {
+const renderLineChart = async (_) => {
   const location = document.querySelector(".line-chart--location").innerText;
   const pollute = els.backgroundDropdownLabel.innerText;
   const opts = {
     contentType: "application/json",
     method: "GET",
-    url: `/factory-cems/?location=${location}`
+    url: `/factory-cems/?location=${location}`,
   };
   let err, data;
   // [err, data] = await to(makeRequest(opts));
@@ -427,9 +424,9 @@ const renderLineChart = async _ => {
           6,
           6,
           4,
-          6
+          6,
         ],
-        refValues: 12
+        refValues: 12,
       },
       NOx: {
         values: [
@@ -456,9 +453,9 @@ const renderLineChart = async _ => {
           9,
           9,
           8,
-          7
+          7,
         ],
-        refValues: 12
+        refValues: 12,
       },
       O2: {
         values: [
@@ -485,12 +482,12 @@ const renderLineChart = async _ => {
           6,
           6,
           4,
-          6
+          6,
         ],
-        refValues: 12
-      }
+        refValues: 12,
+      },
     },
-    code: "00000"
+    code: "00000",
   };
   if (data) {
     // console.log(data);
@@ -593,7 +590,7 @@ const renderLineChart = async _ => {
     //   .attr("r", circleRadius);
   }
 
-  d3.csv("./assets/csv/pm25.csv").then(data => {
+  d3.csv("./assets/csv/pm25.csv").then((data) => {
     // console.log(data);
     d3.select(".background--sub__lineChart > svg").remove();
     const svg = d3
@@ -611,12 +608,12 @@ const renderLineChart = async _ => {
       top: 20,
       right: 20,
       bottom: 30,
-      left: 40
+      left: 40,
     };
     const innerWidth = width - margin.left - margin.right;
     // const innerHeight = height - margin.top - margin.bottom;
-    const xValue = d => +d.hour;
-    const yValue = d => +d.value;
+    const xValue = (d) => +d.hour;
+    const yValue = (d) => +d.value;
     const circleRadius = 3.5;
     svg.attr("width", width);
     svg.attr("height", height);
@@ -666,8 +663,8 @@ const renderLineChart = async _ => {
 
     const lineGenerator = d3
       .line()
-      .x(d => xScale(d.hour))
-      .y(d => {
+      .x((d) => xScale(d.hour))
+      .y((d) => {
         // console.log(d)
         return yScale(+d.value);
       });
@@ -681,8 +678,8 @@ const renderLineChart = async _ => {
       .data(data)
       .enter()
       .append("circle")
-      .attr("cx", d => xScale(d.hour))
-      .attr("cy", d => yScale(d.value))
+      .attr("cx", (d) => xScale(d.hour))
+      .attr("cy", (d) => yScale(d.value))
       .attr("r", circleRadius);
   });
 };
@@ -696,7 +693,7 @@ const layoutH = +window
   .getComputedStyle(document.querySelector(".pollution-ratio"))
   .height.replace("px", "");
 
-const renderBarChart = _ => {
+const renderBarChart = (_) => {
   // const pollute = document.querySelector(".pie-chart--pollute").innerText;
   // console.log(year, pollute);
   // const opts = {
@@ -714,38 +711,46 @@ const renderBarChart = _ => {
   // console.log(data);
   //   return;
   // }
-  d3.csv("./assets/csv/barchart.csv").then(rawData => {
+  d3.csv("./assets/csv/barchart.csv").then((rawData) => {
     const pollute = document.querySelector(".pie-chart--pollute").innerText;
     const dataset = {
       "PM2.5": rawData
-        .filter(d => d.pollute === "PM2.5")
-        .map(d => ({
+        .filter((d) => d.pollute === "PM2.5")
+        .map((d) => ({
           year: d.year,
-          value: d.value
+          value: d.value,
         })),
       SOx: rawData
-        .filter(d => d.pollute === "SOx")
-        .map(d => ({
+        .filter((d) => d.pollute === "SOx")
+        .map((d) => ({
           year: d.year,
-          value: d.value
+          value: d.value,
         })),
       NOx: rawData
-        .filter(d => d.pollute === "NOx")
-        .map(d => ({
+        .filter((d) => d.pollute === "NOx")
+        .map((d) => ({
           year: d.year,
-          value: d.value
+          value: d.value,
         })),
       NMHC: rawData
-        .filter(d => d.pollute === "NMHC")
-        .map(d => ({
+        .filter((d) => d.pollute === "NMHC")
+        .map((d) => ({
           year: d.year,
-          value: d.value
-        }))
+          value: d.value,
+        })),
+      TSP: rawData
+        .filter((d) => d.pollute === "TSP")
+        .map((d) => ({
+          year: d.year,
+          value: d.value,
+        })),
     };
     // console.log(dataset[`${pollute}`], "from barChart");
     const data = dataset[`${pollute}`];
-    const width = layoutH / 2.9;
-    const height = layoutH / 3.5;
+    const width = pollute === "TSP" ? layoutW * 0.95 : layoutH / 2.9;
+    const height = pollute === "TSP" ? layoutH * 0.8 : layoutH / 3.5;
+
+
 
     d3.select(".pollution-ratio__chart--barChart > svg").remove();
     const svg = d3
@@ -754,14 +759,14 @@ const renderBarChart = _ => {
       .attr("width", width)
       .attr("height", height)
       .attr("class", "svg svg--barChart");
-    const render = data => {
-      const xValue = d => d.year;
-      const yValue = d => +d.value;
+    const render = (data) => {
+      const xValue = (d) => d.year;
+      const yValue = (d) => +d.value;
       const margin = {
         top: 20,
-        left: 35,
+        left: `${pollute === "TSP" ? 50 : 35}`,
         right: 10,
-        bottom: 20
+        bottom: `${pollute === "TSP" ? 30 : 20}`,
       };
       const innerWidth = width - margin.left - margin.right;
       const innerHeight = height - margin.top - margin.bottom;
@@ -778,10 +783,7 @@ const renderBarChart = _ => {
         .nice(); //https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/
 
       const xAxis = d3.axisBottom(xScale); //.tickSize(-innerHeight); //.tickFormat(xAxisTickFormat);
-      const yAxis = d3
-        .axisLeft(yScale)
-        .tickSize(-innerWidth)
-        .ticks(5);
+      const yAxis = d3.axisLeft(yScale).tickSize(-innerWidth).ticks(5);
 
       const g = svg
         .append("g")
@@ -805,10 +807,14 @@ const renderBarChart = _ => {
       yAxisG.select(".domain").remove();
       yAxisG
         .append("text")
+        .style("font-size", `${pollute === "TSP" ? "20px" : "10px"}`)
         .attr("y", -25)
         .attr("x", -innerHeight / 2)
         .attr("fill", "#9b9b9b")
-        .attr("transform", "rotate(-90)")
+        .attr(
+          "transform",
+          `translate(${pollute === "TSP" ? -10 : 0},0) rotate(-90)`
+        )
         .attr("text-anchor", "middle")
         .text(`µg/m3`);
 
@@ -816,10 +822,10 @@ const renderBarChart = _ => {
         .data(data)
         .enter()
         .append("rect")
-        .attr("x", d => xScale(xValue(d)))
-        .attr("y", d => yScale(yValue(d)))
+        .attr("x", (d) => xScale(xValue(d)))
+        .attr("y", (d) => yScale(yValue(d)))
         .attr("width", xScale.bandwidth())
-        .attr("height", d => innerHeight - yScale(yValue(d)));
+        .attr("height", (d) => innerHeight - yScale(yValue(d)));
     };
     render(data);
   });
@@ -827,7 +833,7 @@ const renderBarChart = _ => {
 
 //===============================================
 //===============  pieChart svg  ================
-const renderPieChart = _ => {
+const renderPieChart = (_) => {
   const year = document.querySelector(".pie-chart--year").innerText;
   const pollute = document.querySelector(".pie-chart--pollute").innerText;
   // console.log(year, pollute);
@@ -846,32 +852,39 @@ const renderPieChart = _ => {
   // console.log(data);
   //   return;
   // }
-  d3.csv("./assets/csv/pollute_ratio.csv").then(rawData => {
+  // if (pollute === "TSP") return;
+  d3.csv("./assets/csv/pollute_ratio.csv").then((rawData) => {
+    // console.log(`rawData in pollute ratio ${rawData}`);
+    var processData = rawData.filter((d) => d.year === year);
     const dataset = {
-      "PM2.5": rawData
-        .filter(d => d.pollute === "PM2.5")
-        .map(d => ({
+      "PM2.5": processData
+        .filter((d) => d.pollute === "PM2.5")
+        .map((d) => ({
           name: d.source,
-          value: +d.ratio.replace("%", "")
+          value: +d.ratio.replace("%", ""),
+          year: d.year,
         })),
-      SOx: rawData
-        .filter(d => d.pollute === "SOx")
-        .map(d => ({
+      SOx: processData
+        .filter((d) => d.pollute === "SOx")
+        .map((d) => ({
           name: d.source,
-          value: +d.ratio.replace("%", "")
+          year: d.year,
+          value: +d.ratio.replace("%", ""),
         })),
-      NOx: rawData
-        .filter(d => d.pollute === "NOx")
-        .map(d => ({
+      NOx: processData
+        .filter((d) => d.pollute === "NOx")
+        .map((d) => ({
+          year: d.year,
           name: d.source,
-          value: +d.ratio.replace("%", "")
+          value: +d.ratio.replace("%", ""),
         })),
-      NMHC: rawData
-        .filter(d => d.pollute === "NMHC")
-        .map(d => ({
+      NMHC: processData
+        .filter((d) => d.pollute === "NMHC")
+        .map((d) => ({
+          year: d.year,
           name: d.source,
-          value: +d.ratio.replace("%", "")
-        }))
+          value: +d.ratio.replace("%", ""),
+        })),
     };
     // console.log(dataset);
     // console.log(pollute);
@@ -889,7 +902,7 @@ const renderPieChart = _ => {
         "#179bbf",
         "#00627d",
         "#9b9b9b",
-        "#BED1D5"
+        "#BED1D5",
       ]);
     // console.log(`layoutW: ${layoutW}, layoutH; ${layoutH}`);
     const width = layoutW; //450;
@@ -915,14 +928,11 @@ const renderPieChart = _ => {
     //     .outerRadius(outerRadius)
     //     .innerRadius(innerRadius)(d);
     // };
-    const arc = d3
-      .arc()
-      .innerRadius(innerRadius)
-      .outerRadius(outerRadius);
+    const arc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius);
     const pie = d3
       .pie()
       .sort(null)
-      .value(function(d) {
+      .value(function (d) {
         return d.value;
       });
     // console.log(data);
@@ -933,7 +943,7 @@ const renderPieChart = _ => {
       .append("g")
       .attr("class", "arc");
     g.transition()
-      .delay(function(d, i) {
+      .delay(function (d, i) {
         return i * 500;
       })
       .duration(500)
@@ -941,14 +951,14 @@ const renderPieChart = _ => {
 
     const path = g
       .append("path")
-      .attr("d", d => arc(d))
-      .style("fill", function(d, i) {
+      .attr("d", (d) => arc(d))
+      .style("fill", function (d, i) {
         return color(i);
       });
 
     const text = g
       .append("text") //add a label to each slice
-      .attr("transform", function(d) {
+      .attr("transform", function (d) {
         //set the label's origin to the center of the arc
         d.innerRadius = 0;
         d.outerRadius = outerRadius;
@@ -967,10 +977,10 @@ const renderPieChart = _ => {
         );
       })
       .attr("text-anchor", "middle")
-      .text(function(d, i) {
+      .text(function (d, i) {
         return data[i].name + data[i].value + "%";
       })
-      .style("fill", function(d, i) {
+      .style("fill", function (d, i) {
         return color(i);
       });
 
@@ -1022,43 +1032,41 @@ const renderPieChart = _ => {
     //   .attr("class", "line");
 
     // 弧形角度的動畫
-    var angleTween = function(d) {
+    var angleTween = function (d) {
       var i = d3.interpolate(d.startAngle, d.endAngle);
-      return function(t) {
+      return function (t) {
         d.endAngle = i(t);
-        d3.arc()
-          .innerRadius(innerRadius)
-          .outerRadius(outerRadius);
+        d3.arc().innerRadius(innerRadius).outerRadius(outerRadius);
         return arc;
       };
     };
 
     // 文字顏色的動畫
-    var fillTween = function(d) {
+    var fillTween = function (d) {
       var i = d3.interpolate("#9b9b9b", "#C70");
-      return function(t) {
+      return function (t) {
         return i(t);
       };
     };
 
     // 線條的動畫 (x座標)
-    var xTween = function(d) {
+    var xTween = function (d) {
       var i = d3.interpolate(
         arc.outerRadius(outerRadius * 1.3).centroid(d)[0],
         arc.outerRadius(outerRadius * 2.2).centroid(d)[0]
       );
-      return function(t) {
+      return function (t) {
         return i(t);
       };
     };
 
     // 線條的動畫 (y座標)
-    var yTween = function(d) {
+    var yTween = function (d) {
       var i = d3.interpolate(
         arc.outerRadius(outerRadius * 1.3).centroid(d)[1],
         arc.outerRadius(outerRadius * 2.2).centroid(d)[1]
       );
-      return function(t) {
+      return function (t) {
         return i(t);
       };
     };
@@ -1067,14 +1075,14 @@ const renderPieChart = _ => {
 
 //===============================================
 //============  multiLinesChart svg  ============
-const renderMultiLinesChart = async _ => {
+const renderMultiLinesChart = async (_) => {
   const location = els.navChartTitle.innerText;
   const pollution = document.querySelector(".multi-chart--pollute").innerText;
   // console.log(location, pollution);
   const opts = {
     contentType: "application/json",
     method: "GET",
-    url: `/pollution/24h?location=${location}&pollution=${pollution}`
+    url: `/pollution/24h?location=${location}&pollution=${pollution}`,
   };
   let err, data;
   [err, data] = await to(makeRequest(opts));
@@ -1091,7 +1099,7 @@ const renderMultiLinesChart = async _ => {
     ({ dataset, safeRange } = data);
     console.log(dataset, safeRange);
   }
-  d3.csv("./assets/csv/pm25.csv").then(rawData => {
+  d3.csv("./assets/csv/pm25.csv").then((rawData) => {
     // console.log(rawData);
     if (dataset === undefined) {
       dataset = rawData;
@@ -1099,19 +1107,19 @@ const renderMultiLinesChart = async _ => {
     }
     const data = [
       {
-        value: dataset.map(d => ({
+        value: dataset.map((d) => ({
           hour: d.hour,
-          value: d.value
+          value: d.value,
         })),
-        isRef: false
+        isRef: false,
       },
       {
-        value: dataset.map(d => ({
+        value: dataset.map((d) => ({
           hour: +d.hour,
-          value: safeRange
+          value: safeRange,
         })),
-        isRef: true
-      }
+        isRef: true,
+      },
     ];
     console.log(data);
     d3.select(".navigation__chart-line > svg").remove();
@@ -1130,12 +1138,12 @@ const renderMultiLinesChart = async _ => {
       top: 20,
       right: 10,
       bottom: 20,
-      left: 45
+      left: 45,
     };
     const innerWidth = width - margin.left - margin.right;
     // const innerHeight = height - margin.top - margin.bottom;
-    const xValue = d => d.hour;
-    const yValue = d => d.value;
+    const xValue = (d) => d.hour;
+    const yValue = (d) => d.value;
     const circleRadius = 3.5;
 
     const g = svg.append("g");
@@ -1160,7 +1168,7 @@ const renderMultiLinesChart = async _ => {
 
     const yScale = d3
       .scaleLinear()
-      .domain([0, d3.max(data, d => d3.max(d.value.map(d => d.value)))])
+      .domain([0, d3.max(data, (d) => d3.max(d.value.map((d) => d.value)))])
       .range([height - margin.bottom, margin.top])
       .nice();
     // const yScale = d3
@@ -1183,33 +1191,33 @@ const renderMultiLinesChart = async _ => {
       .attr("transform", "rotate(-90)")
       .attr("text-anchor", "middle")
       .attr("font-size", "21px")
-      .text(`PM2.5 (µg/m3)`);
+      .text(`${pollution} ${pollution === "AQI" ? "" : "µg / m3"}`);
 
     const lineGenerator = d3
       .line()
-      .defined(d => d.value !== null)
+      .defined((d) => d.value !== null)
       .x((d, i) => xScale(i))
-      .y(d => yScale(d.value));
+      .y((d) => yScale(d.value));
 
     const path = g
       .selectAll("path")
       // .data(dataset)
       .data(data)
       .join("path")
-      .attr("class", d => (d.isRef ? "ref" : "values"))
+      .attr("class", (d) => (d.isRef ? "ref" : "values"))
       // .attr("d", d => lineGenerator(dataset))
-      .attr("d", d => lineGenerator(d.value))
-      .attr("stroke", d => (d.isRef ? "#9b9b9b" : "#dcccb"));
+      .attr("d", (d) => lineGenerator(d.value))
+      .attr("stroke", (d) => (d.isRef ? "#9b9b9b" : "#dcccb"));
 
     g.selectAll("circle")
-      .data(dataset.filter(d => d.value !== null))
+      .data(dataset.filter((d) => d.value !== null))
       .enter()
       .append("circle")
       .attr("cx", (d, i) => xScale(i))
-      .attr("cy", d => yScale(d.value))
+      .attr("cy", (d) => yScale(d.value))
       .attr("r", circleRadius)
       .style("stroke", "#fff")
-      .style("fill", d => {
+      .style("fill", (d) => {
         if (d.value === 0) {
           return "transparent";
         } else {
@@ -1262,7 +1270,7 @@ function showSlides(n) {
 }
 
 if (layoutW < 450) {
-  Array.from(document.querySelectorAll(".change-line")).forEach(el => {
+  Array.from(document.querySelectorAll(".change-line")).forEach((el) => {
     el.style.display = "block";
     el.style.padding = "1rem";
   });
