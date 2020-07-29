@@ -77,7 +77,7 @@ response:
 {
     "success": true,
     "message": "get pollution types",
-    "data": {"AQI":"","SO2":"ppb","SO2":"ppb","CO":"ppm","O3":"ppb","PM10":"µg/m3","PM2.5":"µg/m3","NO2":"ppb"}, // "NOX", "NO" removed
+    "data":[UPDATE] {"AQI":"","SO2":"ppb","SO2":"ppb","CO":"ppm","O3":"ppb","PM10":"µg/m3","PM2.5":"µg/m3","NO2":"ppb"}, // "NOX", "NO" removed 
     "code": "00000"
 }
 ```
@@ -97,7 +97,7 @@ response:
 }
 ```
 
-### District Pollute Chart
+### District Pollute Chart [BACKEND UPDATE REQUEST](https://docs.google.com/spreadsheets/d/136Bn58PBzvePEXeR-xiAtOnUtgNd8E3W/edit#gid=1901567639)
 
 GET 當日不同測站(共有九個測站， ex:`環保署板橋站`)或是不同區域連續 24 小時(0 時-23 時，共 24 個數據)，不同污染物濃度資料 `(包括PM2.5、SO2、NO2、O3)`，繪製時序變化圖，並根據所選取的污染物給出對應的對健康不利的參考濃度。
 
@@ -112,7 +112,7 @@ response:
   "data": {
     "pollution": "PM2.5",
     "location": "板橋",
-    "safeRange": 12,
+    "safeRange": [UPDATE] {"level1": 35.5, "level2": 54.5},
     "dataset": [
       { "hour": 20, "value": 15 },
       { "hour": 21, "value": 17 },
