@@ -66,7 +66,7 @@ response:
 }
 ```
 
-### Pollution Types [BACKEND UPDATE]
+### Pollution Types [BACKEND UPDATE REQUEST](https://docs.google.com/spreadsheets/d/136Bn58PBzvePEXeR-xiAtOnUtgNd8E3W/edit#gid=1901567639)
 GET Polltion Types for cems
 
 GET `/pollutionTypes`
