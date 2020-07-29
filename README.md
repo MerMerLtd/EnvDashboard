@@ -66,7 +66,7 @@ response:
 }
 ```
 
-### Pollution Types
+### Pollution Types [BACKEND UPDATE]
 GET Polltion Types for cems
 
 GET `/pollutionTypes`
@@ -77,7 +77,7 @@ response:
 {
     "success": true,
     "message": "get pollution types",
-    "data": [ "AQI", "SO2", "CO", "O3", "PM10", "PM2.5", "NO2", "NOX", "NO" ],
+    "data": [ {"AQI":""}, {"SO2":"ppb"}, "CO":"ppm"}, {"O3":"ppb"}, {"PM10":"µg/m3"}, {"PM2.5":"µg/m3"}, {"NO2":"ppb"}], // "NOX", "NO" removed
     "code": "00000"
 }
 ```
