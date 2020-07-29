@@ -112,7 +112,7 @@ response:
   "data": {
     "pollution": "PM2.5",
     "location": "板橋",
-    "safeRange": [UPDATE] {"level1": 35.5, "level2": 54.5},
+    "safeRange": [UPDATE][level1, level2] exp: [35.5, 54.5],
     "dataset": [
       { "hour": 20, "value": 15 },
       { "hour": 21, "value": 17 },
