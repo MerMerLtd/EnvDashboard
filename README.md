@@ -77,7 +77,7 @@ response:
 {
     "success": true,
     "message": "get pollution types",
-    "data": [ {"AQI":""}, {"SO2":"ppb"}, "CO":"ppm"}, {"O3":"ppb"}, {"PM10":"µg/m3"}, {"PM2.5":"µg/m3"}, {"NO2":"ppb"}], // "NOX", "NO" removed
+    "data": {"AQI":"","SO2":"ppb","SO2":"ppb","CO":"ppm","O3":"ppb","PM10":"µg/m3","PM2.5":"µg/m3","NO2":"ppb"}, // "NOX", "NO" removed
     "code": "00000"
 }
 ```
