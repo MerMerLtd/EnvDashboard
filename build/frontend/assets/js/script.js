@@ -1,3 +1,5 @@
+const apiServer = 'http://air.mermer.cc';
+
 const to = (promise) => {
   return promise
     .then((data) => {
@@ -22,6 +24,8 @@ const makeRequest = (opts) => {
       }
     };
     // Setup HTTP request
+    console.log(`opts.url: ${opts.url}`);
+    console.log(`opts.url: ${apiServer + opts.url}`);
     xhr.open(opts.method || "GET", opts.url, true);
     if (opts.headers) {
       Object.keys(opts.headers).forEach((key) =>
@@ -41,6 +45,7 @@ let els = {
   container: document.querySelector(".container"),
   tab: document.querySelector(".tab"),
   video: document.querySelector(".video"),
+  videoIframe: document.querySelector(".video > .video__vbox iframe"),
   dropdownBtns: document.querySelectorAll(".dropdown--btn"),
   backgroundBtn: document.querySelector(".background__btn"),
   backgroundCheckbox: document.querySelector(".background__checkbox"),
@@ -118,6 +123,7 @@ const getAQIColor = (aqi) => {
     return "maroon";
   }
 };
+let pollutionTypes;
 const getPollutionTypes = async (_) => {
   const opts = {
     contentType: "application/json",
@@ -139,7 +145,10 @@ const getPollutionTypes = async (_) => {
       // console.log(data);
       els.navDropdownContent.innerHTML = "";
       els.navDropdownLabel.innerHTML = data[0];
-      data.forEach((type) => {
+      pollutionTypes = data;
+      pollutionTypes = {"AQI":"","SO2":"ppb","SO2":"ppb","CO":"ppm","O3":"ppb","PM10":"µg/m3","PM2.5":"µg/m3","NO2":"ppb"};
+      console.log(pollutionTypes);
+      Object.keys(pollutionTypes).forEach((type) => {
         console.log(type);
         var tempDiv = document.createElement("a");
         tempDiv.dataset.chart = "multiLines";
@@ -237,7 +246,16 @@ const closeBackgroundSub = (_) => {
 
 const switchVideo = (evt) => {
   const className = evt.target.dataset.type;
+  console.log(els.videoIframe.src);
+  console.log(className);
   els.video.classList = [`video ${className}`];
+  if(className ==="vehicle"){
+    els.videoIframe.src = "http://generic.iot.cht.com.tw/ntp/dashboard/";
+  }
+  else if(className === "factory"){
+    els.videoIframe.src = "http://211.23.28.46/mjpeg?cam=21&id=user&pwd=user";
+  }
+  console.log(els.videoIframe.src);
 };
 
 els.backgroundBtn.addEventListener("click", closeBackgroundSub, false);
@@ -672,7 +690,8 @@ const renderLineChart = async (_) => {
     g.append("path")
       // .datum(data)
       // .attr("d", lineGenerator());
-      .attr("d", lineGenerator(data));
+      .attr("d", lineGenerator(data))
+      .attr("stroke", "#6dcccb");
 
     g.selectAll("circle")
       .data(data)
@@ -1079,6 +1098,7 @@ const renderMultiLinesChart = async (_) => {
   const location = els.navChartTitle.innerText;
   const pollution = document.querySelector(".multi-chart--pollute").innerText;
   // console.log(location, pollution);
+  console.log(pollution, pollutionTypes);
   const opts = {
     contentType: "application/json",
     method: "GET",
@@ -1097,6 +1117,7 @@ const renderMultiLinesChart = async (_) => {
       return;
     }
     ({ dataset, safeRange } = data);
+    safeRange = [35.5, 54.5];
     console.log(dataset, safeRange);
   }
   d3.csv("./assets/csv/pm25.csv").then((rawData) => {
@@ -1111,14 +1132,21 @@ const renderMultiLinesChart = async (_) => {
           hour: d.hour,
           value: d.value,
         })),
-        isRef: false,
+        isRef: 0,
       },
       {
         value: dataset.map((d) => ({
           hour: +d.hour,
-          value: safeRange,
+          value: safeRange[0],
         })),
-        isRef: true,
+        isRef: 1,
+      },
+      {
+        value: dataset.map((d) => ({
+          hour: +d.hour,
+          value: safeRange[1],
+        })),
+        isRef: 2,
       },
     ];
     console.log(data);
@@ -1191,7 +1219,7 @@ const renderMultiLinesChart = async (_) => {
       .attr("transform", "rotate(-90)")
       .attr("text-anchor", "middle")
       .attr("font-size", "21px")
-      .text(`${pollution} ${pollution === "AQI" ? "" : "µg / m3"}`);
+      .text(`${pollution} ${pollutionTypes[pollution]}`);
 
     const lineGenerator = d3
       .line()
@@ -1204,10 +1232,10 @@ const renderMultiLinesChart = async (_) => {
       // .data(dataset)
       .data(data)
       .join("path")
-      .attr("class", (d) => (d.isRef ? "ref" : "values"))
+      .attr("class", (d) => (d.isRef > 0? "ref" : "values"))
       // .attr("d", d => lineGenerator(dataset))
       .attr("d", (d) => lineGenerator(d.value))
-      .attr("stroke", (d) => (d.isRef ? "#9b9b9b" : "#dcccb"));
+      .attr("stroke", (d) => (d.isRef == 2 ? "#a83232" : d.isRef == 1 ?"#eb750e": "#6dcccb"));
 
     g.selectAll("circle")
       .data(dataset.filter((d) => d.value !== null))
@@ -1221,18 +1249,27 @@ const renderMultiLinesChart = async (_) => {
         if (d.value === 0) {
           return "transparent";
         } else {
-          return "#dcccb";
+          return "#6dcccb";
         }
       });
 
     g.append("text")
-      .text("對健康會有疑慮的濃度")
+      .text("對敏感族群不健康")
       .attr("text-anchor", "end")
       .attr(
         "transform",
-        `translate(${width - margin.right}, ${yScale(safeRange) - 10})`
+        `translate(${width - margin.right}, ${yScale(safeRange[0]) - 10})`
       )
-      .attr("fill", "#9b9b9b");
+      .attr("fill", "#eb750e");
+
+      g.append("text")
+      .text("對所有族群不健康")
+      .attr("text-anchor", "end")
+      .attr(
+        "transform",
+        `translate(${width - margin.right}, ${yScale(safeRange[1]) - 10})`
+      )
+      .attr("fill", "#a83232");
   });
 };
 

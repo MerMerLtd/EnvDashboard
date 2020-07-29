@@ -41,7 +41,7 @@
       fill: $color-grey;
     }
     & path {
-      stroke: #6dcccb;
+      // stroke: #6dcccb;
       fill: none;
       stroke-width: 2.5;
       stroke-linejoin: round;
@@ -54,7 +54,7 @@
   &--multiLinesChart {
     // background-color: indianred;
     & .ref {
-      stroke: $color-grey;
+      // stroke: $color-grey;
     }
   }
   &--lineChart {
