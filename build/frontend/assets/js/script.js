@@ -253,7 +253,7 @@ const switchVideo = (evt) => {
     els.videoIframe.src = "http://generic.iot.cht.com.tw/ntp/dashboard/";
   }
   else if(className === "factory"){
-    els.videoIframe.src = "http://211.23.28.46/mjpeg?cam=21&id=user&pwd=user";
+    els.videoIframe.src = "http://211.23.28.47/mjpeg?cam=4&id=user&pwd=user";
   }
   console.log(els.videoIframe.src);
 };
