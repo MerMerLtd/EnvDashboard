@@ -28,7 +28,7 @@
     "pem": "^1.14.2",
     "spdy": "^4.0.0",
     "toml": "^3.0.0",
-    "ws": "^6.2.0"
+    "ws": "^7.4.6"
   },
   "deprecated": false,
   "description": "MerMer Framework for Front End and Back End",
