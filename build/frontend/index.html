@@ -8,7 +8,10 @@
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="./assets/css/style.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
     <!-- d3.js -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script
@@ -33,14 +36,12 @@
   </head>
 
   <body>
-    <div class="show" style="font-size: 24px;color:black"></div>
+    <div class="show" style="font-size: 24px; color: black"></div>
     <div class="container">
       <div class="section">
         <header class="header">
           <div class="header__left">
-            <div class="header__date">
-              民國 109 年 03 月 04 日
-            </div>
+            <div class="header__date">民國 109 年 03 月 04 日</div>
             <div class="header__main-box">
               <div class="header__weather">
                 <img
@@ -63,9 +64,7 @@
             </div>
           </div>
           <div class="header__right">
-            <div class="header__aqi green">
-              AQI 50
-            </div>
+            <div class="header__aqi green">AQI 50</div>
             <div class="header__box">
               <div class="header__description">
                 體感溫度<span class="header__description--temp">28 ̊C</span
@@ -85,7 +84,7 @@
                 <svg
                   class="svg svg--nav"
                   id="map"
-                  style="transform: scale(0.981818); margin-left: -19.2436px;"
+                  style="transform: scale(0.981818); margin-left: -19.2436px"
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
                   height="385"
@@ -566,9 +565,7 @@
                   <span class="dropdown">
                     <div class="dropdown--btn">
                       <span class="multi-chart--pollute">AQI</span>
-                      <i class="material-icons">
-                        arrow_drop_down
-                      </i>
+                      <i class="material-icons"> arrow_drop_down </i>
                     </div>
                     <div class="dropdown--content">
                       <a data-chart="multiLines">PM2.5</a>
@@ -586,9 +583,7 @@
             </nav>
             <div class="iframe__container">
               <div class="iframe__heading-background">
-                <div class="iframe__heading">
-                  空氣網
-                </div>
+                <div class="iframe__heading">空氣網</div>
               </div>
               <iframe
                 src="https://airmap.mermer.cc/main.html"
@@ -609,13 +604,12 @@
                 <h1 class="heading-primary">
                   <span class="dropdown">
                     <div class="dropdown--btn">
-                      <span class="pie-chart--year">107</span>
-                      <i class="material-icons">
-                        arrow_drop_down
-                      </i>
+                      <span class="pie-chart--year">109</span>
+                      <i class="material-icons"> arrow_drop_down </i>
                     </div>
                     <div class="dropdown--content">
-                      <!-- <a data-chart="pie">108</a> -->
+                      <a data-chart="pie">109</a>
+                      <a data-chart="pie">108</a>
                       <a data-chart="pie">107</a>
                       <a data-chart="pie">106</a>
                       <a data-chart="pie">105</a>
@@ -630,9 +624,7 @@
                   <span class="dropdown">
                     <div class="dropdown--btn">
                       <span class="pie-chart--pollute">PM2.5</span>
-                      <i class="material-icons">
-                        arrow_drop_down
-                      </i>
+                      <i class="material-icons"> arrow_drop_down </i>
                     </div>
                     <div class="dropdown--content">
                       <a data-chart="pie">PM2.5</a>
@@ -748,9 +740,7 @@
                     <span class="dropdown">
                       <div class="dropdown--btn">
                         <span class="line-chart--location">林口發電廠</span>
-                        <i class="material-icons">
-                          arrow_drop_down
-                        </i>
+                        <i class="material-icons"> arrow_drop_down </i>
                       </div>
                       <div class="dropdown--content">
                         <a data-chart="line">XXXX發電廠</a>
@@ -759,11 +749,9 @@
                     </span>
 
                     <span class="dropdown">
-                      <div class="dropdown--btn ">
+                      <div class="dropdown--btn">
                         <span class="background-chart--pollute">SO2</span>
-                        <i class="material-icons">
-                          arrow_drop_down
-                        </i>
+                        <i class="material-icons"> arrow_drop_down </i>
                       </div>
                       <div
                         class="dropdown--content dropdown--content-multiLines"
@@ -794,9 +782,7 @@
                     <span class="dropdown">
                       <div class="dropdown--btn">
                         <span>工地</span>
-                        <i class="material-icons">
-                          arrow_drop_down
-                        </i>
+                        <i class="material-icons"> arrow_drop_down </i>
                       </div>
                       <div class="dropdown--content">
                         <a data-type="factory">工地</a>
@@ -806,24 +792,22 @@
                     即時影像資訊
                   </h1>
                   <p class="paragraph">地點: 太陽城社區</p>
-                 
                 </div>
                 <div class="video__vbox">
                   <div class="video__img-box">
                     <iframe
-                src="http://211.23.28.45:8080/jpeg?cam=7&id=user&pwd=user"
-                name="mainframe"
-                id="mainframe"
-                width="100%"
-                marginwidth="0"
-                marginheight="0"
-                scrolling="No"
-                frameborder="0"
-                class="iframe"
-              ></iframe>
+                      src="http://211.23.28.45:8080/jpeg?cam=7&id=user&pwd=user"
+                      name="mainframe"
+                      id="mainframe"
+                      width="100%"
+                      marginwidth="0"
+                      marginheight="0"
+                      scrolling="No"
+                      frameborder="0"
+                      class="iframe"
+                    ></iframe>
                   </div>
-                  
-              </div>
+                </div>
               </div>
               <div class="preventive">
                 <!-- <h1 class="heading-primary">污染改善措施</h1> -->
@@ -978,14 +962,6 @@
                   <a class="next" onclick="plusSlides(1)">&#10095;</a>
                 </div>
                 <br />
-                <div class="dot-box" style="text-align:center">
-                  <span class="dot" onclick="currentSlide(1)"></span>
-                  <span class="dot" onclick="currentSlide(2)"></span>
-                  <span class="dot" onclick="currentSlide(3)"></span>
-                  <span class="dot" onclick="currentSlide(4)"></span>
-                  <span class="dot" onclick="currentSlide(5)"></span>
-                  <span class="dot" onclick="currentSlide(6)"></span>
-                </div>
               </div>
             </div>
           </div>

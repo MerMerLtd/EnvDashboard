@@ -194,7 +194,7 @@ const handleHeaderInfo = async (location) => {
     els.headerHTemp.innerText = `${data.highTemp}°C /`;
     els.headerLTemp.innerText = `${data.lowTemp}°C`;
     els.headerWindDir.innerText = data.windDirection;
-    els.headerWeather.src = getWeatherUI(data.weather).icon;
+    els.headerWeather.src = getWeatherUI(data.weather)?.icon;
     els.header.style.backgroundImage = getWeatherUI(data.weather).background;
     els.apparentTemp.innerText = `${data.apparentTemp}°C`;
     els.chanceOfRain.innerText = `${data.chanceOfRain * 100}%`;
@@ -855,7 +855,6 @@ const renderBarChart = (_) => {
 const renderPieChart = (_) => {
   const year = document.querySelector(".pie-chart--year").innerText;
   const pollute = document.querySelector(".pie-chart--pollute").innerText;
-  // console.log(year, pollute);
   // const opts = {
   //   contentType: "application/json",
   //   method: "GET",
@@ -873,7 +872,6 @@ const renderPieChart = (_) => {
   // }
   // if (pollute === "TSP") return;
   d3.csv("./assets/csv/pollute_ratio.csv").then((rawData) => {
-    // console.log(`rawData in pollute ratio ${rawData}`);
     var processData = rawData.filter((d) => d.year === year);
     const dataset = {
       "PM2.5": processData
@@ -1107,7 +1105,7 @@ const renderMultiLinesChart = async (_) => {
   let err, data;
   [err, data] = await to(makeRequest(opts));
   if (err) {
-    // console.log(err);
+    console.log(err);
     // throw new Error(err)
   }
   if (data) {
