@@ -1,4 +1,4 @@
-const apiServer = 'http://air.mermer.cc';
+const apiServer = "http://air.mermer.cc";
 
 const to = (promise) => {
   return promise
@@ -146,10 +146,18 @@ const getPollutionTypes = async (_) => {
       els.navDropdownContent.innerHTML = "";
       els.navDropdownLabel.innerHTML = data[0];
       pollutionTypes = data;
-      pollutionTypes = {"AQI":"","SO2":"ppb","SO2":"ppb","CO":"ppm","O3":"ppb","PM10":"µg/m3","PM2.5":"µg/m3","NO2":"ppb"};
+      pollutionTypes = {
+        AQI: "",
+        SO2: "ppb",
+        SO2: "ppb",
+        CO: "ppm",
+        O3: "ppb",
+        PM10: "µg/m3",
+        "PM2.5": "µg/m3",
+        NO2: "ppb",
+      };
       console.log(pollutionTypes);
       Object.keys(pollutionTypes).forEach((type) => {
-        console.log(type);
         var tempDiv = document.createElement("a");
         tempDiv.dataset.chart = "multiLines";
         tempDiv.innerText = type;
@@ -160,6 +168,65 @@ const getPollutionTypes = async (_) => {
       });
     }
   }
+};
+
+// -- TEST
+const crawlWeather = async () => {
+  const currentDate = new Date();
+  const weatherType = ["sunny", "cloudy", "rain", "thundershower"];
+  const opts = {
+    contentType: "application/json",
+    method: "GET",
+    url: `https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-069?Authorization=CWB-DA6F23D8-AF4A-4497-8C11-1E07120A9B0D`,
+  };
+  let err, data;
+  [err, data] = await to(makeRequest(opts));
+  console.log(`data`, data);
+  if (err) {
+    console.log(err);
+    return [];
+  }
+  if (data)
+    data = data.records.locations[0].location.map((v) => {
+      const temperatureArray = v.weatherElement[3].time
+        .map((v) => {
+          const value = v.elementValue[0].value;
+          return value;
+        })
+        .sort();
+      const lowTemp = temperatureArray[0];
+      const highTemp = temperatureArray[temperatureArray.length - 1];
+
+      const record = {
+        date: `民國 ${currentDate.getFullYear() - 1911}年 ${
+          currentDate.getMonth() + 1
+        }月 ${currentDate.getDate()}日`,
+        quote: `今日${v.locationName}空氣品質良好，是個適合出遊的好日子`,
+        location: v.locationName,
+        weather: weatherType[Math.floor(Math.random() * weatherType.length)], //v.weatherElement[1].time[0].elementValue[0].value,
+        chanceOfRain: v.weatherElement[0].time[0].elementValue[0].value / 100,
+        temperature: v.weatherElement[3].time[0].elementValue[0].value,
+        apparentTemp: v.weatherElement[2].time[0].elementValue[0].value,
+        highTemp,
+        lowTemp,
+        windDirection: v.weatherElement[9].time[0].elementValue[0].value,
+      };
+      return record;
+    });
+  return data;
+};
+
+const findWeather = async (location) => {
+  const data = await crawlWeather();
+
+  const weather =
+    data.find((v) => {
+      return new RegExp(location).test(v.location);
+    }) ||
+    this.weather.find((v) => {
+      return v.location == "板橋區";
+    });
+  return weather;
 };
 
 const handleHeaderInfo = async (location) => {
@@ -176,18 +243,27 @@ const handleHeaderInfo = async (location) => {
     url: `/weather/?location=${location}`,
   };
 
-  let err, data;
-  [err, data] = await to(makeRequest(opts));
+  let err, aqiData, data;
+  [err, aqiData] = await to(makeRequest(opts));
+  console.log(`aqi`, aqiData);
   if (err) {
     // console.log(err);
   }
-  if (data) {
-    ({ data, message, success } = data);
+  if (aqiData) {
+    ({ data, message, success } = aqiData);
     if (!success) {
       // console.log(message);
       return;
     }
-    // console.log(data);
+    if (!data.temperature) {
+      let weather = await findWeather(location);
+      data = {
+        ...weather,
+        AQI: data.AQI,
+      };
+      console.log(`Weather`, data);
+    }
+
     els.navChartTitle.innerText = location; //data.location;
     els.headerDate.innerText = data.date;
     els.headerTemp.innerText = `${data.temperature}°C`;
@@ -195,7 +271,7 @@ const handleHeaderInfo = async (location) => {
     els.headerLTemp.innerText = `${data.lowTemp}°C`;
     els.headerWindDir.innerText = data.windDirection;
     els.headerWeather.src = getWeatherUI(data.weather)?.icon;
-    els.header.style.backgroundImage = getWeatherUI(data.weather).background;
+    els.header.style.backgroundImage = getWeatherUI(data.weather)?.background;
     els.apparentTemp.innerText = `${data.apparentTemp}°C`;
     els.chanceOfRain.innerText = `${data.chanceOfRain * 100}%`;
     els.headerQuote.innerText = data.quote;
@@ -249,10 +325,9 @@ const switchVideo = (evt) => {
   console.log(els.videoIframe.src);
   console.log(className);
   els.video.classList = [`video ${className}`];
-  if(className ==="vehicle"){
+  if (className === "vehicle") {
     els.videoIframe.src = "http://generic.iot.cht.com.tw/ntp/dashboard/";
-  }
-  else if(className === "factory"){
+  } else if (className === "factory") {
     els.videoIframe.src = "http://211.23.28.47/mjpeg?cam=4&id=user&pwd=user";
   }
   console.log(els.videoIframe.src);
@@ -419,87 +494,21 @@ const renderLineChart = async (_) => {
     data: {
       SO2: {
         values: [
-          6,
-          8,
-          9,
-          6,
-          6,
-          10,
-          9,
-          9,
-          8,
-          7,
-          5,
-          5,
-          6,
-          6,
-          10,
-          8,
-          9,
-          5,
-          7,
-          5,
-          6,
-          6,
-          4,
+          6, 8, 9, 6, 6, 10, 9, 9, 8, 7, 5, 5, 6, 6, 10, 8, 9, 5, 7, 5, 6, 6, 4,
           6,
         ],
         refValues: 12,
       },
       NOx: {
         values: [
-          6,
-          8,
-          5,
-          5,
-          6,
-          6,
-          10,
-          8,
-          9,
-          5,
-          7,
-          5,
-          6,
-          6,
-          4,
-          6,
-          9,
-          6,
-          6,
-          10,
-          9,
-          9,
-          8,
+          6, 8, 5, 5, 6, 6, 10, 8, 9, 5, 7, 5, 6, 6, 4, 6, 9, 6, 6, 10, 9, 9, 8,
           7,
         ],
         refValues: 12,
       },
       O2: {
         values: [
-          6,
-          8,
-          9,
-          6,
-          6,
-          6,
-          10,
-          8,
-          9,
-          5,
-          7,
-          5,
-          6,
-          10,
-          9,
-          9,
-          8,
-          7,
-          5,
-          5,
-          6,
-          6,
-          4,
+          6, 8, 9, 6, 6, 6, 10, 8, 9, 5, 7, 5, 6, 10, 9, 9, 8, 7, 5, 5, 6, 6, 4,
           6,
         ],
         refValues: 12,
@@ -769,8 +778,6 @@ const renderBarChart = (_) => {
     const width = pollute === "TSP" ? layoutW * 0.95 : layoutH / 2.9;
     const height = pollute === "TSP" ? layoutH * 0.8 : layoutH / 3.5;
 
-
-
     d3.select(".pollution-ratio__chart--barChart > svg").remove();
     const svg = d3
       .select(".pollution-ratio__chart--barChart")
@@ -855,22 +862,6 @@ const renderBarChart = (_) => {
 const renderPieChart = (_) => {
   const year = document.querySelector(".pie-chart--year").innerText;
   const pollute = document.querySelector(".pie-chart--pollute").innerText;
-  // const opts = {
-  //   contentType: "application/json",
-  //   method: "GET",
-  //   url: `/?year=${year}&pollute=${pollute}`,
-  // };
-  // let err, data;
-  // [err, data] = await to(makeRequest(opts));
-  // if (err) {
-  // console.log(err);
-  //   // throw new Error(err)
-  // }
-  // if (data) {
-  // console.log(data);
-  //   return;
-  // }
-  // if (pollute === "TSP") return;
   d3.csv("./assets/csv/pollute_ratio.csv").then((rawData) => {
     var processData = rawData.filter((d) => d.year === year);
     const dataset = {
@@ -1230,10 +1221,12 @@ const renderMultiLinesChart = async (_) => {
       // .data(dataset)
       .data(data)
       .join("path")
-      .attr("class", (d) => (d.isRef > 0? "ref" : "values"))
+      .attr("class", (d) => (d.isRef > 0 ? "ref" : "values"))
       // .attr("d", d => lineGenerator(dataset))
       .attr("d", (d) => lineGenerator(d.value))
-      .attr("stroke", (d) => (d.isRef == 2 ? "#a83232" : d.isRef == 1 ?"#eb750e": "#6dcccb"));
+      .attr("stroke", (d) =>
+        d.isRef == 2 ? "#a83232" : d.isRef == 1 ? "#eb750e" : "#6dcccb"
+      );
 
     g.selectAll("circle")
       .data(dataset.filter((d) => d.value !== null))
@@ -1260,7 +1253,7 @@ const renderMultiLinesChart = async (_) => {
       )
       .attr("fill", "#eb750e");
 
-      g.append("text")
+    g.append("text")
       .text("對所有族群不健康")
       .attr("text-anchor", "end")
       .attr(
@@ -1313,15 +1306,17 @@ if (layoutW < 450) {
   // document.querySelector(".change-line").style.padding = "1rem";
 }
 
-window.onload = () => {
-  // console.log("load");
+const init = async () => {
+  await getPollutionTypes();
+  await handleHeaderInfo();
   renderPieChart();
   renderBarChart();
   renderMultiLinesChart();
-  renderLineChart();
-  handleHeaderInfo();
-  getPollutionTypes();
-  // getFactoryPollutes();
 };
+
+init();
+
+// getFactoryPollutes();
+// };
 
 // document.querySelector(".show").innerText = `Height:${window.innerHeight}, Width:${window.innerWidth}, ${Math.random()*10}`

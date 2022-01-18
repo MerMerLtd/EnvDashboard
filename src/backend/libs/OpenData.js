@@ -1,13 +1,13 @@
-const url = require('url');
-const path = require('path');
-const ecrequest = require('ecrequest');
-const Bot = require(path.resolve(__dirname, 'Bot.js'));
-const Utils = require(path.resolve(__dirname, 'Utils'));
+const url = require("url");
+const path = require("path");
+const ecrequest = require("ecrequest");
+const Bot = require(path.resolve(__dirname, "Bot.js"));
+const Utils = require(path.resolve(__dirname, "Utils"));
 
 class OpenData extends Bot {
   constructor() {
     super();
-    this.name = 'OpenData';
+    this.name = "OpenData";
   }
 
   init({ database, logger, i18n, config }) {
@@ -23,10 +23,10 @@ class OpenData extends Bot {
     return super.ready();
   }
 
-  request({ targetURL, dataType ='JSON' }) {
+  request({ targetURL, dataType = "JSON" }) {
     const opt = url.parse(targetURL);
     return ecrequest.request(opt).then(({ headers, data }) => {
-      let result = Utils.parseData({ data, format: 'JSON' });
+      let result = Utils.parseData({ data, format: "JSON" });
       return result;
     });
   }
@@ -45,10 +45,11 @@ class OpenData extends Bot {
   async crawlAQI() {
     const timestamp = new Date().getTime();
     let result;
-    const targetURL = 'http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=County&$skip=0&$top=1000&format=json&token=OfsHxaW3FEmG23qxZlqQmA';
+    const targetURL =
+      "https://data.epa.gov.tw/api/v1/aqx_p_432?api_key=2eb66710-e41b-44f2-a3f6-cbb06ff6a27f";
     result = await this.request({ targetURL });
-    result = result.filter((v) => {
-      return v.County == '新北市';
+    result = result.records.filter((v) => {
+      return v.County == "新北市";
     });
     this.aqi = result;
   }
@@ -56,21 +57,27 @@ class OpenData extends Bot {
   async crawlWeather() {
     const currentDate = new Date();
     const timestamp = currentDate.getTime();
-    const weatherType = ['sunny', 'cloudy', 'rain', 'thundershower'];
+    const weatherType = ["sunny", "cloudy", "rain", "thundershower"];
     let list;
 
-    const targetURL = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-069?Authorization=CWB-DA6F23D8-AF4A-4497-8C11-1E07120A9B0D';
+    const targetURL =
+      "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-069?Authorization=CWB-DA6F23D8-AF4A-4497-8C11-1E07120A9B0D";
     list = await this.request({ targetURL });
+    console.log(`crawlWeather`, list[0]);
     list = list.records.locations[0].location.map((v) => {
-      const temperatureArray = v.weatherElement[3].time.map((v) => {
-        const value = v.elementValue[0].value;
-        return value;
-      }).sort();
+      const temperatureArray = v.weatherElement[3].time
+        .map((v) => {
+          const value = v.elementValue[0].value;
+          return value;
+        })
+        .sort();
       const lowTemp = temperatureArray[0];
       const highTemp = temperatureArray[temperatureArray.length - 1];
-      
+
       const record = {
-        date: `民國 ${(currentDate.getFullYear() - 1911)}年 ${(currentDate.getMonth() + 1)}月 ${currentDate.getDate()}日`,
+        date: `民國 ${currentDate.getFullYear() - 1911}年 ${
+          currentDate.getMonth() + 1
+        }月 ${currentDate.getDate()}日`,
         quote: `今日${v.locationName}空氣品質良好，是個適合出遊的好日子`,
         location: v.locationName,
         weather: weatherType[Math.floor(Math.random() * weatherType.length)], //v.weatherElement[1].time[0].elementValue[0].value,
@@ -79,7 +86,7 @@ class OpenData extends Bot {
         apparentTemp: v.weatherElement[2].time[0].elementValue[0].value,
         highTemp,
         lowTemp,
-        windDirection: v.weatherElement[9].time[0].elementValue[0].value
+        windDirection: v.weatherElement[9].time[0].elementValue[0].value,
       };
       return record;
     });
@@ -87,67 +94,71 @@ class OpenData extends Bot {
   }
 
   findWeather(location) {
-    if(!this.weather) {
+    if (!this.weather) {
       return;
     }
 
-    const weather = this.weather.find((v) => {
-      return new RegExp(location).test(v.location);
-    }) ||
+    const weather =
+      this.weather.find((v) => {
+        return new RegExp(location).test(v.location);
+      }) || console.log(`this.weather`, this.weather[0]);
     this.weather.find((v) => {
-      return v.location == '板橋區';
+      return v.location == "板橋區";
     });
     return weather;
   }
 
   findAQI(location) {
-    if(!this.aqi) {
+    if (!this.aqi) {
       return;
     }
 
-    const aqi = this.aqi.find((v) => {
-      return new RegExp(location).test(v.SiteName);
-    }) ||
-    this.aqi.find((v) => {
-      return v.SiteName == '板橋';
-    });
+    const aqi =
+      this.aqi.find((v) => {
+        return new RegExp(location).test(v.SiteName);
+      }) ||
+      this.aqi.find((v) => {
+        return v.SiteName == "板橋";
+      });
     return aqi;
   }
 
   findSearchKey(location) {
-    if(!location || !(location.length > 0)) {
-      return '板橋';
+    if (!location || !(location.length > 0)) {
+      return "板橋";
     }
     let weather = this.findWeather(location);
-    const result = !weather ? '板橋' : weather.location.substr(0, 2);
+    const result = !weather ? "板橋" : weather.location.substr(0, 2);
     return result;
   }
 
   findPollutionKey(pollution) {
     const list = this.config.env.pollutions;
-    const result = list.find((v) => {
-      return new RegExp(v, 'i').test(pollution);
-    }) || 'PM2.5';
+    const result =
+      list.find((v) => {
+        return new RegExp(v, "i").test(pollution);
+      }) || "PM2.5";
     return result;
   }
 
   async saveAirHistory() {
     const dataset = {
       weather: this.weather,
-      aqi: this.aqi
+      aqi: this.aqi,
     };
-    
-    if(!dataset.weather || !dataset.aqi) {
+
+    if (!dataset.weather || !dataset.aqi) {
       return;
     } else {
       let PublishTime = 0;
       const jobs = dataset.weather.map((v, k) => {
         const SiteName = v.location.substr(0, 2);
         const weather = v;
-        const aqi = dataset.aqi.find((v) => {
-          return new RegExp(SiteName).test(v.SiteName);
-        }) || {};
-        if(!aqi.PublishTime) {
+        const aqi =
+          dataset.aqi.find((v) => {
+            return new RegExp(SiteName).test(v.SiteName);
+          }) || {};
+        if (!aqi.PublishTime) {
           aqi.PublishTime = PublishTime;
         } else {
           PublishTime = aqi.PublishTime;
@@ -181,17 +192,17 @@ class OpenData extends Bot {
       success: true,
       message: `get pollution types`,
       data,
-      code: '00000'
+      code: "00000",
     };
     return result;
   }
 
   aqiStations() {
-    if(!this.aqi) {
+    if (!this.aqi) {
       return Promise.resolve({
         success: false,
         message: `no AQI cems data`,
-        code: '00001'
+        code: "00001",
       });
     }
     const stations = this.aqi.map((v) => {
@@ -201,16 +212,16 @@ class OpenData extends Bot {
       success: true,
       message: `get AQI cems location`,
       data: stations,
-      code: '00000'
+      code: "00000",
     });
   }
 
   weatherStations() {
-    if(!this.weather) {
+    if (!this.weather) {
       return Promise.resolve({
         success: false,
         message: `no weather data`,
-        code: '00002'
+        code: "00002",
       });
     }
     const stations = this.weather.map((v) => {
@@ -220,31 +231,34 @@ class OpenData extends Bot {
       success: true,
       message: `get weather location`,
       data: stations,
-      code: '00000'
+      code: "00000",
     });
   }
 
-  async pollution24h({ query: { pollution = 'PM2.5', location = '板橋' }}) {
+  async pollution24h({ query: { pollution = "PM2.5", location = "板橋" } }) {
     const timestamp = new String(new Date().getTime() - 86400000).substr(0, 3);
     const searchLocation = this.findSearchKey(location);
     const searchPollution = this.findPollutionKey(pollution);
     const key = `AIR.${searchLocation}.${timestamp}`;
+    console.log(`pollution24h key`, key);
+    // console.log(`pollution24h this.find`, this.find);
     const data = await this.find({ key });
+    console.log(`pollution24h data`, data);
     const dataset = this.parsePollution({ data, pollution: searchPollution });
-    if(dataset.length > 24) {
+    if (dataset.length > 24) {
       dataset.splice(0, dataset.length - 24);
     }
     const result = {
       pollution: searchPollution,
       location: searchLocation,
       safeRange: 12,
-      dataset
+      dataset,
     };
     return {
       success: true,
       message: `get pollution ${searchPollution} in ${searchLocation}`,
       data: result,
-      code: '00000'
+      code: "00000",
     };
   }
 
@@ -263,15 +277,17 @@ class OpenData extends Bot {
     const location = query.location;
     const searchKey = this.findSearchKey(location);
     const aqi = this.findAQI(searchKey);
+    // console.log(`summary aqi`, aqi);
     const weather = this.findWeather(searchKey);
+    // console.log(`summary weather`, weather);
     const data = this.makeSummary({ aqi, weather });
     const result = {
       success: true,
       message: `get weather summary in ${searchKey}`,
       data,
-      code: '00000'
+      code: "00000",
     };
-   
+
     return Promise.resolve(result);
   }
 }
